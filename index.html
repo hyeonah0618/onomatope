@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fixed Character with Parallax</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <!-- 컨테이너 -->
+    <div id="container">
+        <!-- 배경 레이어들 -->
+        <div class="background layer" id="background1"></div>
+        <div class="background layer" id="background2"></div>
+        <div class="background layer" id="background3"></div>
+    </div>
+
+    <!-- 고정된 캐릭터 -->
+    <div id="character">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200">
+            <!-- 간단한 캐릭터 SVG 예시 -->
+            <circle cx="50" cy="50" r="30" fill="red" />
+            <rect x="40" y="80" width="20" height="60" fill="red" />
+            <line x1="50" y1="140" x2="30" y2="180" stroke="black" stroke-width="4"/>
+            <line x1="50" y1="140" x2="70" y2="180" stroke="black" stroke-width="4"/>
+            <line x1="50" y1="100" x2="20" y2="120" stroke="black" stroke-width="4"/>
+            <line x1="50" y1="100" x2="80" y2="120" stroke="black" stroke-width="4"/>
+        </svg>
+    </div>
+    <div class="foreground-shape" id="foreground-shape1"></div>
+    <div class="foreground-shape" id="foreground-shape2"></div>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>

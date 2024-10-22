@@ -1,0 +1,68 @@
+body {
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: scroll; /* 가로 스크롤을 세로 스크롤로 변환 */
+    height: 100vh;
+}
+
+/* 가로 스크롤이 가능한 큰 컨테이너 */
+#container {
+    position: relative;
+    width: 500vw; /* 5배 넓은 가로 영역 */
+    height: 100vh;
+    display: flex;
+}
+
+/* 배경 레이어들 */
+.background {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+#background1 {
+    background-color: lightblue;
+    z-index: 1;
+}
+
+#background2 {
+    background-color: lightgreen;
+    z-index: 0;
+}
+
+#background3 {
+    background-color: lightcoral;
+    z-index: -1;
+}
+
+/* 고정된 캐릭터: 화면 중앙에 고정 */
+#character {
+    position: fixed; /* 고정 위치 */
+    left: 50%; /* 가로 중앙 */
+    top: 50%; /* 세로 중앙 */
+    transform: translate(-50%, -50%); /* 정중앙에 배치 */
+    width: 100px;
+    height: 200px;
+    z-index: 2; /* 배경 위에 고정 */
+}
+.shape {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    top: 40%;
+    background-color: rgba(0, 0, 255, 0.5); /* 반투명 블루 */
+    z-index: 1; /* 캐릭터 뒤 */
+}
+
+/* 사람 앞에 배치된 쉐이프 레이어들 */
+.foreground-shape {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 60%;
+    background-color: rgba(255, 0, 0, 0.5); /* 반투명 레드 */
+    z-index: 3; /* 캐릭터 앞 */
+}
+
+#foreground-shape1 { left: 700px; }
+#foreground-shape2 { left: 1500px; }
