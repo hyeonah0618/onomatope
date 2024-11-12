@@ -1,41 +1,73 @@
+// js/script.js
+
 gsap.registerPlugin(ScrollTrigger);
 
-// 배경 스크롤을 조정
-gsap.to("#container", {
-    xPercent: -400, // 전체 가로 스크롤 (가로로 400% 이동)
-    ease: "none",
-    scrollTrigger: {
-        trigger: "#container",
-        pin: true, // 컨테이너를 고정하고 스크롤만 가로로 이동
-        scrub: 1, // 스크롤 민감도 설정
-        end: "+=5000", // 스크롤 거리 설정
-    }
+// 가로 스크롤 설정
+const container = document.querySelector("#scene1");
+
+// 전체 너비 계산
+const totalWidth = container.scrollWidth - window.innerWidth;
+
+gsap.to(container, {
+  x: -totalWidth, // 가로 스크롤
+  ease: "none",
+  scrollTrigger: {
+    trigger: container,
+    start: "top top", // 스크롤 시작 지점
+    end: `+=${container.scrollWidth}`, // 스크롤 끝 지점
+    scrub: true,
+    pin: true, // 스크롤 동안 고정
+    anticipatePin: 1,
+  },
 });
 
-// 배경 레이어들에 패럴랙스 효과 적용
-gsap.to("#background1", {
-    xPercent: -20, // 배경1이 천천히 이동
-    ease: "none",
-    scrollTrigger: {
-        trigger: "#container",
-        scrub: 1,
-    }
+// Parallax 효과 적용
+gsap.to("#tree1", {
+  x: "-=200", // 느리게 이동
+  scrollTrigger: {
+    trigger: container,
+    start: "top top",
+    end: `+=${container.scrollWidth}`,
+    scrub: true,
+  },
 });
 
-gsap.to("#background2", {
-    xPercent: -20, // 배경2가 더 빠르게 이동
-    ease: "none",
-    scrollTrigger: {
-        trigger: "#container",
-        scrub: 1,
-    }
+gsap.to("#cloud1", {
+  x: "-=300", // 더 느리게 이동
+  scrollTrigger: {
+    trigger: container,
+    start: "top top",
+    end: `+=${container.scrollWidth}`,
+    scrub: true,
+  },
 });
 
-gsap.to("#background3", {
-    xPercent: -20, // 배경3이 가장 빠르게 이동
-    ease: "none",
-    scrollTrigger: {
-        trigger: "#container",
-        scrub: 1,
-    }
+gsap.to("#tree2", {
+  x: "-=150", // 두 번째 나무
+  scrollTrigger: {
+    trigger: container,
+    start: "top top",
+    end: `+=${container.scrollWidth}`,
+    scrub: true,
+  },
+});
+
+gsap.to("#cloud2", {
+  x: "-=250", // 두 번째 구름
+  scrollTrigger: {
+    trigger: container,
+    start: "top top",
+    end: `+=${container.scrollWidth}`,
+    scrub: true,
+  },
+});
+
+gsap.to("#sun", {
+  x: "-=100", // 태양도 느리게 이동
+  scrollTrigger: {
+    trigger: container,
+    start: "top top",
+    end: `+=${container.scrollWidth}`,
+    scrub: true,
+  },
 });

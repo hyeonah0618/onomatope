@@ -1,68 +1,109 @@
-body {
+/* 기본 설정 */
+* {
     margin: 0;
-    overflow-x: hidden;
-    overflow-y: scroll; /* 가로 스크롤을 세로 스크롤로 변환 */
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    overflow-x: hidden; /* 가로 스크롤 방지 */
+    overflow-y: scroll; /* 세로 스크롤 허용 */
     height: 100vh;
-}
+  }
+  
+  /* 이미지 초기화 */
+  img {
+    display: block; /* 이미지 아래 여백 제거 */
+    max-width: 100%; /* 부모 요소를 넘지 않도록 설정 */
+    height: auto; /* 비율 유지 */
+    object-fit: contain; /* 잘리지 않게 유지 */
+  }
+  
+  
+  #scene1 {
+    position: relative; /* 내부 이미지 배치를 위한 부모 컨테이너 */
+    display: flex; /* 모든 자식 요소를 가로로 나열 */
+    flex-direction: row;
+    align-items: flex-end; /* 하단 정렬 */
+    height: 100vh; /* 화면 높이 */
+    width: 20000px; /* 가로 스크롤 영역 */
+  }
+    /* 캐릭터 설정 (스크롤 고정) */
+    #ch1 {
+        position: fixed; /* 화면 고정 */
+        width: auto; 
+        height: auto; 
+        left: 300px;
+        bottom: 80px; /* 화면 하단에서 거리 */
+        z-index: 10; /* 다른 이미지 위에 배치 */
+      }
+      
+  /* bottom1 설정 */
+  #bottom1 {
+    position: absolute; /* 부모 컨테이너 기준 */
+    bottom: 0; /* 컨테이너 하단에 고정 */
+    left: -30px;
+    width: auto; /* 기본 비율 유지 */
+    height: auto; /* 기본 비율 유지 */
+    object-fit: cover; /* 이미지 잘리지 않도록 */
+    z-index: 1; /* 다른 요소보다 아래 */
+  }
+  
 
-/* 가로 스크롤이 가능한 큰 컨테이너 */
-#container {
-    position: relative;
-    width: 500vw; /* 5배 넓은 가로 영역 */
-    height: 100vh;
-    display: flex;
-}
-
-/* 배경 레이어들 */
-.background {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-}
-
-#background1 {
-    background-color: lightblue;
-    z-index: 1;
-}
-
-#background2 {
-    background-color: lightgreen;
-    z-index: 0;
-}
-
-#background3 {
-    background-color: lightcoral;
-    z-index: -1;
-}
-
-/* 고정된 캐릭터: 화면 중앙에 고정 */
-#character {
-    position: fixed; /* 고정 위치 */
-    left: 50%; /* 가로 중앙 */
-    top: 50%; /* 세로 중앙 */
-    transform: translate(-50%, -50%); /* 정중앙에 배치 */
-    width: 100px;
-    height: 200px;
-    z-index: 2; /* 배경 위에 고정 */
-}
-.shape {
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    top: 40%;
-    background-color: rgba(0, 0, 255, 0.5); /* 반투명 블루 */
-    z-index: 1; /* 캐릭터 뒤 */
-}
-
-/* 사람 앞에 배치된 쉐이프 레이어들 */
-.foreground-shape {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    top: 60%;
-    background-color: rgba(255, 0, 0, 0.5); /* 반투명 레드 */
-    z-index: 3; /* 캐릭터 앞 */
-}
-
-#foreground-shape1 { left: 700px; }
-#foreground-shape2 { left: 1500px; }
+  /* 각 이미지 개별 설정 */
+  #home,#door,#sun,#tree1,#tree2,#cloud1,#cloud2,#dog,#home_wall_down,#home_wall_up,#bench {
+    position: absolute; /* 부모 기준으로 배치 */
+    bottom: 80px; /* bottom1 위로 올림 */
+    width: auto; /* 기본 비율 유지 */
+    height: auto; /* 기본 비율 유지 */
+    z-index: 5; /* 기본적으로 중간 레이어 */
+  }
+  
+  /* 개별 이미지 위치 설정 */
+  #home {
+    left: 500px;
+  }
+  
+  #door {
+    left: 2070px;
+    z-index: 20 !important;
+  }
+  #home_wall_down {
+    left: 2330px;
+  }
+  #home_wall_up {
+    left: 1987px;
+  }
+  #bench {
+    left: 3000px;
+  }
+  #sun {
+    bottom: 900px; /* 태양은 높게 배치 */
+    left: 2600px;
+  }
+  
+  #tree1 {
+    left: 2500px;
+  }
+  
+  #tree2 {
+    left: 3400px;
+  }
+  
+  #cloud1 {
+    bottom: 800px; /* 구름은 높게 배치 */
+    left: 2800px;
+  }
+  
+  #cloud2 {
+    bottom: 700px; 
+    left: 3550px;
+    transform:scaleX(-1);
+  }
+  
+  #dog {
+    bottom: 70px;
+    left: 3150px;
+    z-index: 20; 
+  }
