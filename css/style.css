@@ -14,14 +14,25 @@ html, body {
   } */
 }
 
-
+.scroll-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.container {
+  overscroll-behavior: none;
+  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+}
 .scene1 {
   position: relative;
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   height: 100vh;
-  width: 10000px;
+  width: 13000px;
 }
 
 .scene2 {
@@ -52,13 +63,22 @@ html, body {
   pointer-events: none;
 }
 
-/* 이미지 위치 유지 */
-#home, #sun, #tree1, #tree2, #cloud1, #cloud2, #dog, #home_wall_down, #bench, #mirror {
+/* 아래레이어 */
+#home, #sun, #tree1, #tree2, #cloud1, #cloud2, #dog, #home_wall_down, #bench, #mirror,#library,#mountain_back {
   position: absolute;
   bottom: 80px;
   width: auto;
   height: auto;
   z-index: 5;
+}
+
+/* 위 레이어*/
+#book, #laptop, #mountain_front {
+  position: absolute;
+  bottom: 80px;
+  width: auto;
+  height: auto;
+  z-index: 6;
 }
 
 #door, #home_wall_up {
@@ -78,7 +98,15 @@ html, body {
   object-fit: cover;
   z-index: 1;
 }
-
+#bottom2 {
+  position: fixed;
+  bottom: 0;
+  left: 3938px;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  z-index: 1;
+}
 /* 개별 이미지 위치 설정 */
 #home {
   left: 500px;
@@ -105,6 +133,10 @@ html, body {
 #bench {
   left: 3000px;
 }
+#dog {
+  bottom: 70px;
+  left: 3150px;
+}
 #sun {
   bottom: 900px; /* 태양은 높게 배치 */
   left: 2600px;
@@ -129,10 +161,22 @@ html, body {
   transform:scaleX(-1);
 }
 
-#dog {
-  bottom: 70px;
-  left: 3150px;
+#library {
+  left: 4000px;
 }
+#book {
+  left: 4700px;
+}
+#laptop {
+  left: 5750px;
+}
+#mountain_back {
+  left: 7000px;
+}
+#mountain_front {
+  left: 6600px;
+}
+
 
 /* 카운터 스타일 */
 #counter {

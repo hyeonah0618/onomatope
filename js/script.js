@@ -55,15 +55,26 @@ gsap.to(".scene2", {
   ease: "none",
   scrollTrigger: {
       trigger: ".container2",
-      start: "top top", // Scene 3 가로 스크롤 시작
-      end: "+=1000", // 스크롤 길이
+      start: "top top", 
+      end: () => `${wrapper.clientWidth }`, // 스크롤 길이
       scrub: true,
       pin: true, // 고정
       markers: true
   }
 });
 
-
+gsap.to(".scene3", {
+    x: "-95%",
+    ease: "none",
+    scrollTrigger: {
+        trigger: ".container3",
+        start: "top top",
+        end: "+=6000",
+        pin: true,
+        scrub: 2,
+        anticipatePin: 1,
+    }
+});
 
 
 
