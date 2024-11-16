@@ -19,6 +19,8 @@ let scrollTween = gsap.to(wrapper, {
   }
 });
 
+
+
 gsap.to(".scene1", {
     x: "-95%",
     ease: "none",
@@ -46,9 +48,28 @@ gsap.to(".scene1", {
     }
 });
 
+
+// 가로 스크롤 (Scene 2)
+gsap.to(".scene2", {
+  x: "-95%", // 다시 가로 스크롤
+  ease: "none",
+  scrollTrigger: {
+      trigger: ".container2",
+      start: "top top", // Scene 3 가로 스크롤 시작
+      end: "+=1000", // 스크롤 길이
+      scrub: true,
+      pin: true, // 고정
+      markers: true
+  }
+});
+
+
+
+
+
 // Parallax 효과
 gsap.to("#cloud1", {
-    x: "-=2000",
+    x: "-500",
     ease: "none",
     scrollTrigger: {
         trigger: ".container",
@@ -59,7 +80,7 @@ gsap.to("#cloud1", {
 });
 
 gsap.to("#cloud2", {
-    x: "-=2500",
+    x: "-=1000",
     ease: "none",
     scrollTrigger: {
         trigger: ".container",

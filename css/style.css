@@ -1,167 +1,169 @@
 /* 기본 설정 */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-  }
-  
-  .container {
-    width: 500%;
-    height: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-  }
-  
-  .horizontal-content {
-    display: inline-flex;
-    height: 100vh;
-  }
-  
-  .scene1 {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    height: 100vh;
-    width: 10000px;
-  }
-  
-  .scene2 {
-    position: relative;
-    height: 100vh;
-    width: 100vw;
-    background-color: #808080;
-  }
-  
-  #ch1 {
-    position: fixed;
-    left: 300px;
-    bottom: 80px;
-    z-index: 10;
-    width: auto;
-    height: auto;
-    pointer-events: none;
-  }
-  
-  /* 이미지 위치 유지 */
-  #home, #sun, #tree1, #tree2, #cloud1, #cloud2, #dog, #home_wall_down, #bench, #mirror {
-    position: absolute;
-    bottom: 80px;
-    width: auto;
-    height: auto;
-    z-index: 5;
-  }
-  
-  #door, #home_wall_up {
-    position: absolute;
-    bottom: 80px;
-    width: auto;
-    height: auto;
-    z-index: 30;
-  }
-  
-  #bottom1 {
-    position: fixed;
-    bottom: 0;
-    left: -30px;
-    width: auto;
-    height: auto;
-    object-fit: cover;
-    z-index: 1;
-  }
-  
-  /* 개별 이미지 위치 설정 */
-  #home {
-    left: 500px;
-  }
-  #mirror {
-    bottom: 400px;
-    left: 1585px;
-    z-index: 15;  /* mirror의 z-index 수정 */
-  }       
-  #door {
-    position: absolute;
-    left: 2070px;
-    z-index: 31; /* 캐릭터보다 높게 */
-  }
-  #home_wall_down {
-    left: 2330px;
-  }
-  #home_wall_up {
-    position: absolute;
-    left: 1987px;
-    z-index: 30; /* 캐릭터보다 높게 */
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  #bench {
-    left: 3000px;
-  }
-  #sun {
-    bottom: 900px; /* 태양은 높게 배치 */
-    left: 2600px;
-  }
-  
-  #tree1 {
-    left: 2500px;
-  }
-  
-  #tree2 {
-    left: 3400px;
-  }
-  
-  #cloud1 {
-    bottom: 800px; /* 구름은 높게 배치 */
-    left: 2800px;
-  }
-  
-  #cloud2 {
-    bottom: 700px; 
-    left: 3550px;
-    transform:scaleX(-1);
-  }
-  
-  #dog {
-    bottom: 70px;
-    left: 3150px;
-  }
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* ::-webkit-scrollbar {
+    display: none;
+  } */
+}
 
-  /* 카운터 스타일 */
-  #counter {
-    position: fixed;
-    top: 24px;
-    left: 24px;
-    font-family: 'Nunito', 'Arial Rounded MT Bold', sans-serif;
-    font-size: 32px;
-    font-weight: bold;
-    z-index: 9999;
-    pointer-events: none;  /* 카운터에만 스크롤 이벤트 무시 적용 */
-    user-select: none;
-    background: transparent;
-  }
 
-  #current {
-    color: #FF69B4;
-    margin-right: 2px;
-  }
+.scene1 {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  height: 100vh;
+  width: 10000px;
+}
 
-  #total {
-    color: #000000;
-  }
+.scene2 {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  height: 100vh;
+  width: 2000px;
+  background-color: #808080;
+}
+.scene3 {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  height: 100vh;
+  width: 2000px;
+  background-color: #732121;
+}
+#ch1 {
+  position: fixed;
+  left: 300px;
+  bottom: 80px;
+  z-index: 10;
+  width: auto;
+  height: auto;
+  pointer-events: none;
+}
 
-  /* 링크 스타일 */
-  #scene1 a {
-    pointer-events: auto;
-    cursor: pointer;
-    display: block;
-    z-index: 5; /* 캐릭터(20)보다 낮게 설정 */
-  }
+/* 이미지 위치 유지 */
+#home, #sun, #tree1, #tree2, #cloud1, #cloud2, #dog, #home_wall_down, #bench, #mirror {
+  position: absolute;
+  bottom: 80px;
+  width: auto;
+  height: auto;
+  z-index: 5;
+}
 
+#door, #home_wall_up {
+  position: absolute;
+  bottom: 80px;
+  width: auto;
+  height: auto;
+  z-index: 30;
+}
+
+#bottom1 {
+  position: fixed;
+  bottom: 0;
+  left: -30px;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* 개별 이미지 위치 설정 */
+#home {
+  left: 500px;
+}
+#mirror {
+  bottom: 400px;
+  left: 1585px;
+  z-index: 15;  /* mirror의 z-index 수정 */
+}       
+#door {
+  position: absolute;
+  left: 2070px;
+  z-index: 31; /* 캐릭터보다 높게 */
+}
+#home_wall_down {
+  left: 2330px;
+}
+#home_wall_up {
+  position: absolute;
+  left: 1987px;
+  z-index: 30; /* 캐릭터보다 높게 */
+}
+
+#bench {
+  left: 3000px;
+}
+#sun {
+  bottom: 900px; /* 태양은 높게 배치 */
+  left: 2600px;
+}
+
+#tree1 {
+  left: 2500px;
+}
+
+#tree2 {
+  left: 3400px;
+}
+
+#cloud1 {
+  bottom: 800px; /* 구름은 높게 배치 */
+  left: 2800px;
+}
+
+#cloud2 {
+  bottom: 700px; 
+  left: 3550px;
+  transform:scaleX(-1);
+}
+
+#dog {
+  bottom: 70px;
+  left: 3150px;
+}
+
+/* 카운터 스타일 */
+#counter {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  font-family: 'Nunito', 'Arial Rounded MT Bold', sans-serif;
+  font-size: 32px;
+  font-weight: bold;
+  z-index: 9999;
+  pointer-events: none;  /* 카운터에만 스크롤 이벤트 무시 적용 */
+  user-select: none;
+  background: transparent;
+}
+
+#current {
+  color: #FF69B4;
+  margin-right: 2px;
+}
+
+#total {
+  color: #000000;
+}
+
+/* 링크 스타일 */
+#scene1 a {
+  pointer-events: auto;
+  cursor: pointer;
+  display: block;
+  z-index: 5; /* 캐릭터(20)보다 낮게 설정 */
+}
 
 
 
