@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인터랙티브 웹사이트</title>
+    <link rel="stylesheet" href="css/style3.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="counter">
+        <span id="current">0</span><span id="total">/15</span>
+    </div>
+    <div class="scene-slides">
+      <div class="slides">
+        <div class="scene scene1" data-scroll="horizontal">
+            <img id="bt1" src="png/scene3/bt1_3.png" />
+            <img id="bush1" src="png/scene3/bush1.png" />
+            <img id="runtrack" src="png/scene3/runtrack.png" />
+            <img id="running-person" src="png/scene3/running.png" />
+            <img id="bird" src="png/scene3/bird.png" />
+            <img id="rock" src="png/scene3/rock.png" />
+            <img id="grass" src="png/scene3/grass1_3.png" />
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/mirror.html'); trackClick(); return false;">
+                <img id="sweat-person" alt="거울" src="png/scene3/sweat.png" />
+            </a>
+            <img id="sun" src="png/scene3/sun.png" />
+            <img id="cloud1" src="png/scene3/cloud1.png" />
+        </div>
+
+        <div class="scene scene2" data-scroll="horizontal">
+          <img id="bt2" src="png/scene3/bt2_3.png" />
+          <img id="bush2" src="png/scene3/bush2.png" />
+          <img id="pool" src="png/scene3/pool.png" />
+          <img id="diving-person" src="png/scene3/diving.png" />
+          <img id="sadari" src="png/scene3/sadari.png" />
+          
+        </div>
+
+        <div class="scene scene3">
+          <img id="bt3" src="png/scene3/bt3_3.png" />
+          <img id="target" src="png/scene3/target.png" />
+        </div>
+  </div>
+  </div>
+    <!-- character -->
+    <div class="character-wrapper">
+        <img id="ch3" src="png/scene3/ch3.png" />
+    </div>
+
+    <script src="js/script3.js"></script>
+</body>
+</html>

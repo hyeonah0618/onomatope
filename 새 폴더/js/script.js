@@ -54,7 +54,7 @@ gsap.to(".scene2", {
   x: "-95%", // 다시 가로 스크롤
   ease: "none",
   scrollTrigger: {
-      trigger: ".container2",
+      trigger: ".scene2",
       start: "top top", 
       end: "bottom bottom",
       scrub: 1,
