@@ -23,7 +23,8 @@ function openCenteredWindow(url) {
     );
 }
 
-// 전체 슬라이드 애니메이션
+
+// 첫 번째 가로 스크롤 (scene1-3)
 gsap.to(".slides", {
     x: () => -(document.querySelector(".slides").scrollWidth - window.innerWidth),
     ease: "none",
@@ -31,6 +32,21 @@ gsap.to(".slides", {
         trigger: ".scene-slides",
         start: "top top",
         end: () => `+=${document.querySelector(".slides").scrollWidth - window.innerWidth}`,
+        pin: true,
+        scrub: 3,
+        invalidateOnRefresh: true,
+        markers: true
+    }
+});
+
+// 두 번째 가로 스크롤 (scene4-5)
+gsap.to(".slides2", {
+    x: () => -(document.querySelector(".slides2").scrollWidth - window.innerWidth),
+    ease: "none",
+    scrollTrigger: {
+        trigger: ".scene-slides2",
+        start: "top top",
+        end: () => `+=${document.querySelector(".slides2").scrollWidth - window.innerWidth}`,
         pin: true,
         scrub: 3,
         invalidateOnRefresh: true,
@@ -60,3 +76,4 @@ gsap.fromTo("#bird", {
         scrub: 3
     }
 });
+ㅎ
