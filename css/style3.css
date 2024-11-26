@@ -198,13 +198,15 @@ display: flex;
 }
 
 /* 캐릭터는 fixed 유지 */
-#ch3 {
+#lottie-animation {
     position: fixed;
     left: 300px;
-    bottom: 80px;
+    bottom: 50px;
     z-index: 10;
+    width: auto;
+    height: auto;
     pointer-events: none;
-}
+  }
 
 
   #bt3 {

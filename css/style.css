@@ -46,15 +46,20 @@ html, body {
   width: 5000px;
   background-color: #732121;
 }
-#ch1 {
+
+.gif-container {
   position: fixed;
-  left: 300px;
-  bottom: 80px;
-  z-index: 10;
-  width: auto;
+  bottom: 60px;
+  left: 200px;
+  transform: translateX(-50%);
   height: auto;
-  pointer-events: none;
+  z-index: 10;
 }
+#ch1 {
+  width: 350px !important;
+  height: auto !important;
+}
+
 
 /* 아래레이어 */
 #home, #sun, #tree1, #tree2, #cloud1, #cloud2, #dog, #home_wall_down, #bench, #mirror,#library,#mountain_back {

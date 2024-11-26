@@ -22,7 +22,46 @@ function openCenteredWindow(url) {
          scrollbars=yes`
     );
 }
+const scrollSpeed = 0.2; // 스크롤 속도를 느리게 
 
+console.clear();
+// Lottie 애니메이션 로드
+const animation = lottie.loadAnimation({
+    container: document.getElementById('lottie-animation'), // 애니메이션을 표시할 컨테이너
+    renderer: 'svg', // SVG 렌더링 방식
+    loop: true, // 반복 재생 여부
+    autoplay: false, // 스크롤에 따라 제어할 것이므로 자동 재생 비활성화
+    path: 'lottie/lottie1.json' // Lottie JSON 파일 경로
+});
+
+let lastScrollTop = 0; // 이전 스크롤 위치
+let isScrolling; // 스크롤 중인지 확인하는 변수
+
+// 스크롤 이벤트
+window.addEventListener('scroll', () => {
+    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    // 방향에 따라 애니메이션 방향 설정
+    if (currentScrollTop > lastScrollTop) {
+        // 아래로 스크롤: 정방향 재생
+        animation.setDirection(1);
+        animation.play();
+        document.getElementById('lottie-animation').style.transform = 'scaleX(1)'; // 원래 방향
+    } else if (currentScrollTop < lastScrollTop) {
+        // 위로 스크롤: 역방향 재생
+        animation.setDirection(1);
+        animation.play();
+        document.getElementById('lottie-animation').style.transform = 'scaleX(-1)'; // 좌우 반전
+    }
+
+    lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop; // 음수 방지
+
+    // 스크롤이 멈추면 애니메이션 정지
+    clearTimeout(isScrolling);
+    isScrolling = setTimeout(() => {
+        animation.pause(); // 스크롤 멈춤 시 애니메이션 정지
+    }, 100); // 100ms 동안 스크롤이 없으면 정지
+});
 
 // 첫 번째 가로 스크롤 (scene1-3)
 gsap.to(".slides", {
