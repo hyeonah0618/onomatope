@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+.bar {
+    position: absolute;
+    top: 50%;
+    left: 55%;  /* 살짝 오른쪽으로 이동 */
+    transform: translate(-50%, -50%);
+}
+
+.button { 
+    position: absolute;
+    top: 50%;
+    left: 53%;
+    transform: translate(-50%, -50%);
+}
+
+
+.img{
+    width: auto;
+    height: auto;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.stop-text {
+    position: absolute;
+    top: 49%;
+    left: 49%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    font-weight: 700;
+    font-family: 'Oswald', sans-serif;
+    z-index: 1;
+}
+
+.glow {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                 0 0 20px rgba(255, 255, 255, 0.8),
+                 0 0 30px rgba(255, 255, 255, 0.8);
+}
+</style>
+<body>
+    <img src="../../svg/1/bus/bar.png" alt="" class="bar">
+    <img src="../../svg/1/bus/stop_off.png" alt="" class="button">
+    <div class="stop-text">STOP</div>
+
+</body>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const stopText = document.querySelector('.stop-text');
+    const button = document.querySelector('.button');
+    let isActive = false;
+    
+    button.addEventListener('click', function() {
+        isActive = !isActive;
+        
+        if (isActive) {
+            stopText.classList.add('glow');
+            this.src = '../../svg/1/bus/stop_on.png';
+            
+            // 효과음 재생
+            const messages = ["삐이이이이이이이이이이!", "ピンポーーーン！", "Beeeeeeeep!"];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            // 메시지 요소 생성
+            const messageBox = document.createElement('div');
+            messageBox.innerHTML = `<span class="typing">${randomMessage}</span>`;
+            messageBox.style.position = 'absolute';
+            
+            // 랜덤 위치 계산
+            const maxWidth = window.innerWidth - 200;
+            const maxHeight = window.innerHeight - 50;
+            const randomX = Math.floor(Math.random() * maxWidth);
+            const randomY = Math.floor(Math.random() * maxHeight);
+            
+            messageBox.style.left = randomX + 'px';
+            messageBox.style.top = randomY + 'px';
+            document.body.appendChild(messageBox);
+            
+            // 1초 후 메시지 제거
+            setTimeout(() => {
+                messageBox.remove();
+            }, 1000);
+        } else {
+            stopText.classList.remove('glow');
+            this.src = '../../svg/1/bus/stop_off.png';
+        }
+    });
+});
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</html>

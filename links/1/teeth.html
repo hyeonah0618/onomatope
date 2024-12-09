@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Cherry+Bomb+One&display=swap');
+@font-face {
+    font-family: 'BagelFatOne-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_JAMO@1.0/BagelFatOne-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Zao Zi Gong Fang Qi Hei';
+    src: url('../fonts/Zao Zi Gong Fang Qi Hei.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    margin: 0;
+    overflow: hidden;
+    user-select: none; /* 텍스트 선택 비활성화 */
+    background-color: #EAE5DA;
+}
+
+#container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+}
+
+#background {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    object-fit: cover;
+}
+
+#human {
+    position: absolute;
+    top: 70%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: auto;
+    height: auto;
+}
+
+#hand {
+    position: absolute;
+    width: auto;
+    height: auto;
+    top: 45%;
+    left: 60%;
+    cursor: pointer;
+    z-index: 3;
+    transform: none !important;
+}
+
+#highlight {
+    position: absolute;
+    display: none;
+    width: 15%;
+    height: 200%;
+    top: 50%;
+    left: 40%;
+    transform: translate(-50%, -50%) skew(-45deg);
+    background: rgba(255, 255, 255, 0.5);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.bubble {
+    position: absolute;
+    display: none;
+    width: 30px;
+    height: 30px;
+    background: white;
+    border-radius: 50%;
+    border: 1px solid black;
+    opacity: 0.8;
+    z-index: 4;
+    transition: opacity 2s;
+}
+
+#back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.5); /* 반투명한 흰색 배경 */
+    color: #000; /* 검정 글씨 */
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    font-family: 'Roboto', sans-serif; /* 키치한 폰트 */
+    text-decoration: none;
+    z-index: 90;
+}
+
+#back-button:hover {
+    background-color: rgba(255, 255, 255, 0.7); /* 호버 시 투명도 증가 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+.click-text {
+    position: absolute;
+    background: repeating-radial-gradient(ellipse at bottom, rgba(198, 255, 221, 0.7), rgba(251, 215, 134, 0.7), rgba(249, 121, 125, 0.7));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: rgba(255, 255, 255) 2px;
+    font-size: 60px;
+    display: none;
+    z-index: 4;
+    transition: opacity 2s;
+}
+
+
+.korean, .english, .german, .spanish {
+    font-family: 'BagelFatOne-Regular', sans-serif;
+}
+
+.japanese {
+    font-family: "Cherry Bomb One", system-ui;
+}
+
+.chinese {
+    font-family: 'Zao Zi Gong Fang Qi Hei';
+}
+</style>
+<body>
+    <div id="container">
+        <img src="../../svg/1/teeth/background.png" alt="background" id="background">
+        <img src="../../svg/1/teeth/person.png" alt="human" id="human">
+        <img src="../../svg/1/teeth/hand.png" alt="hand" id="hand">
+        <div class="bubble" id="bubble1"></div>
+        <div class="bubble" id="bubble2"></div>
+        <div class="bubble" id="bubble3"></div>
+        <div class="bubble" id="bubble4"></div>
+        <div class="bubble" id="bubble5"></div>
+        <div class="bubble" id="bubble6"></div>
+        <div class="bubble" id="bubble7"></div>
+        <div class="bubble" id="bubble8"></div>
+        <div class="bubble" id="bubble9"></div>
+        <div class="bubble" id="bubble10"></div>
+        <div id="highlight"></div>
+        <div class="click-text" id="click-text"></div>
+        <audio id="audio1" src="../audio/page9_kr.mp3"></audio>
+        <audio id="audio2" src="../audio/page9_jp.mp3"></audio>
+        <audio id="audio3" src="../audio/page9_cn.mp3"></audio>
+    </div>
+    <a href="../index.html" id="back-button">Back</a>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(document).ready(function() {
+    const audios = [
+        '../audio/page9/page9_de.mp3',
+        '../audio/page9/page9_kr.mp3',
+        '../audio/page9/page9_jp.mp3',
+        '../audio/page9/page9_cn.mp3',
+        '../audio/page9/page9_es.mp3'
+    ];
+    let currentAudio;
+
+    const textOptions = [
+        { text: "치카치카", class: "korean" },
+        { text: "Schrub schrub", class: "german" },
+        { text: "シャカシャカ", class: "japanese" },
+        { text: "刷牙刷牙", class: "chinese" },
+        { text: "Cepillo cepillo", class: "spanish" }
+    ];
+
+    function getRandomPosition() {
+        const top = Math.random() * 80 + 10; // 10% ~ 90%
+        const left = Math.random() * 80 + 10; // 10% ~ 90%
+        return { top: `${top}%`, left: `${left}%` };
+    }
+
+    function showRandomText() {
+        const randomIndex = Math.floor(Math.random() * textOptions.length);
+        const randomText = textOptions[randomIndex];
+        const position = getRandomPosition();
+
+        $("#click-text").text(randomText.text).attr("class", `click-text ${randomText.class}`).css({
+            top: position.top,
+            left: position.left,
+            transform: "translate(-50%, -50%)",
+            opacity: 1
+        }).show().fadeOut(2000);
+    }
+
+    function playRandomAudio() {
+        const randomIndex = Math.floor(Math.random() * audios.length);
+        const randomAudio = audios[randomIndex];
+        const audioElement = new Audio(randomAudio);
+
+        if (currentAudio && !currentAudio.ended) {
+            return;
+        }
+
+        currentAudio = audioElement;
+        audioElement.currentTime = 0;
+        audioElement.play();
+    }
+
+    function showBubbles() {
+        const bubbleAreaX = $("#container").width() / 2 - 200;
+        const bubbleAreaY = $("#container").height() / 6;
+        const bubbleAreaW = 400;
+        const bubbleAreaH = 400;
+
+        $(".bubble").each(function() {
+            const size = 10 + Math.random() * 80; // 10px ~ 80px 크기
+            const bubbleX = bubbleAreaX + (Math.random() * bubbleAreaW);
+            const bubbleY = bubbleAreaY + (Math.random() * bubbleAreaH);
+
+            $(this).css({
+                top: bubbleY + "px",
+                left: bubbleX + "px",
+                width: size + "px",
+                height: size + "px",
+                opacity: 0.8
+            }).show().fadeOut(4000);
+        });
+    }
+
+    $("#hand").draggable({
+        cursor: "move",
+        start: function(event, ui) {
+            $(this).css('position', 'absolute');
+            playRandomAudio();
+        },
+        drag: function(event, ui) {
+            playRandomAudio();
+            showBubbles();
+            $(this).css({
+                width: 'auto',
+                height: 'auto'
+            });
+        },
+        stop: function(event, ui) {
+            showRandomText();
+        }
+    });
+
+    $("#hand").on("mouseup", function() {
+        showRandomText();
+    });
+});
+
+    </script>
+</body>
+</html>
