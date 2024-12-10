@@ -154,8 +154,8 @@ gsap.to("#cloud2", {
 });
 
 function openCenteredWindow(url) {
-    var width = 600;
-    var height = 400;
+    var width = 800;
+    var height = 600;
     var left = (screen.width - width) / 2;
     var top = (screen.height - height) / 2;
     window.open(url, 'newwindow', `width=${width}, height=${height}, top=${top}, left=${left}`);

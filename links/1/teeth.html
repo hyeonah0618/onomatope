@@ -30,6 +30,7 @@ body {
     position: relative;
     width: 100vw;
     height: 100vh;
+    right: 50px;
     overflow: hidden;
     user-select: none;
 }
@@ -141,8 +142,8 @@ body {
 }
 </style>
 <body>
+    <img src="../../svg/1/teeth/background.png" alt="background" id="background">
     <div id="container">
-        <img src="../../svg/1/teeth/background.png" alt="background" id="background">
         <img src="../../svg/1/teeth/person.png" alt="human" id="human">
         <img src="../../svg/1/teeth/hand.png" alt="hand" id="hand">
         <div class="bubble" id="bubble1"></div>
@@ -217,13 +218,13 @@ body {
     }
 
     function showBubbles() {
-        const bubbleAreaX = $("#container").width() / 2 - 200;
-        const bubbleAreaY = $("#container").height() / 6;
-        const bubbleAreaW = 400;
-        const bubbleAreaH = 400;
+        const bubbleAreaX = $("#container").width() / 2 - 120;
+        const bubbleAreaY = $("#container").height() / 2 - 150;
+        const bubbleAreaW = 300;
+        const bubbleAreaH = 150;
 
         $(".bubble").each(function() {
-            const size = 10 + Math.random() * 80; // 10px ~ 80px 크기
+            const size = 10 + Math.random() * 60; // 10px ~ 80px 크기
             const bubbleX = bubbleAreaX + (Math.random() * bubbleAreaW);
             const bubbleY = bubbleAreaY + (Math.random() * bubbleAreaH);
 

@@ -261,22 +261,39 @@ breathingTimeline
         ease: "power1.inOut"
     });
 
-    gsap.fromTo("#gym_dumbbell", 
-        {
-            y: 0, 
-            opacity: 1
-        },
-        {
-            y: 500, 
-            opacity: 1,
-            duration: 1.5,
-            delay: 1,
-            ease: "bounce.out",
-            scrollTrigger: {
-                trigger: "#gym_dumbbell",
-                start: "center center",
-                scrub: true,
-                markers: true
+    gsap.to("#gym_dumbbell", {
+        y: 500,
+        opacity: 1,
+        duration: 1.5,
+        ease: "bounce.out",
+        scrollTrigger: {
+            trigger: "#gym_dumbbell",
+            start: "left+=100 center",
+            end: "+=3000",
+            scrub: true,
+            markers: {
+                startColor: "purple",
+                endColor: "pink",
+                fontSize: "0.8rem",
+                indent: 20
             }
         }
-    );
+    });
+
+    const confettiContainer = document.querySelector('#confetti-container');
+    const confettiAnimation = lottie.loadAnimation({
+      container: confettiContainer,
+      renderer: 'svg',
+      loop: true,
+      autoplay: false,
+      path: 'lottie/confetti.json'
+    });
+    
+    const nextPage = document.querySelector('#next-page');
+    nextPage.addEventListener('mouseenter', () => {
+      confettiAnimation.play();
+    });
+    
+    nextPage.addEventListener('mouseleave', () => {
+      confettiAnimation.stop();
+    });

@@ -2,7 +2,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap");
 * {
   margin: 0;
-  padding: 0 !important;
   box-sizing: border-box;
 }
 
@@ -350,7 +349,7 @@ body {
   z-index: 2;
 }
 #gym_dumbbell {
-  left: 3665px;
+  left: 2665px;
   bottom: 875px;
   z-index: 4;
 }
@@ -401,9 +400,21 @@ body {
   z-index: 2;
 }
 #yoga_mat_wh {
-  right: 300px;
+  right: 350px;
   bottom: 200px;
   z-index: 2;
+  animation: sway 2s ease-in-out infinite;
+}
+@keyframes sway {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(9px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 #yoga_wall1 {
   left: 500px;
@@ -431,12 +442,29 @@ body {
   right: 2000px;
   top: 0;
   z-index: 5;
+  transform-origin: top center;
+  animation: swingBag 3s ease-in-out infinite;
 }
 #punchingbag_r {
   left: 2000px;
   top: 0;
   z-index: 5;
+  transform-origin: top center;
+  animation: swingBag 3s ease-in-out infinite reverse;
 }
+@keyframes swingBag {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+}
+
 #belt {
   left: 3800px;
   bottom: 900px;
@@ -568,6 +596,88 @@ body {
   left: 3000px;
   bottom: 250px;
   z-index: 100;
+}
+#next-page {
+  position: absolute;
+  right: 300px;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 32px 24px 32px;
+  font-size: 64px;
+  color: #b1fe34;
+  background-color: #ffffff;
+  border-radius: 50px;
+  transform: translateY(-50%);
+  user-select: none; /* 텍스트 선택 방지 */
+  z-index: 100;
+}
+
+/* 실제 버튼 스타일 */
+#next-page .button-text {
+  backdrop-filter: blur(30px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* 컨페티 컨테이너 스타일 */
+#confetti-container {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  top: -250px; /* 버튼 영역 위로 충분히 올림 */
+  left: 50%;
+  transform: translateX(-50%); /* 가운데 정렬 */
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease 0.1s; /* 0.2초 딜레이 추가 */
+  z-index: 101; /* 다른 요소들보다 위에 표시 */
+}
+
+/* 호버 효과 */
+#next-page:hover #confetti-container {
+  opacity: 1;
+}
+
+#next-page:hover .button-text {
+  transform: scale(1.05); /* 1.1에서 1.05로 변경 */
+  background-color: #b1fe34;
+  color: #ffffff;
+}
+
+/* 말풍선 꼬리 추가 */
+#next-page:after {
+  content: "";
+  position: absolute;
+  left: 50px;
+  bottom: -20px;
+  transform: rotate(90deg);
+  border-style: solid;
+  border-width: 15px 0 15px 20px;
+  border-color: transparent #ffffff;
+  transition: all 0.3s ease; /* 트랜지션 효과 추가 */
+}
+
+#next-page:hover {
+  transform: translateY(-50%) scale(1.1);
+  animation: bounce 0.5s ease-in-out;
+  border-color: transparent #b1fe34;
+  background-color: #b1fe34;
+  color: #ffffff;
+}
+#next-page:hover:after {
+  border-color: transparent transparent transparent #b1fe34; /* 호버 시 배경색과 동일하게 변경 */
+}
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(-50%) scale(1.1);
+  }
+  50% {
+    transform: translateY(-60%) scale(1.1);
+  }
 }
 
 /* 각 이미지 요소의 위치 초기화 */
