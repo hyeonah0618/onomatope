@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arrow and bow</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        html, body {
+            background-color: #6eb4f5;
+        }
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        #bow {
+            position: absolute;
+            width: 100px;
+            height: 300px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        #bowString {
+            position: absolute;
+            width: 600px;
+            height: 300px;
+            left: 280px;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+        #arrow {
+            position: absolute;
+            width: 200px;
+            height: 20px;
+            left: 270px;
+            top: 50%;
+            transform: translate(-10%, -50%);
+            cursor: grab;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="bow" src="img/bow.svg" alt="bow">
+        <svg id="bowString" viewBox="-150 0 300 300">
+            <path id="stringPath" d="M 0 0 L 0 150 L 0 300" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+        </svg>
+        <img id="arrow" src="img/arrow.svg" alt="arrow">
+    </div>
+
+    <script>
+        const arrow = document.getElementById('arrow');
+        const stringPath = document.getElementById('stringPath');
+        let startX;
+        let isDragging = false;
+
+        arrow.addEventListener('mousedown', (e) => {
+            startX = e.clientX;
+            isDragging = true;
+            arrow.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            const deltaX = e.clientX - startX;
+            const pullBack = Math.min(Math.max(deltaX, -100), 0);
+            
+            arrow.style.transform = `translate(-10%, -50%) translateX(${pullBack}px)`;
+            
+            const middlePointX = pullBack;
+            stringPath.setAttribute('d', `M 0 0 L ${middlePointX} 150 L 0 300`);
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            arrow.style.cursor = 'grab';
+
+            const transform = arrow.style.transform;
+            const pullBack = parseFloat(transform.match(/translateX\(([-\d.]+)px\)/)?.[1] || 0);
+            const power = Math.abs(pullBack) * 8;
+
+            anime({
+                targets: '#arrow',
+                translateX: [pullBack, power],
+                duration: 800,
+                easing: 'easeOutQuad',
+                complete: function() {
+                    setTimeout(() => {
+                        arrow.style.transform = 'translate(-10%, -50%)';
+                        stringPath.setAttribute('d', 'M 0 0 L 0 150 L 0 300');
+                    }, 500);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

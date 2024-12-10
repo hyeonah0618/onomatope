@@ -8,7 +8,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="counter">
@@ -20,15 +22,21 @@
             <img id="bt1" src="png/scene3/bt1_3.png" />
             <img id="bush1" src="png/scene3/bush1.png" />
             <img id="runtrack" src="png/scene3/runtrack.png" />
-            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/running.html'); trackClick(); return false;">
-                <img id="running-person" src="png/scene3/running.png" />
-            </a>
+            <div id="running-container">
+                <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/running.html'); trackClick(); return false;">
+                    <img id="running-person" src="png/scene3/running.png" />
+                    <div id="running-bubble" class="bubble wobble-animation">???</div>
+                </a>
+            </div>
             <img id="bird" src="png/scene3/bird.png" />
             <img id="rock" src="png/scene3/rock.png" />
             <img id="grass" src="png/scene3/grass1_3.png" />
-            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/mirror.html'); trackClick(); return false;">
-                <img id="sweat-person" alt="거울" src="png/scene3/sweat.png" />
-            </a>
+            <div id="sweat-container">
+                <a href="javascript:void(0)" onclick="openCenteredWindow('./links/mirror.html'); trackClick(); return false;">
+                    <img id="sweat-person" src="png/scene3/sweat.png" />
+                    <div id="sweat-bubble" class="bubble wobble-animation" data-clicked-text="kunkun">???</div>
+                </a>
+            </div>
             <img id="sun" src="png/scene3/sun.png" />
             <img id="cloud1" src="png/scene3/cloud1.png" />
         </div>
@@ -36,8 +44,18 @@
           <img id="bt2" src="png/scene3/bt2_3.png" />
           <img id="bush2" src="png/scene3/bush2.png" />
           <img id="pool" src="png/scene3/pool.png" />
-          <img id="diving-person" src="png/scene3/diving.png" />
-          <img id="swimming-person" src="png/scene3/swimming.png" />
+          <div id="diving-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/diving.html'); trackClick(); return false;">
+                <img id="diving-person" src="png/scene3/diving.png" />
+                <div id="diving-bubble" class="bubble wobble-animation">???</div>
+            </a>
+          </div>
+          <div id="swimming-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/swimming.html'); trackClick(); return false;">
+                <img id="swimming-person" src="png/scene3/swimming.png" />
+                <div id="swimming-bubble" class="bubble wobble-animation">???</div>
+            </a>
+          </div>
           <img id="pado1" src="png/scene3/pado1.png" />
           <img id="pado2" src="png/scene3/pado1.png" />
           <img id="pado3" src="png/scene3/pado1.png" />
@@ -46,6 +64,12 @@
         </div>
         <div class="scene scene3">
           <img id="bt3" src="png/scene3/bt3_3.png" />
+          <div id="arrow-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/arrow.html'); trackClick(); return false;">
+                <img id="arrow" src="png/scene3/arrow_person.png" />
+                <div id="arrow-bubble" class="bubble wobble-animation">???</div>
+            </a>
+          </div>
           <img id="target1" src="png/scene3/target.png" />
           <img id="target2" src="png/scene3/target.png" />
           <img id="target3" src="png/scene3/target.png" />
@@ -58,7 +82,12 @@
         <div class="scene scene4" data-scroll="horizontal">
           <img id="gym_wall" src="png/scene3/gym_wall.png">
           <img id="gym_wall1" src="png/scene3/gym_wall1.png">
-          <img id="gymperson" src="png/scene3/gymperson1.png">
+          <div id="gym-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/gym.html'); trackClick(); return false;">
+                <img id="gymperson" src="png/scene3/gymperson1.png" />
+                <div id="gym-bubble" class="bubble wobble-animation">???</div>
+            </a>
+          </div>
           <img id="gym_wall2" src="png/scene3/gym_wall2.png">
           <img id="gymball_p" src="png/scene3/gymball_p.png">
           <img id="gymball_y" src="png/scene3/gymball_y.png">
@@ -66,12 +95,27 @@
           <img id="gym_mat" src="png/scene3/gym_mat.png">
           <img id="gym_bench" src="png/scene3/gym_bench.png">
           <img id="gym_water" src="png/scene3/gym_water.png">
-          <img id="water" src="png/scene3/water.png">
+          <div id="water-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/water.html'); trackClick(); return false;">
+                <img id="water" src="png/scene3/water.png" />
+                <div id="water-bubble" class="bubble wobble-animation">???</div>
+            </a>
+          </div>
           <div id="gym_bt"></div>
         </div>
         <div class="scene scene5" data-scroll="horizontal">
-          <img id="yoga_person1" src="png/scene3/yoga1.png">
-          <img id="yoga_person2" src="png/scene3/yoga2.png">
+          <div id="yoga1-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/yoga1.html'); trackClick(); return false;">
+                <img id="yoga_person1" src="png/scene3/yoga1.png" />
+                <div id="yoga1-bubble" class="bubble wobble-animation">???</div>
+            </a>
+          </div>
+          <div id="yoga2-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/yoga2.html'); trackClick(); return false;">
+                <img id="yoga_person2" src="png/scene3/yoga2.png" />
+                <div id="yoga2-bubble" class="bubble wobble-animation">???</div>
+            </a>
+          </div>
           <img id="yoga_deco" src="png/scene3/yoga_deco.png">
           <img id="wall_5" src="png/scene3/wall_5.png">
           <img id="bt_5" src="png/scene3/bt_5.png">
@@ -88,7 +132,12 @@
           <img id="punchingbag_b" src="png/scene3/pbag_b.png">
           <img id="punchingbag_r" src="png/scene3/pbag_r.png">
           <img id="belt" src="png/scene3/belt.png" >
-          <img id="boxing1" src="png/scene3/boxing1.png">
+          <div id="boxing1-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/boxing1.html'); trackClick(); return false;">
+                <img id="boxing1" src="png/scene3/boxing1.png" />
+                <div id="boxing1-bubble" class="bubble wobble-animation">???</div>
+            </a>
+          </div>
           <img id="boxing2" src="png/scene3/boxing2.png">
           <img id="boxing_base" src="png/scene3/boxing_base.png">
           <img id="wall_6" src="png/scene3/wall_6.png">

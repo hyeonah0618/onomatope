@@ -1,4 +1,5 @@
 /* 기본 설정 */
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap");
 * {
   margin: 0;
   padding: 0 !important;
@@ -10,6 +11,8 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
   /* ::-webkit-scrollbar {
       display: none;
     } */
@@ -75,27 +78,95 @@ body {
   left: 0;
 }
 .scene2 {
-  width: 4825px; /* 실제 필요한 너비로 조정 */
+  width: 4825px;
 }
-
 .scene3 {
-  width: 5900px; /* 실제 필요한 너비로 조정 */
+  width: 5900px;
 }
 .scene4 {
-  width: 6000px; /* 실제 필요한 너비로 조정 */
+  width: 6000px;
   background-color: #4d4d4d;
 }
 .scene5 {
-  width: 6000px; /* 실제 필요한 너비로 조정 */
+  width: 6000px;
 }
 .scene6 {
-  width: 8000px; /* 실제 필요한 너비로 조정 */
+  width: 8000px;
 }
+
 /* 이미지 요소들의 기본 스타일 */
 .scene img {
   position: absolute;
   width: auto;
   height: auto;
+}
+
+/* 말풍선 */
+.bubble {
+  position: absolute;
+  width: 250px;
+  height: 120px;
+  padding: 0px;
+  background: #ffffff;
+  -webkit-border-radius: 80px;
+  -moz-border-radius: 80px;
+  border-radius: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  cursor: pointer; /* 클릭 가능함을 표시 */
+  transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+  z-index: 100;
+}
+.bubble:after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  border-width: 26px 19px 0;
+  border-color: #ffffff transparent;
+  display: block;
+  width: 0;
+  z-index: 1;
+  bottom: -26px;
+  left: 121px;
+}
+
+/* 말풍선 클릭후 스타일 */
+.bubble.clicked {
+  background: #ffb6c1; /* 클릭했을 때의 배경색 */
+  color: #ffffff; /* 클릭했을 때의 텍스트 색상 */
+}
+/* 클릭된 말풍선의 꼬리 스타일 */
+.bubble.clicked:after {
+  border-color: #ffb6c1 transparent;
+}
+
+/* 별도의 클래스로 애니메이션 분리 */
+.wobble-animation {
+  animation: wobble 1s ease infinite;
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    transform: translateX(0%) rotate(0deg);
+  }
+  15% {
+    transform: translateX(-12px) rotate(-4deg);
+  }
+  30% {
+    transform: translateX(6px) rotate(4deg);
+  }
+  45% {
+    transform: translateX(-6px) rotate(-2.2deg);
+  }
+  60% {
+    transform: translateX(3.6px) rotate(1.3deg);
+  }
+  75% {
+    transform: translateX(-2.2px) rotate(-0.8deg);
+  }
 }
 
 /* Scene 1 요소들 */
@@ -114,11 +185,7 @@ body {
   bottom: 550px;
   z-index: 1;
 }
-#running-person {
-  left: 1600px;
-  bottom: 350px;
-  z-index: 3;
-}
+
 #bird {
   left: 1800px;
   bottom: 1000px;
@@ -127,11 +194,6 @@ body {
 #rock {
   left: 2900px;
   bottom: 380px;
-  z-index: 5;
-}
-#sweat-person {
-  left: 4800px;
-  bottom: 560px;
   z-index: 5;
 }
 
@@ -157,16 +219,6 @@ body {
   z-index: 3;
 }
 
-#diving-person {
-  left: 700px;
-  bottom: 390px;
-  z-index: 5;
-}
-#swimming-person {
-  left: 3200px;
-  bottom: 390px;
-  z-index: 5;
-}
 #pado1 {
   left: 3300px;
   bottom: 420px;
@@ -260,11 +312,7 @@ body {
   bottom: 760px;
   z-index: 2;
 }
-#gymperson {
-  left: 2200px;
-  bottom: 250px;
-  z-index: 100;
-}
+
 #gym_wall2 {
   left: 3000px;
   bottom: 630px;
@@ -308,22 +356,8 @@ body {
   bottom: 480px;
   z-index: 3;
 }
-#water {
-  right: 300px;
-  bottom: 400px;
-  z-index: 100;
-}
+
 /* Scene 5 요소들 */
-#yoga_person1 {
-  left: 2900px;
-  bottom: 280px;
-  z-index: 100;
-}
-#yoga_person2 {
-  right: 720px;
-  bottom: 200px;
-  z-index: 100;
-}
 #yoga_deco {
   left: 3000px;
   bottom: 700px;
@@ -459,4 +493,145 @@ body {
   cursor: pointer;
   display: block;
   z-index: 5; /* 캐릭터(20)보다 낮게 설정 */
+}
+
+/* 각 컨테이너의 기본 스타일 */
+#running-container {
+  position: absolute;
+  left: 1600px;
+  bottom: 350px;
+  z-index: 3;
+}
+#sweat-container {
+  position: absolute;
+  left: 4800px;
+  bottom: 560px;
+  z-index: 5;
+}
+#diving-container {
+  position: absolute;
+  left: 700px;
+  bottom: 390px;
+  z-index: 5;
+}
+#swimming-container {
+  position: absolute;
+  left: 3200px;
+  bottom: 390px;
+  z-index: 5;
+}
+#arrow-container {
+  position: absolute;
+  left: 380px;
+  bottom: 300px;
+  z-index: 2;
+}
+
+#gym-container {
+  position: absolute;
+  left: 2200px;
+  bottom: 250px;
+  z-index: 100;
+}
+
+#water-container {
+  position: absolute;
+  right: 300px;
+  bottom: 400px;
+  z-index: 100;
+}
+
+#yoga1-container {
+  position: absolute;
+  left: 2900px;
+  bottom: 280px;
+  z-index: 100;
+}
+
+#yoga2-container {
+  position: absolute;
+  right: 720px;
+  bottom: 200px;
+  z-index: 100;
+}
+
+#boxing1-container {
+  position: absolute;
+  left: 3000px;
+  bottom: 250px;
+  z-index: 100;
+}
+
+/* 각 이미지 요소의 위치 초기화 */
+#running-person,
+#sweat-person,
+#diving-person,
+#swimming-person,
+#arrow,
+#gymperson,
+#water,
+#yoga_person1,
+#yoga_person2,
+#boxing1 {
+  position: relative;
+  left: 0;
+  bottom: 0;
+}
+
+/* 각 말풍선의 개별 스타일 */
+#running-bubble {
+  position: absolute;
+  left: 50px; /* 캐릭터 기준으로 상대적 위치 */
+  bottom: 450px;
+}
+
+#sweat-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 450px;
+}
+#diving-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 350px;
+}
+#swimming-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 150px;
+}
+#arrow-bubble {
+  position: absolute;
+  left: 30px;
+  bottom: 600px;
+}
+
+#gym-bubble {
+  position: absolute;
+  left: 60px;
+  bottom: 480px;
+}
+
+#water-bubble {
+  position: absolute;
+  left: 40px;
+  bottom: 530px;
+}
+
+#yoga1-bubble {
+  position: absolute;
+  left: 55px;
+  bottom: 300px;
+}
+
+#yoga2-bubble {
+  position: absolute;
+  left: 45px;
+  bottom: 440px;
+}
+
+#boxing1-bubble {
+  position: absolute;
+  left: 65px;
+  bottom: 470px;
 }

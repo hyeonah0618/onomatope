@@ -2,7 +2,7 @@
 gsap.registerPlugin(ScrollTrigger);
 // ... existing code ...
 function openCenteredWindow(url) {
-    const width = 600;
+    const width = 800;
     const height = 600;
     
     // 화면 중앙 좌표 계산
@@ -92,17 +92,40 @@ gsap.to(".slides2", {
         markers: true
     }
 });
-
+document.querySelectorAll('.bubble').forEach(bubble => {
+    // 원래 텍스트를 저장
+    const originalText = bubble.textContent;
+    
+    bubble.addEventListener('click', function() {
+        this.classList.toggle('clicked');
+        
+        // clicked 클래스가 있으면 새로운 텍스트로, 없으면 원래 텍스트로
+        if (this.classList.contains('clicked')) {
+            const newText = this.dataset.clickedText || '완료!'; // 데이터 속성이 없을 경우 기본값
+            this.textContent = newText;
+        } else {
+            this.textContent = originalText;
+        }
+    });
+});
 // 개별 요소 애니메이션
-gsap.to("#running-person", {
+
+gsap.to("#running-container", {
     x: 1000,
     scrollTrigger: {
         trigger: ".scene1",
         start: "top top",
         end: "+=4000",
-        scrub: 3
+        scrub: 3,
+        onUpdate: function(self) {
+            const bubble = document.getElementById('running-bubble');
+            if (!bubble.classList.contains('wobble-animation')) {
+                bubble.classList.add('wobble-animation');
+            }
+        }
     }
 });
+
 gsap.fromTo("#bird", {
     x: 0
     },
@@ -115,4 +138,5 @@ gsap.fromTo("#bird", {
         scrub: 3
     }
 });
-ㅎ
+
+

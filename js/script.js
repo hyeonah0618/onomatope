@@ -152,3 +152,15 @@ gsap.to("#cloud2", {
         scrub: 1
     }
 });
+
+function openCenteredWindow(url) {
+    var width = 600;
+    var height = 400;
+    var left = (screen.width - width) / 2;
+    var top = (screen.height - height) / 2;
+    window.open(url, 'newwindow', `width=${width}, height=${height}, top=${top}, left=${left}`);
+}
+
+function trackClick() {
+    console.log('Link clicked');
+}
