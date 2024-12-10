@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>인터랙티브 웹사이트</title>
     <link rel="stylesheet" href="css/style3.css">
+    <!-- <script src="js/randomRedirect.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
@@ -25,7 +26,7 @@
             <div id="running-container">
                 <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/running.html'); trackClick(); return false;">
                     <img id="running-person" src="png/scene3/running.png" />
-                    <div id="running-bubble" class="bubble wobble-animation">???</div>
+                    <div id="running-bubble" class="bubble wobble-animation" data-clicked-text="dotan">???</div>
                 </a>
             </div>
             <img id="bird" src="png/scene3/bird.png" />
@@ -55,10 +56,10 @@
                 <img id="swimming-person" src="png/scene3/swimming.png" />
                 <div id="swimming-bubble" class="bubble wobble-animation">???</div>
             </a>
+            <img id="pado1" src="png/scene3/pado1.png" />
+            <img id="pado2" src="png/scene3/pado1.png" />
+            <img id="pado3" src="png/scene3/pado1.png" />
           </div>
-          <img id="pado1" src="png/scene3/pado1.png" />
-          <img id="pado2" src="png/scene3/pado1.png" />
-          <img id="pado3" src="png/scene3/pado1.png" />
           <img id="sadari" src="png/scene3/sadari.png" />
           
         </div>
@@ -66,7 +67,7 @@
           <img id="bt3" src="png/scene3/bt3_3.png" />
           <div id="arrow-container">
             <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/arrow.html'); trackClick(); return false;">
-                <img id="arrow" src="png/scene3/arrow_person.png" />
+                <img id="arrow-person" src="png/scene3/arrow_person.png" />
                 <div id="arrow-bubble" class="bubble wobble-animation">???</div>
             </a>
           </div>
@@ -84,7 +85,7 @@
           <img id="gym_wall1" src="png/scene3/gym_wall1.png">
           <div id="gym-container">
             <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/gym.html'); trackClick(); return false;">
-                <img id="gymperson" src="png/scene3/gymperson1.png" />
+                <img id="gym-person" src="png/scene3/gymperson1.png" />
                 <div id="gym-bubble" class="bubble wobble-animation">???</div>
             </a>
           </div>
@@ -92,12 +93,13 @@
           <img id="gymball_p" src="png/scene3/gymball_p.png">
           <img id="gymball_y" src="png/scene3/gymball_y.png">
           <img id="gymball_g" src="png/scene3/gymball_g.png">
+          <img id="gym_dumbbell" src="png/scene3/gym_dumbbell.png">
           <img id="gym_mat" src="png/scene3/gym_mat.png">
           <img id="gym_bench" src="png/scene3/gym_bench.png">
           <img id="gym_water" src="png/scene3/gym_water.png">
           <div id="water-container">
             <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/water.html'); trackClick(); return false;">
-                <img id="water" src="png/scene3/water.png" />
+                <img id="water-person" src="png/scene3/water.png" />
                 <div id="water-bubble" class="bubble wobble-animation">???</div>
             </a>
           </div>
@@ -156,5 +158,6 @@
     <div id="lottie-animation" style="width: 300px; height: 300px;"></div>
 
     <script src="js/script3.js"></script>
+
 </body>
 </html>

@@ -117,6 +117,7 @@ gsap.to("#running-container", {
         start: "top top",
         end: "+=4000",
         scrub: 3,
+        markers: true,
         onUpdate: function(self) {
             const bubble = document.getElementById('running-bubble');
             if (!bubble.classList.contains('wobble-animation')) {
@@ -125,6 +126,44 @@ gsap.to("#running-container", {
         }
     }
 });
+
+
+// running-person만의 점프 애니메이션
+gsap.to("#running-person", {
+    y: -20, // 위로 20px 점프
+    duration: 0.3, // 애니메이션 속도
+    repeat: -1, // 무한 반복
+    yoyo: true, // 부드러운 위아래 움직임
+    ease: "power1.inOut"
+});
+
+// diving-person의 transform-origin 설정 및 숨쉬기 애니메이션
+gsap.set("#diving-person", {
+    transformOrigin: "bottom center" // 변환 기준점을 하단 중앙으로 설정
+});
+gsap.to("#diving-person", {
+    scale: 1.03, 
+    duration: 1.5, // 한번 커졌다 작아지는데 걸리는 시간
+    repeat: -1, // 무한 반복
+    yoyo: true, // 부드럽게 원래 크기로 돌아옴
+    ease: "power1.inOut" // 부드러운 움직임
+});
+
+gsap.to("#swimming-container", {
+        x: 2000,
+        scrollTrigger: {
+            trigger: ".scene2",
+            start: "top top",
+            end: "+=4000",
+            scrub: 3,
+            ease: "power1.inOut",
+            markers: {
+                startColor: "purple",
+                endColor: "fuchsia",
+                fontSize: "1rem"
+            }
+ } }  
+);
 
 gsap.fromTo("#bird", {
     x: 0
@@ -139,4 +178,105 @@ gsap.fromTo("#bird", {
     }
 });
 
+// arrow-person"의 transform-origin 설정 및 숨쉬기 애니메이션
+gsap.set("#arrow-person", {
+    transformOrigin: "bottom center" // 변환 기준점을 하단 중앙으로 설정
+});
+gsap.to("#arrow-person", {
+    scale: 1.03, 
+    duration: 1, // 한번 커졌다 작아지는데 걸리는 시간
+    repeat: -1, // 무한 반복
+    yoyo: true, // 부드럽게 원래 크기로 돌아옴
+    ease: "power1.inOut" // 부드러운 움직임
+});
+// 짐볼 애니메이션 수정
+gsap.to("#gymball_p", {
+    scrollTrigger: {
+        trigger: ".scene-slides2", // 트리거 요소 변경
+        start: "top top",
+        end: "+=3000", // 스크롤 거리 명시적 지정
+        scrub: 3, // 부드러운 애니메이션을 위해 값 조정
+    },
+    x: 500
+});
 
+gsap.to("#gymball_y", {
+    scrollTrigger: {
+        trigger: ".scene-slides2",
+        start: "top top",
+        end: "+=3000",
+        scrub: 2,
+    },
+    x: 600
+});
+
+gsap.to("#gymball_g", {
+    scrollTrigger: {
+        trigger: ".scene-slides2",
+        start: "top top",
+        end: "+=3000",
+        scrub: 1,
+    },
+    x: 250
+});
+
+// gym-person"의 transform-origin 설정 및 숨쉬기 애니메이션
+gsap.set("#gym-person", {
+    transformOrigin: "bottom center" // 변환 기준점을 하단 중앙으로 설정
+});
+gsap.to("#gym-person", {
+    scale: 1.03, 
+    duration: 1.8, // 한번 커졌다 작아지는데 걸리는 시간
+    repeat: -1, // 무한 반복
+    yoyo: true, // 부드럽게 원래 크기로 돌아옴
+    ease: "power1.inOut" // 부드러운 움직임
+});
+// 좌우 떨림 애니메이션 추가
+gsap.to("#gym-person", {
+    x: 2, // 좌우로 2픽셀만 움직임
+    duration: 0.1, // 매우 빠른 속도로
+    repeat: -1,
+    yoyo: true,
+    ease: "none" // 선형 움직임으로 떨림 효과 생성
+});
+
+// water-person"의 transform-origin 설정 및 숨쉬기 애니메이션
+gsap.set("#water-person", {
+    transformOrigin: "bottom center" // 변환 기준점을 하단 중앙으로 설정
+});
+// 타임라인을 생성하여 여러 애니메이션을 연속적으로 실행
+const breathingTimeline = gsap.timeline({
+    repeat: -1
+});
+
+breathingTimeline
+    .to("#water-person", {
+        scale: 1.02,
+        duration: 1,
+        ease: "power1.inOut"
+    })
+    .to("#water-person", {
+        scale: 1,
+        duration: 1.2,
+        ease: "power1.inOut"
+    });
+
+    gsap.fromTo("#gym_dumbbell", 
+        {
+            y: 0, 
+            opacity: 1
+        },
+        {
+            y: 500, 
+            opacity: 1,
+            duration: 1.5,
+            delay: 1,
+            ease: "bounce.out",
+            scrollTrigger: {
+                trigger: "#gym_dumbbell",
+                start: "center center",
+                scrub: true,
+                markers: true
+            }
+        }
+    );

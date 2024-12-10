@@ -220,21 +220,24 @@ body {
 }
 
 #pado1 {
-  left: 3300px;
-  bottom: 420px;
+  position: absolute;
+  left: 100px;
+  bottom: 30px;
   mix-blend-mode: multiply;
   z-index: 10;
   transform: scaleX(1.2);
 }
 #pado2 {
-  left: 3500px;
-  bottom: 360px;
+  position: absolute;
+  left: 300px;
+  bottom: -30px;
   mix-blend-mode: multiply;
   z-index: 10;
 }
 #pado3 {
-  left: 3600px;
-  bottom: 410px;
+  position: absolute;
+  left: 400px;
+  bottom: 20px;
   mix-blend-mode: multiply;
   z-index: 12;
   transform: scaleX(1.2);
@@ -329,27 +332,32 @@ body {
 #gymball_p {
   left: 600px;
   bottom: 400px;
-  z-index: 2;
+  z-index: 4;
 }
 #gymball_y {
   left: 820px;
   bottom: 410px;
-  z-index: 2;
+  z-index: 4;
 }
 #gymball_g {
   left: 1100px;
   bottom: 420px;
-  z-index: 2;
+  z-index: 4;
 }
 #gym_mat {
   left: 1400px;
   bottom: 50px;
-  z-index: 1;
+  z-index: 2;
+}
+#gym_dumbbell {
+  left: 3665px;
+  bottom: 875px;
+  z-index: 4;
 }
 #gym_bench {
   left: 2090px;
   bottom: 250px;
-  z-index: 2;
+  z-index: 3;
 }
 #gym_water {
   right: 700px;
@@ -516,7 +524,7 @@ body {
 }
 #swimming-container {
   position: absolute;
-  left: 3200px;
+  left: 940px;
   bottom: 390px;
   z-index: 5;
 }
@@ -567,9 +575,9 @@ body {
 #sweat-person,
 #diving-person,
 #swimming-person,
-#arrow,
-#gymperson,
-#water,
+#arrow-person,
+#gym-person,
+#water-person,
 #yoga_person1,
 #yoga_person2,
 #boxing1 {
