@@ -1,0 +1,1136 @@
+/* 기본 설정 */
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap");
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
+  /* ::-webkit-scrollbar {
+      display: none;
+    } */
+}
+.scene {
+  display: flex;
+  flex-shrink: 0; /* 가로 공간 축소 방지 */
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  height: 100vh;
+}
+.slides {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  overscroll-behavior: none;
+  flex-wrap: nowrap;
+  position: relative;
+  flex-basis: auto;
+}
+.scene-slides {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.slides {
+  position: absolute;
+  height: 100vh;
+  display: flex;
+  transform: translateX(0); /* GSAP로 제어할 초기값 */
+}
+
+.gif-container {
+  position: fixed;
+  bottom: 60px;
+  left: 200px;
+  transform: translateX(-50%);
+  height: auto;
+  z-index: 10;
+}
+#ch1 {
+  width: 350px !important;
+  height: auto !important;
+}
+/* Scene 공통 스타일 */
+.scene {
+  position: relative;
+  height: 100vh;
+  flex: 0 0 auto;
+}
+
+.slides2 {
+  position: absolute;
+  height: 100vh;
+  display: flex;
+}
+
+.scene-slides2 .scene {
+  position: relative;
+  height: 100vh;
+}
+/* 각 Scene 너비와 위치 설정 */
+.scene1 {
+  width: 10000px;
+  left: 0;
+  background-color: #bbe7ff;
+}
+.scene2 {
+  width: 5000px;
+  background-color: #97b4e0;
+}
+/* 운동여자 */
+.scene3 {
+  width: 5110px;
+  background-color: #6eb4f5;
+}
+
+.scene4 {
+  width: 4825px;
+  background-color: #6eb4f5;
+}
+.scene5 {
+  width: 3800px;
+}
+.scene6 {
+  width: 5900px;
+  background-color: #4d4d4d;
+}
+
+.scene7 {
+  width: 6000px;
+}
+.scene8 {
+  width: 8000px;
+}
+
+/* 일본집 */
+.scene9 {
+  width: 5000px;
+  background-color: #595842;
+}
+/* 주방 */
+.scene10 {
+  width: 5000px;
+  background-color: #f2ecdf;
+}
+/* 학교 */
+.scene11 {
+  width: 5000px;
+}
+/* 야외 */
+.scene12 {
+  width: 10000px;
+  background-color: #a1ced1;
+}
+
+/* 이미지 요소들의 기본 스타일 */
+.scene img {
+  position: absolute;
+  width: auto;
+  height: auto;
+}
+/* 각 이미지 요소의 위치 초기화 */
+#running-person,
+#sweat-person,
+#diving-person,
+#swimming-person,
+#arrow-person,
+#gym-person,
+#water-person,
+#yoga_person1,
+#yoga_person2,
+#boxing1 {
+  position: relative;
+  left: 0;
+  bottom: 0;
+}
+/* Scene 1 요소들 */
+/* 아래레이어 */
+#home,
+#sun,
+#tree1,
+#tree2,
+#cloud1,
+#cloud2,
+#dog,
+#bench,
+#mirror,
+#library,
+#bench,
+#mirror,
+#library {
+  bottom: 140px;
+  width: auto;
+  height: auto;
+  z-index: 5;
+}
+/* 위 레이어*/
+#book,
+#laptop {
+  position: absolute;
+  bottom: 100px;
+  width: auto;
+  height: auto;
+  z-index: 6;
+}
+#house {
+  left: 0;
+  bottom: 25px;
+  z-index: 2;
+}
+#scene1_bottom1 {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+#scene1_bottom2 {
+  position: fixed;
+  bottom: 0;
+  left: 1971.5652px;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  z-index: 1;
+}
+#mirror {
+  bottom: 400px;
+  left: 1410px;
+  z-index: 15;
+}
+#bench {
+  left: 3300px;
+}
+#dog {
+  bottom: 70px;
+  left: 3550px;
+  z-index: 15;
+}
+#sun {
+  bottom: 900px; /* 태양은 높게 배치 */
+  left: 2600px;
+}
+
+#tree1 {
+  left: 2800px;
+}
+
+#tree2 {
+  left: 4200px;
+}
+
+#cloud1 {
+  bottom: 750px;
+  left: 3950px;
+}
+
+#cloud2 {
+  bottom: 830px;
+  left: 2800px;
+  transform: scaleX(-1);
+}
+
+#library {
+  left: 4600px;
+}
+#book {
+  left: 5300px;
+}
+#laptop {
+  left: 6150px;
+}
+#scene1_bottom3 {
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+}
+#cloud3 {
+  top: 120px;
+  left: 7050px;
+  z-index: 10;
+}
+#tree3 {
+  bottom: 120px;
+  left: 7400px;
+  z-index: 13;
+}
+#building1 {
+  bottom: 120px;
+  left: 7550px;
+  z-index: 10;
+}
+#building2 {
+  bottom: 120px;
+  left: 7950px;
+  z-index: 10;
+}
+#building3 {
+  bottom: 120px;
+  left: 8500px;
+  z-index: 10;
+}
+#back_build1 {
+  bottom: 120px;
+  left: 7050px;
+  z-index: 1;
+}
+#back_build2 {
+  bottom: 120px;
+  left: 8300px;
+  z-index: 1;
+}
+
+#grass1 {
+  bottom: 100px;
+  right: 450px;
+  z-index: 15;
+}
+#grass2 {
+  bottom: 120px;
+  left: 6950px;
+  z-index: 10;
+}
+#grass3 {
+  bottom: 140px;
+  right: 750px;
+  z-index: 2;
+}
+#clock {
+  bottom: 120px;
+  right: 380px;
+  z-index: 5;
+}
+#bench2 {
+  bottom: 120px;
+  right: 50px;
+  z-index: 10;
+}
+#scene2_bottom1 {
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+#bus {
+  bottom: 60px;
+  left: 260px;
+  z-index: 10;
+}
+#busstop {
+  bottom: 120px;
+  right: 400px;
+  z-index: 9;
+}
+#sun2 {
+  top: 100px;
+  right: 600px;
+  z-index: 10;
+}
+
+/* 운동 */
+#bt1 {
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+#runtrack {
+  left: 0;
+  bottom: 150px;
+  z-index: 2;
+}
+#bush1 {
+  left: -15px;
+  bottom: 550px;
+  z-index: 1;
+}
+
+#bird {
+  left: 1800px;
+  bottom: 1000px;
+  z-index: 4;
+}
+#rock {
+  left: 2900px;
+  bottom: 380px;
+  z-index: 5;
+}
+
+#grass {
+  left: 4800px;
+  bottom: 100px;
+  z-index: 5;
+}
+#running-container {
+  position: absolute;
+  left: 1600px;
+  bottom: 300px;
+  z-index: 10;
+}
+#sweat-container {
+  position: absolute;
+  left: 4800px;
+  bottom: 560px;
+  z-index: 5;
+}
+/* Scene 2 요소들 */
+#bt2 {
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+}
+#bush2 {
+  left: 0;
+  bottom: 550px;
+  z-index: 1;
+}
+#pool {
+  left: 1000px;
+  bottom: 100px;
+  z-index: 3;
+}
+
+#pado1 {
+  position: absolute;
+  left: 100px;
+  bottom: 30px;
+  mix-blend-mode: multiply;
+  z-index: 10;
+  transform: scaleX(1.2);
+}
+#pado2 {
+  position: absolute;
+  left: 300px;
+  bottom: -30px;
+  mix-blend-mode: multiply;
+  z-index: 10;
+}
+#pado3 {
+  position: absolute;
+  left: 400px;
+  bottom: 20px;
+  mix-blend-mode: multiply;
+  z-index: 12;
+  transform: scaleX(1.2);
+}
+#sadari {
+  left: 4000px;
+  bottom: 460px;
+  z-index: 5;
+}
+#diving-container {
+  position: absolute;
+  left: 700px;
+  bottom: 390px;
+  z-index: 5;
+}
+#swimming-container {
+  position: absolute;
+  left: 940px;
+  bottom: 390px;
+  z-index: 5;
+}
+#bt3 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 3800px;
+  height: 500px;
+  object-fit: cover;
+  z-index: 2;
+}
+
+#target1 {
+  position: absolute;
+  bottom: 180px;
+  left: 1800px;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  z-index: 2;
+}
+#target2 {
+  position: absolute;
+  bottom: 260px;
+  left: 2700px;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  z-index: 2;
+}
+#target3 {
+  position: absolute;
+  bottom: 350px;
+  left: 3500px;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  z-index: 2;
+}
+#arrow-container {
+  position: absolute;
+  left: 380px;
+  bottom: 300px;
+  z-index: 2;
+}
+
+/* Scene 4 요소들 */
+#gym_wall {
+  left: -50px;
+  top: 0;
+  z-index: 10;
+}
+
+#gym_wall1 {
+  left: 780px;
+  bottom: 760px;
+  z-index: 2;
+}
+
+#gym_wall2 {
+  left: 3000px;
+  bottom: 630px;
+  z-index: 2;
+}
+#gym_bt {
+  position: absolute;
+  bottom: 0;
+  width: 6000px; /* scene4의 width와 동일하게 설정 */
+  height: 500px;
+  background-color: #f4f0df;
+  z-index: 1; /* z-index 추가 */
+}
+#gymball_p {
+  left: 600px;
+  bottom: 400px;
+  z-index: 4;
+}
+#gymball_y {
+  left: 820px;
+  bottom: 410px;
+  z-index: 4;
+}
+#gymball_g {
+  left: 1100px;
+  bottom: 420px;
+  z-index: 4;
+}
+#gym_mat {
+  left: 1400px;
+  bottom: 50px;
+  z-index: 2;
+}
+#gym_dumbbell {
+  left: 2665px;
+  bottom: 875px;
+  z-index: 4;
+}
+#gym_bench {
+  left: 2090px;
+  bottom: 250px;
+  z-index: 3;
+}
+#gym_water {
+  right: 700px;
+  bottom: 480px;
+  z-index: 3;
+}
+#gym-container {
+  position: absolute;
+  left: 2200px;
+  bottom: 250px;
+  z-index: 100;
+}
+
+#water-container {
+  position: absolute;
+  right: 300px;
+  bottom: 400px;
+  z-index: 100;
+}
+/* Scene 5 요소들 */
+#yoga_deco {
+  left: 3000px;
+  bottom: 700px;
+  z-index: 2;
+}
+#wall_5 {
+  left: 0;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+}
+#bt_5 {
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 100%;
+  height: 500px;
+}
+#yoga_mat_p {
+  left: 1880px;
+  bottom: 200px;
+  z-index: 2;
+}
+#yoga_mat_b {
+  left: 2780px;
+  bottom: 200px;
+  z-index: 2;
+}
+
+#yoga_mat_p2 {
+  left: 3680px;
+  bottom: 200px;
+  z-index: 2;
+}
+#yoga_mat_wh {
+  right: 350px;
+  bottom: 200px;
+  z-index: 2;
+  animation: sway 2s ease-in-out infinite;
+}
+@keyframes sway {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(9px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+#yoga_wall1 {
+  left: 500px;
+  bottom: 700px;
+  z-index: 2;
+}
+#yoga_wall2 {
+  right: 500px;
+  bottom: 700px;
+  z-index: 2;
+}
+#yoga1-container {
+  position: absolute;
+  left: 2900px;
+  bottom: 280px;
+  z-index: 100;
+}
+
+#yoga2-container {
+  position: absolute;
+  right: 720px;
+  bottom: 200px;
+  z-index: 100;
+}
+/* Scene 6 요소들 */
+#bench_b {
+  right: 1000px;
+  bottom: 450px;
+  z-index: 3;
+}
+#bench_r {
+  left: 1000px;
+  bottom: 450px;
+  z-index: 3;
+}
+#punchingbag_b {
+  right: 2000px;
+  top: 0;
+  z-index: 5;
+  transform-origin: top center;
+  animation: swingBag 3s ease-in-out infinite;
+}
+#punchingbag_r {
+  left: 2000px;
+  top: 0;
+  z-index: 5;
+  transform-origin: top center;
+  animation: swingBag 3s ease-in-out infinite reverse;
+}
+@keyframes swingBag {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+}
+
+#belt {
+  left: 3800px;
+  bottom: 900px;
+  z-index: 5;
+}
+#boxing2 {
+  left: 4200px;
+  bottom: 250px;
+  z-index: 100;
+}
+#boxing_base {
+  left: 2900px;
+  bottom: 100px;
+  z-index: 10;
+}
+#wall_6 {
+  left: 0;
+  bottom: 300px;
+  z-index: 1;
+  width: 100%;
+}
+#boxing_bt {
+  position: absolute;
+  bottom: 0;
+  width: 8000px; /* scene4의 width와 동일하게 설정 */
+  height: 500px;
+  background-color: #594b35;
+  z-index: 1; /* z-index 추가 */
+}
+#boxing1-container {
+  position: absolute;
+  left: 3000px;
+  bottom: 250px;
+  z-index: 30;
+}
+/* 캐릭터는 fixed 유지 */
+#lottie-animation {
+  position: fixed;
+  left: 300px;
+  bottom: 50px;
+  z-index: 10;
+  width: auto;
+  height: auto;
+  pointer-events: none;
+}
+
+/* 일본집 */
+#japan_bottom {
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+}
+
+#japan_door1 {
+  left: 0;
+  bottom: 500px;
+  z-index: 1;
+}
+#japan_wall_deco1 {
+  left: 918px;
+  bottom: 500px;
+  z-index: 1;
+}
+#japan_thief {
+  left: 2100px;
+  bottom: 500px;
+  z-index: 5;
+}
+#japan_hand {
+  left: 2750px;
+  bottom: 650px;
+  z-index: 30;
+}
+#japan_rock1 {
+  left: 1050px;
+  bottom: 600px;
+  z-index: 5;
+}
+#japan_rock2 {
+  left: 1450px;
+  bottom: 600px;
+  z-index: 5;
+}
+#japan_cushion1 {
+  left: 2050px;
+  bottom: 280px;
+  z-index: 20;
+}
+#japan_cushion2 {
+  left: 2050px;
+  bottom: 110px;
+  z-index: 20;
+}
+#japan_cushion3 {
+  left: 2800px;
+  bottom: 280px;
+  z-index: 20;
+}
+#japan_cushion4 {
+  left: 2800px;
+  bottom: 110px;
+  z-index: 20;
+}
+#japan_table {
+  left: 2250px;
+  bottom: 100px;
+  z-index: 15;
+}
+#japan_vacuum {
+  right: 300px;
+  bottom: 300px;
+  z-index: 10;
+}
+
+#japan_wall_deco2 {
+  right: 918px;
+  bottom: 500px;
+  z-index: 1;
+}
+#japan_door2 {
+  right: 0;
+  bottom: 500px;
+  z-index: 1;
+}
+
+/* 주방 */
+#kitchen_bottom {
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+}
+#kitchen_wall {
+  left: 100px;
+  bottom: 900px;
+  z-index: 3;
+}
+#kitchen {
+  left: 200px;
+  bottom: 500px;
+  z-index: 1;
+}
+#kitchen_toast {
+  left: 470px;
+  bottom: 680px;
+  z-index: 1;
+}
+#kitchen_light {
+  left: 2500px;
+  top: 0;
+  z-index: 1;
+}
+#kitchen_table {
+  left: 2100px;
+  bottom: 150px;
+  z-index: 5;
+}
+#kitchen_chair1 {
+  left: 1800px;
+  bottom: 200px;
+  z-index: 5;
+}
+#kitchen_chair2 {
+  left: 3200px;
+  bottom: 200px;
+  z-index: 5;
+}
+#kitchen_cup {
+  left: 2300px;
+  bottom: 450px;
+  z-index: 10;
+}
+#kitchen_window {
+  right: 850px;
+  bottom: 600px;
+  z-index: 5;
+}
+#kitchen_sofa {
+  right: 100px;
+  bottom: 430px;
+  z-index: 1;
+}
+
+/* 학교 */
+#school_bottom {
+  width: 100%;
+  height: 500px;
+  background-color: #efeedc;
+  bottom: 0;
+  position: absolute;
+  z-index: 2;
+}
+#school_wall {
+  left: 0;
+  height: 650px;
+  top: 0;
+  z-index: 1;
+}
+#school_wall_sunban {
+  left: 100px;
+  bottom: 500px;
+  z-index: 3;
+}
+#school_window_1 {
+  left: 1200px;
+  bottom: 700px;
+  z-index: 5;
+}
+#school_cabinet {
+  left: 1300px;
+  bottom: 400px;
+  z-index: 5;
+}
+#school_lug {
+  left: 1350px;
+  bottom: 40px;
+  z-index: 2;
+}
+#school_chair_1 {
+  left: 2300px;
+  bottom: 200px;
+  z-index: 5;
+}
+#school_chair_2 {
+  left: 2800px;
+  bottom: 200px;
+  z-index: 5;
+}
+#school_blackboard {
+  left: 2300px;
+  bottom: 700px;
+  z-index: 5;
+}
+#school_wall_sofa1 {
+  left: 3200px;
+  bottom: 700px;
+  z-index: 5;
+}
+#school_wall_sofa2 {
+  left: 3600px;
+  bottom: 700px;
+  z-index: 5;
+}
+#school_wall_sofa3 {
+  left: 3900px;
+  bottom: 700px;
+  z-index: 5;
+}
+#school_nursepanel {
+  right: 500px;
+  bottom: 700px;
+  z-index: 5;
+}
+#school_teacher {
+  left: 2500px;
+  bottom: 350px;
+  z-index: 10;
+}
+#school_student1 {
+  left: 2500px;
+  bottom: 100px;
+  z-index: 10;
+}
+#school_student2 {
+  left: 2800px;
+  bottom: 100px;
+  z-index: 10;
+}
+#school_teeth {
+  right: 200px;
+  bottom: 300px;
+  z-index: 20;
+}
+
+/* 야외 */
+#out_bottom4 {
+  left: 0;
+  bottom: 0;
+  z-index: 5;
+}
+#out_bottom5 {
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+}
+#out_tree1 {
+  left: 150px;
+  bottom: 350px;
+  z-index: 10;
+}
+#out_road1 {
+  left: 0;
+  bottom: 30px;
+  z-index: 10;
+}
+#out_road2 {
+  right: 0;
+  bottom: 30px;
+  z-index: 10;
+}
+#out_rock1 {
+  left: 650px;
+  bottom: 300px;
+  z-index: 10;
+}
+#out_caterpillar {
+  left: 800px;
+  bottom: 350px;
+  z-index: 10;
+}
+#out_photo {
+  left: 1200px;
+  bottom: 190px;
+  z-index: 10;
+}
+#out_pond {
+  left: 2600px;
+  bottom: 190px;
+  z-index: 10;
+}
+#out_rock2 {
+  left: 3050px;
+  bottom: 200px;
+  z-index: 20;
+}
+#out_frog {
+  left: 3200px;
+  bottom: 320px;
+  z-index: 10;
+}
+#out_mt_back {
+  left: 100px;
+  bottom: 500px;
+  z-index: 1;
+}
+#out_mt_f1 {
+  left: 0;
+  bottom: 500px;
+  z-index: 2;
+}
+#out_mt_pink {
+  left: 1400px;
+  bottom: 450px;
+  z-index: 3;
+}
+#out_mt_orange {
+  left: 3200px;
+  bottom: 490px;
+  z-index: 3;
+}
+#out_tree2 {
+  left: 4000px;
+  bottom: 400px;
+  z-index: 10;
+}
+
+#out_mt_f2 {
+  left: 4300px;
+  bottom: 470px;
+  z-index: 3;
+}
+#out_mt_f3 {
+  right: 1000px;
+  bottom: 490px;
+  z-index: 3;
+}
+#out_mt_pink2 {
+  right: 1800px;
+  bottom: 490px;
+  z-index: 1;
+}
+#out_mt_orange2 {
+  right: 10px;
+  bottom: 490px;
+  z-index: 3;
+}
+
+#out_tree3 {
+  right: 700px;
+  bottom: 400px;
+  z-index: 10;
+}
+#out_vane1 {
+  left: 8200px;
+  bottom: 400px;
+  z-index: 10;
+}
+#out_vane2 {
+  left: 8500px;
+  bottom: 400px;
+  z-index: 10;
+}
+#out_vane3 {
+  left: 8300px;
+  bottom: 300px;
+  z-index: 10;
+}
+#out_vane4 {
+  left: 8600px;
+  bottom: 310px;
+  z-index: 10;
+}
+#out_vane5 {
+  left: 8750px;
+  bottom: 390px;
+  z-index: 7;
+  scale: 0.8;
+}
+#out_rain {
+  left: 5400px;
+  bottom: 260px;
+  z-index: 10;
+}
+#out_kids {
+  left: 7300px;
+  bottom: 250px;
+  z-index: 10;
+}
+#out_cloud1 {
+  left: 4600px;
+  bottom: 800px;
+  z-index: 10;
+}
+#out_cloud2 {
+  left: 5000px;
+  bottom: 900px;
+  z-index: 10;
+}
+#out_cloud3 {
+  left: 5600px;
+  bottom: 800px;
+  z-index: 10;
+}
+#out_mt_back2 {
+  right: 100px;
+  bottom: 460px;
+  z-index: 1;
+}
+/* 카운터 스타일 */
+#counter {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  font-family: "Nunito", "Arial Rounded MT Bold", sans-serif;
+  font-size: 32px;
+  font-weight: bold;
+  z-index: 9999;
+  pointer-events: none; /* 카운터에만 스크롤 이벤트 무시 적용 */
+  user-select: none;
+  background: transparent;
+}
+
+#current {
+  color: #ff69b4;
+  margin-right: 2px;
+}
+
+#total {
+  color: #000000;
+}
+
+/* 링크 스타일 */
+#scene1 a {
+  pointer-events: auto;
+  cursor: pointer;
+  display: block;
+  z-index: 5; /* 캐릭터(20)보다 낮게 설정 */
+}

@@ -318,7 +318,7 @@ body {
 #gym_wall2 {
   left: 3000px;
   bottom: 630px;
-  z-index: 2;
+  z-index: 10;
 }
 #gym_bt {
   position: absolute;
