@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>clock</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        .clock {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            position: relative;
+            background: #fff;
+            border: 2px solid #0099ff;
+        }
+
+        .grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(#0099ff 1px, transparent 1px),
+                linear-gradient(90deg, #0099ff 1px, transparent 1px);
+            background-size: 20px 20px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .center {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: #0099ff;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .hand {
+            position: absolute;
+            background: #000;
+            transform-origin: 50% 100%;
+            top: 50%;
+            left: 50%;
+        }
+
+        .hour-hand {
+            width: 4px;
+            height: 60px;
+            margin-left: -2px;
+            margin-top: -60px;
+        }
+
+        .minute-hand {
+            width: 2px;
+            height: 80px;
+            margin-left: -1px;
+            margin-top: -80px;
+        }
+
+        .center-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #000;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        .time-display {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="time-display">00:00</div>
+    <div class="clock">
+        <div class="grid"></div>
+        <div class="center"></div>
+        <div class="hand hour-hand"></div>
+        <div class="hand minute-hand"></div>
+        <div class="center-dot"></div>
+    </div>
+
+    <script>
+        let isDragging = false;
+        let autoUpdate = true;
+
+        function updateTimeDisplay(hourAngle, minuteAngle) {
+            // 각도를 시간으로 변환
+            let hours = Math.floor(hourAngle / 30);  // 30도당 1시간
+            let minutes = Math.floor(minuteAngle / 6);  // 6도당 1분
+            
+            // 24시간 형식으로 변환
+            if (hours === 0) hours = 12;
+            
+            // 두 자리 숫자로 포맷팅
+            const displayHours = hours.toString().padStart(2, '0');
+            const displayMinutes = minutes.toString().padStart(2, '0');
+            
+            document.querySelector('.time-display').textContent = `${displayHours}:${displayMinutes}`;
+        }
+
+        function updateClock() {
+            if (!autoUpdate) return;
+            
+            const now = new Date();
+            const hours = now.getHours() % 12;
+            const minutes = now.getMinutes();
+            
+            const hourDegrees = (hours * 30) + (minutes / 2);
+            const minuteDegrees = minutes * 6;
+
+            gsap.set(".hour-hand", { rotation: hourDegrees });
+            gsap.set(".minute-hand", { rotation: minuteDegrees });
+            
+            updateTimeDisplay(hourDegrees, minuteDegrees);
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        Draggable.create(".hour-hand", {
+            type: "rotation",
+            onDragStart: function() {
+                autoUpdate = false;
+            },
+            onDragEnd: function() {
+                setTimeout(() => {
+                    autoUpdate = true;
+                }, 1000);
+            },
+            onDrag: function() {
+                let hourAngle = this.rotation % 360;
+                // 음수 각도를 양수로 변환
+                if (hourAngle < 0) hourAngle += 360;
+                let minuteAngle = hourAngle * 12;
+                gsap.set(".minute-hand", {rotation: minuteAngle});
+                updateTimeDisplay(hourAngle, minuteAngle);
+            }
+        });
+
+        Draggable.create(".minute-hand", {
+            type: "rotation",
+            onDragStart: function() {
+                autoUpdate = false;
+            },
+            onDragEnd: function() {
+                setTimeout(() => {
+                    autoUpdate = true;
+                }, 1000);
+            },
+            onDrag: function() {
+                let minuteAngle = this.rotation % 360;
+                // 음수 각도를 양수로 변환
+                if (minuteAngle < 0) minuteAngle += 360;
+                let hourAngle = minuteAngle / 12;
+                gsap.set(".hour-hand", {rotation: hourAngle});
+                updateTimeDisplay(hourAngle, minuteAngle);
+            }
+        });
+    </script>
+</body>
+</html>
