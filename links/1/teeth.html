@@ -162,7 +162,7 @@ body {
         <audio id="audio2" src="../audio/page9_jp.mp3"></audio>
         <audio id="audio3" src="../audio/page9_cn.mp3"></audio>
     </div>
-    <a href="../index.html" id="back-button">Back</a>
+    <button id="back-button">Back</button>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
@@ -175,6 +175,10 @@ body {
         '../audio/page9/page9_es.mp3'
     ];
     let currentAudio;
+
+    $('#back-button').on('click', () => {
+        window.close();
+    });
 
     const textOptions = [
         { text: "치카치카", class: "korean" },
