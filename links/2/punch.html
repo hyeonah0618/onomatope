@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>punch</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+
+            background-color: #9E0A71; 
+        }
+
+        img {
+            position: absolute;
+            width: auto;
+            height: auto;
+        }
+        .hand {
+            left: -300px;
+            top: 150px;
+            width: 750.3976px;
+            height: auto;
+            z-index: 10;
+        }
+
+        .man {
+            right: -200px;
+            top: 150px;
+            width: 800px;
+            height: auto;
+            z-index: 1;
+        }
+        .punch {
+        display: none;
+        z-index: 5;
+        width: 320px;
+        height: auto;
+        position: absolute;
+    }
+        .text {
+            position: absolute;
+            font-size: 48px;
+            color: red;
+            font-weight: bold;
+            z-index: 20;
+            opacity: 0;
+            scale: 0;
+        }
+
+        .text.ja {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        .text.en {
+            font-family: 'Impact', sans-serif;
+        }
+
+        .text.zh {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        .text.ko {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+
+    </style>
+</head>
+<body>
+    <img src="./img/punch/hand.svg" class="hand">
+    <img src="./img/punch/man.svg" class="man">
+    <img src="./img/punch/punch.svg" class="punch">
+    
+    <script>
+        $(document).ready(function() {
+// 오디오 객체들을 미리 생성하고 로드
+    const audioFiles = {
+        kr: new Audio('../audio/4/punch_kr.mp3'),
+        jp: new Audio('../audio/4/punch_jp.mp3'),
+        en: new Audio('../audio/4/punch_en.mp3'),
+        fr: new Audio('../audio/4/punch_fr.mp3')
+    };
+
+    // 모든 오디오 파일 미리 로드
+    Object.values(audioFiles).forEach(audio => {
+        audio.load();
+        audio.preload = 'auto';
+    });
+
+            const randomTexts = [
+                { text: 'ドスッ', font: 'Noto Sans JP',  audio: audioFiles.jp},
+                { text: 'Pow', font: 'Impact', audio:audioFiles.en },
+                { text: '퍽', font: 'Noto Sans SC', audio: audioFiles.kr },
+                { text: 'Boum', font: 'Impact',  audio: audioFiles.fr }
+            ];
+
+            let isAnimating = false;
+            let lastCollisionTime = 0;
+            const COLLISION_COOLDOWN = 500; // 0.5초 쿨다운
+            let lastX = 0; // 마지막 X 위치 저장
+
+            gsap.set('.hand', { x: 0, y: 0 });
+
+            Draggable.create('.hand', {
+                type: 'x,y',
+                onDragStart: function() {
+                    lastX = this.x; // 드래그 시작 위치 저장
+                },
+                onDrag: function() {
+                    const currentX = this.x;
+                    const movingRight = currentX > lastX; // 오른쪽으로 이동 중인지 확인
+                    
+                    if (movingRight) { // 오른쪽으로 이동 중일 때만 충돌 체크
+                        checkCollision();
+                    }
+                    
+                    lastX = currentX; // 현재 위치 업데이트
+                }
+            });
+
+            // Canvas 생성
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const manImg = new Image();
+            manImg.src = './img/punch/man.svg';
+            
+            manImg.onload = function() {
+                canvas.width = manImg.width;
+                canvas.height = manImg.height;
+                ctx.drawImage(manImg, 0, 0);
+            }
+
+            function checkCollision() {
+                const hand = $('.hand')[0].getBoundingClientRect();
+                const man = $('.man')[0].getBoundingClientRect();
+                const currentTime = Date.now();
+
+                // 기본적인 boundingBox 충돌 체크
+                if (isColliding(hand, man)) {
+                    // 이미 애니메이션 중이거나 쿨다운 시간이 지나지 않았으면 리턴
+                    if (isAnimating || currentTime - lastCollisionTime < COLLISION_COOLDOWN) {
+                        return;
+                    }
+
+                    // man.svg 내의 실제 픽셀 위치 계산
+                    const relativeX = hand.right - man.left;
+                    const relativeY = hand.top + hand.height/2 - man.top;
+                    
+                    // 상대 좌표를 canvas 좌표로 변환
+                    const canvasX = (relativeX / man.width) * canvas.width;
+                    const canvasY = (relativeY / man.height) * canvas.height;
+
+                    try {
+                        const pixel = ctx.getImageData(canvasX, canvasY, 1, 1).data;
+                        if (pixel[3] > 0) {
+                            lastCollisionTime = currentTime;
+                            showEffect();
+                        }
+                    } catch(e) {
+                        // canvas 영역을 벗어난 경우 무시
+                    }
+                }
+            }
+
+            function isColliding(rect1, rect2) {
+                return !(rect1.right < rect2.left || 
+                        rect1.left > rect2.right || 
+                        rect1.bottom < rect2.top || 
+                        rect1.top > rect2.bottom);
+            }
+
+            function showEffect() {
+                if (isAnimating) return;
+                isAnimating = true;
+
+                // 손의 현재 위치 저장
+                const handElement = $('.hand');
+                const currentX = gsap.getProperty(handElement[0], "x");
+
+                // man의 현재 위치 저장
+                const manElement = $('.man');
+                const manCurrentX = gsap.getProperty(manElement[0], "x");
+
+                // 손 반동 효과
+                gsap.timeline()
+                    .to(handElement, {
+                        duration: 0.1,
+                        x: "+=4",  // 오른쪽으로 살짝 튕김
+                        ease: "power2.in"
+                    })
+                    .to(handElement, {
+                        duration: 0.3,
+                        x: "-=4",  // 원래 위치로
+                        ease: "elastic.out(1, 0.3)"
+                    });
+
+                // man 반동 효과
+                gsap.timeline()
+                    .to(manElement, {
+                        duration: 0.1,
+                        x: "+=15",  // 오른쪽으로 밀림
+                        ease: "power2.in"
+                    })
+                    .to(manElement, {
+                        duration: 0.3,
+                        x: "-=15",  // 원래 위치로
+                        ease: "elastic.out(1, 0.3)"
+                    });
+
+                // punch 효과 표시
+                const handRect = handElement[0].getBoundingClientRect();
+                const randomSize = Math.floor(Math.random() * (320 - 150 + 1)) + 150;
+                
+                $('.punch').css({
+                    left: (handRect.right - 30) + 'px',
+                    top: (handRect.top + handRect.height/2 - 60) + 'px',
+                    width: randomSize + 'px'
+                }).show();
+
+                const randomConfig = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+                const textElement = $('<div>')
+                    .addClass('text')
+                    .text(randomConfig.text)
+                    .css('font-family', randomConfig.font);
+                
+                const x = Math.random() * (window.innerWidth - 100);
+                const y = Math.random() * (window.innerHeight - 100);
+                textElement.css({
+                    left: x + 'px',
+                    top: y + 'px'
+                });
+                
+                $('body').append(textElement);
+
+                const audio = new Audio(randomConfig.audio);
+                audio.play();
+
+                gsap.to(textElement, {
+                    duration: 0.2,
+                    scale: 1.5,
+                    opacity: 1,
+                    ease: "back.out(1.7)"
+                });
+
+                gsap.to(textElement, {
+                    duration: 0.5,
+                    scale: 1,
+                    opacity: 0,
+                    y: '-=50',
+                    delay: 0.3,
+                    ease: "power2.out",
+                    onComplete: function() {
+                        textElement.remove();
+                        $('.punch').hide();
+                        isAnimating = false;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

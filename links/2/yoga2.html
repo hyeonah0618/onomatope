@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yoga mat</title>
+    <style>
+        .container {
+            position: absolute;
+            left: 20%;
+            bottom: 25%;
+            transform: translateX(-50%);
+            z-index: 2;
+            cursor: pointer;
+        }
+        .mat_l {
+            position: relative;
+            width: 100px;
+            height: auto;
+            z-index: 2;
+            transform-origin: center;
+        }
+        .mat_r {
+            position: absolute;
+            transform: translateX(-50%);
+            left: 50%;
+            top: 40%;
+            z-index: 1;
+        }
+        .white_div {
+            position: absolute;
+            left: -400px;
+            bottom: 0;
+            width: 400px;
+            height: 500px;
+            background-color: white;
+            z-index: 3;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+</head> 
+
+<body>
+    <div class="container" id="draggable">
+        <div class="white_div"></div>
+        <img class="mat_l" src="./img/mat_l.png">
+    </div>
+    <img class="mat_r" src="./img/mat_r.png">
+
+    <script>
+        $(function() {
+            const $container = $('#draggable');
+            const $matL = $('.mat_l');
+            const minLeft = 50;
+            const maxLeft = 400;
+            const initialHeight = $matL.height();
+
+            $container.on('mousedown', function(e) {
+                const offsetX = e.clientX - $container.offset().left;
+
+                $(document).on('mousemove.draggable', function(e) {
+                    let newLeft = e.clientX - offsetX;
+                    newLeft = Math.max(minLeft, Math.min(maxLeft, newLeft));
+
+                    const scale = 1 + (newLeft - minLeft) / 1000;
+                    const newWidth = 100 * scale;
+                    const newHeight = initialHeight * scale;
+                    
+                    gsap.to($container, {
+                        x: newLeft,
+                        duration: 0.1
+                    });
+                    gsap.to($matL, {
+                        width: newWidth,
+                        height: newHeight,
+                        duration: 0.1
+                    });
+                });
+
+                $(document).on('mouseup.draggable', function() {
+                    $(document).off('mousemove.draggable mouseup.draggable');
+                });
+
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>

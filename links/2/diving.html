@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>다이빙 애니메이션</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diver {
+            width: 80px;
+            height: auto;
+            position: absolute;
+            left: 50%;
+            top:5%;
+            transform: translateX(-50%);
+            cursor: pointer;
+        }
+
+        .water {
+            width: 100%;
+            height: 100px;
+            background-color: #1e90ff;
+            position: absolute;
+            bottom: 0;
+            clip-path: polygon(
+                0% 15%,
+                5% 5%,
+                10% 15%,
+                15% 5%,
+                20% 15%,
+                25% 5%,
+                30% 15%,
+                35% 5%,
+                40% 15%,
+                45% 5%,
+                50% 15%,
+                55% 5%,
+                60% 15%,
+                65% 5%,
+                70% 15%,
+                75% 5%,
+                80% 15%,
+                85% 5%,
+                90% 15%,
+                95% 5%,
+                100% 15%,
+                100% 100%,
+                0% 100%
+            );
+            background-image: url('./img/texture.png');
+            background-blend-mode: overlay;
+            background-size: cover;
+            opacity: 0.4;
+        }
+
+        .water-drop {
+            position: absolute;
+            background-color: #1e90ff;
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="./img/diving_1.png" alt="다이버" class="diver" onclick="dive()">
+        <div class="water"></div>
+    </div>
+
+    <script>
+        let isAnimating = false;
+
+        function createWaterDrops() {
+            const container = document.querySelector('.container');
+            const water = document.querySelector('.water');
+            const waterTop = water.getBoundingClientRect().top;
+            const dropStartHeight = Math.random() * 20 + 100; // 100px~120px 랜덤 높이
+
+            for (let i = 0; i < 30; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'water-drop';
+                const size = Math.random() * 6 + 4; // 4px~10px 랜덤 크기
+                drop.style.width = `${size}px`;
+                drop.style.height = `${size}px`;
+                drop.style.left = `${Math.random() * 100}%`;
+                drop.style.top = `${window.innerHeight - dropStartHeight}px`;
+                container.appendChild(drop);
+
+                anime({
+                    targets: drop,
+                    translateY: -20 - (Math.random() * 15),
+                    translateX: (Math.random() * 30 - 15),
+                    scale: [1, 0.5], // 크기가 점점 작아지는 효과 추가
+                    opacity: [0.6, 0],
+                    duration: 500 + (Math.random() * 200),
+                    easing: 'easeOutQuad',
+                    complete: function() {
+                        container.removeChild(drop);
+                    }
+                });
+            }
+        }
+
+        function dive() {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            const diver = document.querySelector('.diver');
+            
+            anime.timeline({
+                easing: 'easeInOutQuad',
+                complete: function() {
+                    setTimeout(() => {
+                        anime({
+                            targets: '.diver',
+                            translateY: [anime.get(diver, 'translateY'), 0],
+                            rotate: [anime.get(diver, 'rotate'), 0],
+                            opacity: [0, 1],
+                            duration: 0,
+                            complete: function() {
+                                isAnimating = false;
+                            }
+                        });
+                    }, 300); // 리셋 타이밍도 단축
+                }
+            })
+            .add({
+                targets: '.diver',
+                translateY: [0, window.innerHeight * 0.6],
+                rotate: [0, 180],
+                duration: 1000, // 다이빙 시간 단축
+                complete: function() {
+                    createWaterDrops();
+                }
+            })
+            .add({
+                targets: '.diver',
+                opacity: [1, 0],
+                duration: 200,
+            }, '-=100');
+        }
+    </script>
+</body>
+</html>
