@@ -139,6 +139,25 @@ body {
 }
 /* 각 이미지 요소의 위치 초기화 */
 #running-person,
+#dog,
+#mirror,
+#book,
+#laptop,
+#clock,
+#bus,
+#japan_hand,
+#vacuum,
+#kitchen_toast,
+#kitchen_switch,
+#kitchen_cup,
+#kitchen_window,
+#school_blackboard,
+#school_teeth,
+#out_camera,
+#out_caterpillar,
+#out_frog,
+#out_rain,
+#out_vane,
 #sweat-person,
 #diving-person,
 #swimming-person,
@@ -160,12 +179,9 @@ body {
 #tree2,
 #cloud1,
 #cloud2,
-#dog,
 #bench,
-#mirror,
 #library,
 #bench,
-#mirror,
 #library {
   bottom: 140px;
   width: auto;
@@ -173,14 +189,7 @@ body {
   z-index: 5;
 }
 /* 위 레이어*/
-#book,
-#laptop {
-  position: absolute;
-  bottom: 100px;
-  width: auto;
-  height: auto;
-  z-index: 6;
-}
+
 #house {
   left: 0;
   bottom: 25px;
@@ -201,7 +210,8 @@ body {
   object-fit: cover;
   z-index: 1;
 }
-#mirror {
+#mirror-container {
+  position: absolute;
   bottom: 400px;
   left: 1410px;
   z-index: 15;
@@ -209,7 +219,8 @@ body {
 #bench {
   left: 3300px;
 }
-#dog {
+#dog-container {
+  position: absolute;
   bottom: 70px;
   left: 3550px;
   z-index: 15;
@@ -241,11 +252,17 @@ body {
 #library {
   left: 4600px;
 }
-#book {
+#book-container {
+  position: absolute;
+  bottom: 100px;
   left: 5300px;
+  z-index: 15;
 }
-#laptop {
+#laptop-container {
+  position: absolute;
   left: 6150px;
+  bottom: 100px;
+  z-index: 15;
 }
 #scene1_bottom3 {
   bottom: 0;
@@ -303,7 +320,8 @@ body {
   right: 750px;
   z-index: 2;
 }
-#clock {
+#clock-container {
+  position: absolute;
   bottom: 120px;
   right: 380px;
   z-index: 5;
@@ -318,7 +336,8 @@ body {
   left: 0;
   z-index: 1;
 }
-#bus {
+#bus-container {
+  position: absolute;
   bottom: 60px;
   left: 260px;
   z-index: 10;
@@ -735,7 +754,8 @@ body {
   bottom: 500px;
   z-index: 5;
 }
-#japan_hand {
+#thief-container {
+  position: absolute;
   left: 2750px;
   bottom: 650px;
   z-index: 30;
@@ -775,10 +795,11 @@ body {
   bottom: 100px;
   z-index: 15;
 }
-#japan_vacuum {
+#vacuum-container {
+  position: absolute;
   right: 300px;
   bottom: 300px;
-  z-index: 10;
+  z-index: 30;
 }
 
 #japan_wall_deco2 {
@@ -801,14 +822,14 @@ body {
 #kitchen_wall {
   left: 100px;
   bottom: 900px;
-  z-index: 3;
 }
 #kitchen {
   left: 200px;
   bottom: 500px;
   z-index: 1;
 }
-#kitchen_toast {
+#toaster-container {
+  position: absolute;
   left: 470px;
   bottom: 680px;
   z-index: 1;
@@ -833,12 +854,14 @@ body {
   bottom: 200px;
   z-index: 5;
 }
-#kitchen_cup {
+#cup-container {
+  position: absolute;
   left: 2300px;
   bottom: 450px;
   z-index: 10;
 }
-#kitchen_window {
+#window-container {
+  position: absolute;
   right: 850px;
   bottom: 600px;
   z-index: 5;
@@ -894,7 +917,8 @@ body {
   bottom: 200px;
   z-index: 5;
 }
-#school_blackboard {
+#blackboard-container {
+  position: absolute;
   left: 2300px;
   bottom: 700px;
   z-index: 5;
@@ -934,7 +958,8 @@ body {
   bottom: 100px;
   z-index: 10;
 }
-#school_teeth {
+#teeth-container {
+  position: absolute;
   right: 200px;
   bottom: 300px;
   z-index: 20;
@@ -971,14 +996,16 @@ body {
   bottom: 300px;
   z-index: 10;
 }
-#out_caterpillar {
+#caterpillar-container {
+  position: absolute;
   left: 800px;
   bottom: 350px;
   z-index: 10;
 }
-#out_photo {
-  left: 1200px;
-  bottom: 190px;
+#camera-container {
+  position: absolute;
+  left: 1300px;
+  bottom: 180px;
   z-index: 10;
 }
 #out_pond {
@@ -991,7 +1018,8 @@ body {
   bottom: 200px;
   z-index: 20;
 }
-#out_frog {
+#frog-container {
+  position: absolute;
   left: 3200px;
   bottom: 320px;
   z-index: 10;
@@ -1074,7 +1102,8 @@ body {
   z-index: 7;
   scale: 0.8;
 }
-#out_rain {
+#rain-container {
+  position: absolute;
   left: 5400px;
   bottom: 260px;
   z-index: 10;
@@ -1133,4 +1162,232 @@ body {
   cursor: pointer;
   display: block;
   z-index: 5; /* 캐릭터(20)보다 낮게 설정 */
+}
+
+/* 말풍선 */
+
+/* 각 말풍선의 개별 스타일 */
+.bubble {
+  position: absolute;
+  width: 250px;
+  height: 120px;
+  padding: 0px;
+  background: #ffffff;
+  -webkit-border-radius: 80px;
+  -moz-border-radius: 80px;
+  border-radius: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  cursor: pointer; /* 클릭 가능함을 표시 */
+  transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+  z-index: 999;
+}
+.bubble:after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  border-width: 26px 19px 0;
+  border-color: #ffffff transparent;
+  display: block;
+  width: 0;
+  z-index: 999;
+  bottom: -26px;
+  left: 121px;
+}
+
+/* 말풍선 클릭후 스타일 */
+.bubble.clicked {
+  background: #ffb6c1; /* 클릭했을 때의 배경색 */
+  color: #ffffff; /* 클릭했을 때의 텍스트 색상 */
+}
+/* 클릭된 말풍선의 꼬리 스타일 */
+.bubble.clicked:after {
+  border-color: #ffb6c1 transparent;
+}
+/* 별도의 클래스로 애니메이션 분리 */
+.wobble-animation {
+  animation: wobble 1s ease infinite;
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    transform: translateX(0%) rotate(0deg);
+  }
+  15% {
+    transform: translateX(-12px) rotate(-4deg);
+  }
+  30% {
+    transform: translateX(6px) rotate(4deg);
+  }
+  45% {
+    transform: translateX(-6px) rotate(-2.2deg);
+  }
+  60% {
+    transform: translateX(3.6px) rotate(1.3deg);
+  }
+  75% {
+    transform: translateX(-2.2px) rotate(-0.8deg);
+  }
+}
+/* 개별말풍선 */
+
+#mirror-bubble {
+  position: absolute;
+  left: -30px;
+  bottom: 300px;
+}
+
+#dog-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 450px;
+}
+
+#book-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 450px;
+}
+
+#laptop-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 450px;
+}
+
+#clock-bubble {
+  position: absolute;
+  left: -150px;
+  bottom: 650px;
+}
+
+#bus-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 450px;
+}
+
+#running-bubble {
+  position: absolute;
+  left: 50px; /* 캐릭터 기준으로 상대적 위치 */
+  bottom: 450px;
+}
+
+#sweat-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 450px;
+}
+#diving-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 350px;
+}
+#swimming-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 150px;
+}
+#arrow-bubble {
+  position: absolute;
+  left: 30px;
+  bottom: 600px;
+}
+
+#gym-bubble {
+  position: absolute;
+  left: 60px;
+  bottom: 480px;
+}
+
+#water-bubble {
+  position: absolute;
+  left: 40px;
+  bottom: 530px;
+}
+
+#yoga1-bubble {
+  position: absolute;
+  left: 55px;
+  bottom: 300px;
+}
+
+#yoga2-bubble {
+  position: absolute;
+  left: 45px;
+  bottom: 440px;
+}
+
+#boxing1-bubble {
+  position: absolute;
+  left: 65px;
+  bottom: 670px;
+}
+
+#thief-bubble {
+  position: absolute;
+  left: -50px;
+  bottom: 250px;
+}
+
+#vacuum-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 550px;
+}
+
+#toast-bubble {
+  position: absolute;
+  left: -100px;
+  bottom: 250px;
+}
+
+#cup-bubble {
+  position: absolute;
+  left: -120px;
+  bottom: 250px;
+}
+
+#window-bubble {
+  position: absolute;
+  left: -50px;
+  bottom: 250px;
+}
+
+#blackboard-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 150px;
+}
+
+#teeth-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 350px;
+}
+
+#caterpillar-bubble {
+  position: absolute;
+  left: 0px;
+  bottom: 150px;
+}
+#camera-bubble {
+  position: absolute;
+  left: 90px;
+  bottom: 400px;
+}
+
+#frog-bubble {
+  position: absolute;
+  left: -30px;
+  bottom: 220px;
+}
+
+#rain-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 480px;
 }

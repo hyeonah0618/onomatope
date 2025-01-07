@@ -78,7 +78,6 @@ gsap.to(".slides", {
         pin: true,
         scrub: 3,
         invalidateOnRefresh: true,
-        markers: true
     }
 });
 
@@ -103,8 +102,8 @@ document.querySelectorAll('.bubble').forEach(bubble => {
 gsap.to("#running-container", {
     x: 1000,
     scrollTrigger: {
-        trigger: ".scene1",
-        start: "top top",
+        trigger: ".scene4",
+        start: "90% 20% ",
         end: "+=4000",
         scrub: 3,
         markers: true,
@@ -147,11 +146,7 @@ gsap.to("#swimming-container", {
             end: "+=4000",
             scrub: 3,
             ease: "power1.inOut",
-            markers: {
-                startColor: "purple",
-                endColor: "fuchsia",
-                fontSize: "1rem"
-            }
+
  } }  
 );
 
@@ -261,32 +256,11 @@ breathingTimeline
             start: "left+=100 center",
             end: "+=3000",
             scrub: true,
-            markers: {
-                startColor: "purple",
-                endColor: "pink",
-                fontSize: "0.8rem",
-                indent: 20
-            }
+
         }
     });
 
-    const confettiContainer = document.querySelector('#confetti-container');
-    const confettiAnimation = lottie.loadAnimation({
-      container: confettiContainer,
-      renderer: 'svg',
-      loop: true,
-      autoplay: false,
-      path: 'lottie/confetti.json'
-    });
-    
-    const nextPage = document.querySelector('#next-page');
-    nextPage.addEventListener('mouseenter', () => {
-      confettiAnimation.play();
-    });
-    
-    nextPage.addEventListener('mouseleave', () => {
-      confettiAnimation.stop();
-    });
+
 
 
 

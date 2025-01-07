@@ -25,21 +25,46 @@
         <div class="scene scene1" >
             <img id="scene1_bottom1" src="png/scene1/1/bottom1.webp" />
             <img id="house" src="png/scene1/1/house.webp" />
-            <a href="javascript:void(0)"
-            onclick="openCenteredWindow('./links/1/teeth.html'); trackClick(); return false;"> 
-               <img id="mirror" alt="거울" src="png/scene1/1/mirror.webp" />
-           </a>
+
+
+           <div id="mirror-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/1/mirror.html'); trackClick(); return false;">
+              <img id="mirror" alt="거울" src="png/scene1/1/mirror.webp" />
+                <div id="mirror-bubble" class="bubble wobble-animation" data-clicked-text="shaka shaka">???</div>
+            </a>
+          </div>
+
            <img id="sun" src="png/scene1/1/sun.webp" />
            <img id="tree1" src="png/scene1/1/tree1.webp" />
            <img id="cloud1" src="png/scene1/1/cloud1.webp" />
-           <img id="dog" src="png/scene1/1/dog.webp" />
+           <div id="dog-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/1/dog.html'); trackClick(); return false;">
+              <img id="dog" src="png/scene1/1/dog.webp" />
+                <div id="dog-bubble" class="bubble wobble-animation" data-clicked-text="wan wan">???</div>
+            </a>
+          </div>
+
            <img id="bench" src="png/scene1/1/bench.webp" />
            <img id="tree2" src="png/scene1/1/tree2.webp" />
            <img id="cloud2" src="png/scene1/1/cloud1.webp" />
            <img id="scene1_bottom2" src="png/scene1/1/bottom2.webp" />
            <img id="library" src="png/scene1/1/library.webp" />
-           <img id="book" src="png/scene1/1/book.webp" />
-           <img id="laptop" src="png/scene1/1/laptop.webp" />
+
+           <div id="book-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/1/dog.html'); trackClick(); return false;">
+              <img id="book" src="png/scene1/1/book.webp" />
+                <div id="book-bubble" class="bubble wobble-animation" data-clicked-text="para para">???</div>
+            </a>
+          </div>
+           
+          <div id="laptop-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/1/keyboard.html'); trackClick(); return false;">
+              <img id="laptop" src="png/scene1/1/laptop.webp" />
+                <div id="laptop-bubble" class="bubble wobble-animation" data-clicked-text="kata kata">???</div>
+            </a>
+          </div>
+
+
            <img id="scene1_bottom3" src="png/scene1/1/bottom_brick.webp" />
            <img id="grass1" src="png/scene1/1/grass1.webp" />
            <img id="tree3" src="png/scene1/1/tree3.webp" />
@@ -50,14 +75,31 @@
            <img id="back_build2" src="png/scene1/1/back_build2.webp" />    
            <img id="grass2" src="png/scene1/1/grass2.webp" />
            <img id="grass3" src="png/scene1/1/grass3.webp" />
-           <img id="clock" src="png/scene1/1/clock.webp" />   
+
+           
+           <div id="clock-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/1/clock.html'); trackClick(); return false;">
+              <img id="clock" src="png/scene1/1/clock.webp" />
+                <div id="clock-bubble" class="bubble wobble-animation" data-clicked-text="kachi kachi">???</div>
+            </a>
+          </div>
+
            <img id="bench2" src="png/scene1/1/bench.webp" />
            <img id="cloud3" src="png/scene1/1/cloud2.webp" />
         </div>
         <!-- 버스 -->
         <div class="scene scene2">
             <img id="scene2_bottom1" src="png/scene1/2/bottom_pink.webp" />
-            <img id="bus" src="png/scene1/2/bus.webp" />
+            <div id="bus-container">
+              <a href="javascript:void(0)" onclick="openCenteredWindow('./links/1/bus.html'); trackClick(); return false;">
+                <img id="bus" src="png/scene1/2/bus.webp" />
+                  <div id="bus-bubble" class="bubble wobble-animation" data-clicked-text="pinpon">???</div>
+              </a>
+            </div>
+
+
+
+
             <img id="busstop" src="png/scene1/2/busstop.webp" />
             <img id="sun2" src="png/scene1/1/sun.webp" />
         </div>
@@ -69,7 +111,7 @@
             <div id="running-container">
                 <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/running.html'); trackClick(); return false;">
                     <img id="running-person" src="png/scene3/1/running.png" />
-                    <div id="running-bubble" class="bubble wobble-animation" data-clicked-text="dotan">???</div>
+                    <div id="running-bubble" class="bubble wobble-animation" data-clicked-text="dosat">???</div>
                 </a>
             </div>
             <img id="bird" src="png/scene3/1/bird.png" />
@@ -81,7 +123,7 @@
                     <div id="sweat-bubble" class="bubble wobble-animation" data-clicked-text="kunkun">???</div>
                 </a>
             </div>
-            <img id="sun" src="png/scene3/1/sun.png" />
+            <img id="sun" src="png/scene3/1/sun.webp" />
             <img id="cloud1" src="png/scene3/1/cloud1.png" />
         </div>
         <!-- 수영 -->
@@ -92,13 +134,13 @@
           <div id="diving-container">
             <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/diving.html'); trackClick(); return false;">
                 <img id="diving-person" src="png/scene3/2/diving.png" />
-                <div id="diving-bubble" class="bubble wobble-animation">???</div>
+                <div id="diving-bubble" class="bubble wobble-animation" data-clicked-text="dobon">???</div>
             </a>
           </div>
           <div id="swimming-container">
             <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/swimming.html'); trackClick(); return false;">
                 <img id="swimming-person" src="png/scene3/2/swimming.png" />
-                <div id="swimming-bubble" class="bubble wobble-animation">???</div>
+                <div id="swimming-bubble" class="bubble wobble-animation" data-clicked-text="basha basha">???</div>
             </a>
             <img id="pado1" src="png/scene3/2/pado1.png" />
             <img id="pado2" src="png/scene3/2/pado1.png" />
@@ -113,7 +155,7 @@
             <div id="arrow-container">
               <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/arrow.html'); trackClick(); return false;">
                   <img id="arrow-person" src="png/scene3/3/arrow_person.png" />
-                  <div id="arrow-bubble" class="bubble wobble-animation">???</div>
+                  <div id="arrow-bubble" class="bubble wobble-animation" data-clicked-text="shutsu">???</div>
               </a>
             </div>
             <img id="target1" src="png/scene3/3/target.png" />
@@ -127,7 +169,7 @@
           <div id="gym-container">
             <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/gym.html'); trackClick(); return false;">
                 <img id="gym-person" src="png/scene3/4/gymperson1.png" />
-                <div id="gym-bubble" class="bubble wobble-animation">???</div>
+                <div id="gym-bubble" class="bubble wobble-animation" data-clicked-text="muki muki">???</div>
             </a>
           </div>
           <img id="gym_wall2" src="png/scene3/4/gym_wall2.png">
@@ -141,7 +183,7 @@
           <div id="water-container">
             <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/water.html'); trackClick(); return false;">
                 <img id="water-person" src="png/scene3/4/water.png" />
-                <div id="water-bubble" class="bubble wobble-animation">???</div>
+                <div id="water-bubble" class="bubble wobble-animation" data-clicked-text="goku goku">???</div>
             </a>
           </div>
           <div id="gym_bt"></div>
@@ -151,13 +193,13 @@
             <div id="yoga1-container">
                 <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/yoga1.html'); trackClick(); return false;">
                     <img id="yoga_person1" src="png/scene3/5/yoga1.png" />
-                    <div id="yoga1-bubble" class="bubble wobble-animation">???</div>
+                    <div id="yoga1-bubble" class="bubble wobble-animation" data-clicked-text="guī-t">???</div>
                 </a>
               </div>
               <div id="yoga2-container">
                 <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/yoga2.html'); trackClick(); return false;">
                     <img id="yoga_person2" src="png/scene3/5/yoga2.png" />
-                    <div id="yoga2-bubble" class="bubble wobble-animation">???</div>
+                    <div id="yoga2-bubble" class="bubble wobble-animation" data-clicked-text="kuru kuru">???</div>
                 </a>
               </div>
               <img id="yoga_deco" src="png/scene3/5/yoga_deco.png">
@@ -178,9 +220,9 @@
           <img id="punchingbag_r" src="png/scene3/6/pbag_r.png">
           <img id="belt" src="png/scene3/6/belt.png" >
           <div id="boxing1-container">
-            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/boxing1.html'); trackClick(); return false;">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/2/punch.html'); trackClick(); return false;">
                 <img id="boxing1" src="png/scene3/6/boxing1.png" />
-                <div id="boxing1-bubble" class="bubble wobble-animation">???</div>
+                <div id="boxing1-bubble" class="bubble wobble-animation" data-clicked-text="dosat">???</div>
             </a>
           </div>
           <img id="boxing2" src="png/scene3/6/boxing2.png">
@@ -197,16 +239,27 @@
           <img id="japan_cushion4" src="png/scene4/1/cushion.webp">
           <img id="japan_door1" src="png/scene4/1/door1.webp">
           <img id="japan_thief" src="png/scene4/1/thief.webp">
-          <img id="japan_hand" src="png/scene4/1/hand.webp">
+
+
+
+    
+
+          <div id="thief-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/4/thief.html'); trackClick(); return false;">
+              <img id="japan_hand" src="png/scene4/1/hand.webp">
+                <div id="thief-bubble" class="bubble wobble-animation" data-clicked-text="kyoro kyoro">???</div>
+            </a>
+          </div>
+
           <img id="japan_rock1" src="png/scene4/1/rock_1.webp">
           <img id="japan_rock2" src="png/scene4/1/rock_2.webp">
           <img id="japan_table" src="png/scene4/1/table1.webp">
 
 
-          <div id="vacuum">
+          <div id="vacuum-container">
             <a href="javascript:void(0)" onclick="openCenteredWindow('./links/4/vacuum.html'); trackClick(); return false;">
-              <img id="japan_vacuum" src="png/scene4/1/vacuum.webp">
-                <div id="vacuum" class="bubble wobble-animation">???</div>
+              <img id="vacuum" src="png/scene4/1/vacuum.webp">
+                <div id="vacuum-bubble" class="bubble wobble-animation" data-clicked-text="ki-n">???</div>
             </a>
           </div>
 
@@ -220,13 +273,36 @@
           <img id="kitchen_bottom" src="png/scene4/2/bottom2.webp">
           <img id="kitchen_wall" src="png/scene4/2/kitchen_wall.webp">
           <img id="kitchen" src="png/scene4/2/kitchen.webp">
-          <img id="kitchen_toast" src="png/scene4/2/toast.webp">
+
+           
+          <div id="toaster-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/toaster.html'); trackClick(); return false;">
+              <img id="kitchen_toast" src="png/scene4/2/toast.webp">
+                <div id="toast-bubble" class="bubble wobble-animation" data-clicked-text="ding">???</div>
+            </a>
+          </div>
+
+
           <img id="kitchen_light" src="png/scene4/2/light.webp">
           <img id="kitchen_table" src="png/scene4/2/table2.webp">
           <img id="kitchen_chair1" src="png/scene4/2/chair.webp">
           <img id="kitchen_chair2" src="png/scene4/2/chair.webp">
-          <img id="kitchen_cup" src="png/scene4/2/cup.webp">
-          <img id="kitchen_window" src="png/scene4/2/window.webp">
+
+          <div id="cup-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/cup.html'); trackClick(); return false;">
+              <img id="kitchen_cup" src="png/scene4/2/cup.webp">
+                <div id="cup-bubble" class="bubble wobble-animation" data-clicked-text="gachan">???</div>
+            </a>
+          </div>
+
+          <div id="window-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/switch.html'); trackClick(); return false;">
+              <img id="kitchen_window" src="png/scene4/2/window.webp">
+                <div id="window-bubble" class="bubble wobble-animation"data-clicked-text="kyutkyut">???</div>
+            </a>
+          </div>
+          
+
           <img id="kitchen_sofa" src="png/scene4/2/sofa.webp">
         </div>
         <!-- 학교 -->
@@ -238,7 +314,18 @@
           <img id="school_cabinet" src="png/scene4/3/cabinet.webp">
           <img id="school_lug" src="png/scene4/3/lug.webp">
           <img id="school_chair_1" src="png/scene4/3/chair_1.webp">
+
+
+
           <img id="school_blackboard" src="png/scene4/3/blackboard.webp">
+
+          <div id="blackboard-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/blackboard.html'); trackClick(); return false;">
+              <img id="school_blackboard" src="png/scene4/3/blackboard.webp">
+                <div id="blackboard-bubble" class="bubble wobble-animation" data-clicked-text="kari kari">???</div>
+            </a>
+          </div>
+
           <img id="school_chair_2" src="png/scene4/3/chair_2.webp">
           <img id="school_teacher" src="png/scene4/3/teacher.webp">
           <img id="school_student1" src="png/scene4/3/student1.webp">
@@ -247,7 +334,14 @@
           <img id="school_wall_sofa2" src="png/scene4/3/wall_sofa2.webp">
           <img id="school_wall_sofa3" src="png/scene4/3/wall_sofa3.webp">
           <img id="school_nursepanel" src="png/scene4/3/nursepanel.webp">
-          <img id="school_teeth" src="png/scene4/3/teeth.webp">
+
+          <div id="teeth-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/3/teeth.html'); trackClick(); return false;">
+              <img id="school_teeth" src="png/scene4/3/teeth.webp">
+                <div id="teeth-bubble" class="bubble wobble-animation" data-clicked-text="zuki zuki">???</div>
+            </a>
+          </div>
+
         </div>  
         <!-- 야외 -->
         <div class="scene scene12" >
@@ -258,10 +352,32 @@
           <img id="out_road2" src="png/scene4/4/road.webp"> 
           <img id="out_rock2" src="png/scene4/4/rock2.webp">
           <img id="out_rock1" src="png/scene4/4/rock1.webp">
-          <img id="out_caterpillar" src="png/scene4/4/caterpillar.webp">
-          <img id="out_photo" src="png/scene4/4/photo.webp">
+
+
+          <div id="caterpillar-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/4/caterpillar.html'); trackClick(); return false;">
+              <img id="out_caterpillar" src="png/scene4/4/caterpillar.webp">
+                <div id="caterpillar-bubble" class="bubble wobble-animation" data-clicked-text="mozo mozo">???</div>
+            </a>
+          </div>
+
+          <div id="camera-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/4/camera.html'); trackClick(); return false;">
+              <img id="out_camera" src="png/scene4/4/photo.webp">
+                <div id="camera-bubble" class="bubble wobble-animation" data-clicked-text="pashat">???</div>
+            </a>
+          </div>
+
+          
           <img id="out_pond" src="png/scene4/4/pond.webp">
-          <img id="out_frog" src="png/scene4/4/frog.webp">
+
+          <div id="frog-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/4/frog.html'); trackClick(); return false;">
+              <img id="out_frog" src="png/scene4/4/frog.webp">
+                <div id="frog-bubble" class="bubble wobble-animation" data-clicked-text="gero gero">???</div>
+            </a>
+          </div>
+
           <img id="out_mt_back" src="png/scene4/4/mt_back.webp">
           <img id="out_mt_back2" src="png/scene4/4/mt_back2.webp">
           <img id="out_mt_f1" src="png/scene4/4/mt_f1.webp">
@@ -273,10 +389,27 @@
           <img id="out_cloud1" src="png/scene4/4/cloud1.webp">
           <img id="out_cloud2" src="png/scene4/4/cloud2.webp">
           <img id="out_cloud3" src="png/scene4/4/cloud3.webp">
-          <img id="out_rain" src="png/scene4/4/rain.webp">
+
+
+          <div id="rain-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/4/rain.html'); trackClick(); return false;">
+              <img id="out_rain" src="png/scene4/4/rain.webp">
+                <div id="rain-bubble" class="bubble wobble-animation" data-clicked-text="goro goro">???</div>
+            </a>
+          </div>
+
+
+
+
+
           <img id="out_kids" src="png/scene4/4/kids.webp">
           <img id="out_tree2" src="png/scene4/4/tree2.webp">
-          <img id="out_vane1" src="png/scene4/4/vane1.webp">
+          <div id="vane-container">
+            <a href="javascript:void(0)" onclick="openCenteredWindow('./links/4/vane.html'); trackClick(); return false;">
+              <img id="out_vane1" src="png/scene4/4/vane1.webp">
+                <div id="vane-bubble" class="bubble wobble-animation" data-clicked-text="kuru kuru">???</div>
+            </a>
+          </div>
           <img id="out_vane2" src="png/scene4/4/vane2.webp">
           <img id="out_vane3" src="png/scene4/4/vane3.webp">
           <img id="out_vane4" src="png/scene4/4/vane4.webp">

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>camera</title>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             display: flex;
@@ -13,7 +14,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: url('../svg/4/camera/background.png');
+            background: url('./img/camera/background.png');
             background-size: cover;
             background-position: center;
             overflow: hidden;
@@ -29,11 +30,7 @@
             cursor: grab;
             user-select: none;
             -webkit-user-drag: none;
-        }
-
-        .capture-area {
-            position: absolute;
-            pointer-events: none;
+            z-index: 1000;
         }
 
         #film {
@@ -41,12 +38,13 @@
             top: 90px;
             left: 50%;
             transform: translateX(-50%);
-            width: 200px;
-            height: 200px;
+            width: 343.0311px;
+            height: 219.8625px;
             border: 10px solid white;
             background-color: white;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             display: none;
+            z-index: 1001;
         }
 
         #film img {
@@ -97,86 +95,74 @@
     <div id="film"></div>
 
     <script>
-        const camera = document.getElementById('camera');
-        const film = document.getElementById('film');
-        let isDragging = false;
-        let currentX, currentY, initialX, initialY;
-        let dragStartTime;
+        $(document).ready(function() {
+            let isDragging = false;
+            let currentX;
+            let currentY;
+            let initialX;
+            let initialY;
 
-        camera.addEventListener('mousedown', (e) => {
-            dragStartTime = new Date().getTime();
-            initialX = e.clientX - camera.offsetLeft;
-            initialY = e.clientY - camera.offsetTop;
-            
-            if (e.target.closest('svg')) {
+            $("#camera").on("mousedown", function(e) {
                 isDragging = true;
-                camera.style.cursor = 'grabbing';
-            }
-        });
+                const offset = $(this).offset();
+                initialX = e.clientX - offset.left;
+                initialY = e.clientY - offset.top;
+                $(this).css('cursor', 'grabbing');
+            });
 
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                e.preventDefault();
-                
-                currentX = e.clientX - initialX;
-                currentY = e.clientY - initialY;
+            $(document).on("mousemove", function(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+                    $("#camera").css({
+                        "left": currentX + "px",
+                        "top": currentY + "px",
+                        "transform": "none"
+                    });
+                }
+            });
 
-                camera.style.transform = 'none';
-                camera.style.left = currentX + 'px';
-                camera.style.top = currentY + 'px';
-            }
-        });
+            $(document).on("mouseup", function() {
+                isDragging = false;
+                $("#camera").css('cursor', 'grab');
+            });
 
-        document.addEventListener('mouseup', (e) => {
-            const dragEndTime = new Date().getTime();
-            const dragDuration = dragEndTime - dragStartTime;
+            $(".cls-4").click(function() {
+                const camera = $("#camera");
+                const viewfinderArea = {
+                    x: camera.offset().left + 30,
+                    y: camera.offset().top + 95,
+                    width: 343,
+                    height: 220
+                };
 
-            // 클릭 이벤트 (드래그가 아닌 경우)
-            if (dragDuration < 200 && e.target.classList.contains('cls-5')) {
-                captureImage();
-            }
+                html2canvas(document.body, {
+                    backgroundColor: null
+                }).then(canvas => {
+                    const croppedCanvas = document.createElement('canvas');
+                    const ctx = croppedCanvas.getContext('2d');
+                    croppedCanvas.width = viewfinderArea.width;
+                    croppedCanvas.height = viewfinderArea.height;
+                    
+                    ctx.drawImage(canvas, 
+                        viewfinderArea.x, viewfinderArea.y, 
+                        viewfinderArea.width, viewfinderArea.height,
+                        0, 0, 
+                        viewfinderArea.width, viewfinderArea.height
+                    );
 
-            isDragging = false;
-            camera.style.cursor = 'grab';
-        });
+                    const film = $("#film");
+                    film.empty().append($("<img>").attr("src", croppedCanvas.toDataURL()));
+                    film.fadeIn();
 
-        async function captureImage() {
-            const cameraRect = camera.getBoundingClientRect();
-            // 카메라 구멍 위치 계산 (SVG 뷰포트 기준으로 비율 계산)
-            const captureX = cameraRect.left + (30.36 / 491.03) * cameraRect.width;
-            const captureY = cameraRect.top + (94.59 / 345.86) * cameraRect.height;
-            const captureWidth = (343.03 / 491.03) * cameraRect.width;
-            const captureHeight = (219.86 / 345.86) * cameraRect.height;
-
-            try {
-                const canvas = await html2canvas(document.body, {
-                    x: Math.round(captureX),
-                    y: Math.round(captureY),
-                    width: Math.round(captureWidth),
-                    height: Math.round(captureHeight),
-                    backgroundColor: null,
-                    scale: 1,
-                    useCORS: true,
-                    allowTaint: true
+                    // 1초 후 필름 사라짐
+                    setTimeout(() => {
+                        film.fadeOut();
+                    }, 1000);
                 });
-
-                const img = new Image();
-                img.src = canvas.toDataURL('image/png');
-                film.innerHTML = '';
-                film.appendChild(img);
-                film.style.display = 'block';
-
-                film.animate([
-                    { transform: 'translateY(-200px) translateX(-50%)', opacity: 0 },
-                    { transform: 'translateY(0) translateX(-50%)', opacity: 1 }
-                ], {
-                    duration: 1000,
-                    easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-                });
-            } catch (error) {
-                console.error('Capture failed:', error);
-            }
-        }
+            });
+        });
     </script>
 </body>
 </html>
