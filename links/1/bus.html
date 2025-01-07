@@ -14,8 +14,14 @@ body {
 .bar {
     position: absolute;
     top: 50%;
-    left: 55%;  /* 살짝 오른쪽으로 이동 */
+    left: 54%;
     transform: translate(-50%, -50%);
+    height: 700px;
+}
+
+.bar img {
+    height: 600px;
+    width: auto;
 }
 
 .button { 
@@ -37,7 +43,7 @@ body {
 .stop-text {
     position: absolute;
     top: 49%;
-    left: 49%;
+    left: 50%;
     transform: translate(-50%, -50%);
     font-size: 80px;
     font-weight: 700;
@@ -45,8 +51,23 @@ body {
     mix-blend-mode: multiply;
     font-family: 'Oswald', sans-serif;
     z-index: 1;
+    user-select: none;
+    cursor: pointer;
 }
 
+h2 {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
+    font-weight: 700;
+    z-index: 10;
+    display: inline-block;
+    text-align: center;
+    color:white;
+    font-family: 'Oswald', sans-serif;
+}
 .glow {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
                  0 0 20px rgba(255, 255, 255, 0.8),
@@ -54,6 +75,7 @@ body {
 }
 </style>
 <body>
+    <h2>Press the button to get off the bus</h2>
     <img src="../../svg/1/bus/bar.png" alt="" class="bar">
     <img src="../../svg/1/bus/stop_off.png" alt="" class="button">
     <div class="stop-text">STOP</div>
@@ -61,45 +83,117 @@ body {
 </body>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // 오디오 파일 배열 생성
+    const audioFiles = [
+        '../audio/1/bus_en.mp3',
+        '../audio/1/bus_jp.mp3',
+        '../audio/1/bus_kr.mp3'
+    ];
+
+    // 텍스트 배열 생성
+    const randomTexts = [
+        { text: 'BEEEEEEEEP', font: "'Oswald', sans-serif" },
+        { text: 'Bííííííp', font: "'Zen Maru Gothic', sans-serif" },
+        { text: 'ピンポーーーーン', font: "'Zen Maru Gothic', sans-serif" },
+        { text: '삐이이이익', font: "'Zen Maru Gothic', sans-serif" }
+    ];
+
+    // 랜덤 인덱스로 오디오 선택
+    function playRandomAudio() {
+        const randomIndex = Math.floor(Math.random() * audioFiles.length);
+        const audio = new Audio(audioFiles[randomIndex]);
+        audio.play();
+        return audio;
+    }
+
+    let currentAudio = null;
+    let currentTextEffect = null;
+    let lastTextTime = 0;
+
+    function showRandomText() {
+        const currentTime = Date.now();
+        if (currentTime - lastTextTime < 2000) return;
+
+        if (currentTextEffect) {
+            document.body.removeChild(currentTextEffect);
+            currentTextEffect = null;
+        }
+
+        const randomItem = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+        const textEffect = document.createElement('div');
+        textEffect.style.position = 'fixed';
+        textEffect.style.fontFamily = randomItem.font;
+        textEffect.style.color = '#FFFFFF';
+        textEffect.style.fontSize = '48px';
+        textEffect.style.pointerEvents = 'none';
+        textEffect.style.zIndex = '1000';
+        
+        const x = Math.random() * (window.innerWidth - 100);
+        const y = Math.random() * (window.innerHeight - 100);
+        textEffect.style.left = x + 'px';
+        textEffect.style.top = y + 'px';
+        
+        document.body.appendChild(textEffect);
+        currentTextEffect = textEffect;
+        lastTextTime = currentTime;
+
+        // 타이핑 효과 구현
+        let index = 0;
+        const text = randomItem.text;
+        const typeWriter = setInterval(() => {
+            if (index < text.length) {
+                textEffect.textContent += text.charAt(index);
+                index++;
+            } else {
+                clearInterval(typeWriter);
+                // 타이핑이 끝나면 페이드아웃
+                setTimeout(() => {
+                    $(textEffect).fadeOut(500, function() {
+                        if (currentTextEffect === textEffect) {
+                            document.body.removeChild(textEffect);
+                            currentTextEffect = null;
+                        }
+                    });
+                }, 500);
+            }
+        }, 100); // 타이핑 속도 조절 (밀리초)
+    }
+
     const stopText = document.querySelector('.stop-text');
     const button = document.querySelector('.button');
     let isActive = false;
     
-    button.addEventListener('click', function() {
+    function toggleStop() {
         isActive = !isActive;
         
         if (isActive) {
             stopText.classList.add('glow');
-            this.src = '../../svg/1/bus/stop_on.png';
-            
-            // 효과음 재생
-            const messages = ["삐이이이이이이이이이이!", "ピンポーーーン！", "Beeeeeeeep!"];
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-            
-            // 메시지 요소 생성
-            const messageBox = document.createElement('div');
-            messageBox.innerHTML = `<span class="typing">${randomMessage}</span>`;
-            messageBox.style.position = 'absolute';
-            
-            // 랜덤 위치 계산
-            const maxWidth = window.innerWidth - 200;
-            const maxHeight = window.innerHeight - 50;
-            const randomX = Math.floor(Math.random() * maxWidth);
-            const randomY = Math.floor(Math.random() * maxHeight);
-            
-            messageBox.style.left = randomX + 'px';
-            messageBox.style.top = randomY + 'px';
-            document.body.appendChild(messageBox);
-            
-            // 1초 후 메시지 제거
-            setTimeout(() => {
-                messageBox.remove();
-            }, 1000);
+            button.src = '../../svg/1/bus/stop_on.png';
+            // 랜덤 음성 재생 및 텍스트 표시
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            currentAudio = playRandomAudio();
+            showRandomText();
         } else {
             stopText.classList.remove('glow');
-            this.src = '../../svg/1/bus/stop_off.png';
+            button.src = '../../svg/1/bus/stop_off.png';
+            // 음성 정지
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            // 텍스트 효과 제거
+            if (currentTextEffect) {
+                document.body.removeChild(currentTextEffect);
+                currentTextEffect = null;
+            }
         }
-    });
+    }
+    
+    button.addEventListener('click', toggleStop);
+    stopText.addEventListener('click', toggleStop);
 });
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

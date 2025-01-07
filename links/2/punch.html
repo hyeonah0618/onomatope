@@ -29,7 +29,7 @@
         }
 
         .man {
-            right: -200px;
+            right: -100px;
             top: 150px;
             width: 800px;
             height: auto;
@@ -79,24 +79,36 @@
     <script>
         $(document).ready(function() {
 // 오디오 객체들을 미리 생성하고 로드
-    const audioFiles = {
-        kr: new Audio('../audio/4/punch_kr.mp3'),
-        jp: new Audio('../audio/4/punch_jp.mp3'),
-        en: new Audio('../audio/4/punch_en.mp3'),
-        fr: new Audio('../audio/4/punch_fr.mp3')
-    };
+            // 오디오 파일 배열
+            const audioFiles = [
+                '../audio/2/punch_kr.mp3',
+                '../audio/2/punch_en.mp3',
+                '../audio/2/punch_jp.mp3',
+                '../audio/2/punch_cn.mp3'
+            ];
 
-    // 모든 오디오 파일 미리 로드
-    Object.values(audioFiles).forEach(audio => {
-        audio.load();
-        audio.preload = 'auto';
-    });
-
+            // 효과음 텍스트 배열
             const randomTexts = [
-                { text: 'ドスッ', font: 'Noto Sans JP',  audio: audioFiles.jp},
-                { text: 'Pow', font: 'Impact', audio:audioFiles.en },
-                { text: '퍽', font: 'Noto Sans SC', audio: audioFiles.kr },
-                { text: 'Boum', font: 'Impact',  audio: audioFiles.fr }
+                { 
+                    text: 'ドスッ', 
+                    font: "'Noto Sans JP', sans-serif",
+                    audio: audioFiles[2]
+                },
+                { 
+                    text: '퍽', 
+                    font: "'Noto Sans KR', sans-serif",
+                    audio: audioFiles[0]
+                },
+                { 
+                    text: 'Pow', 
+                    font: "'Impact', sans-serif",
+                    audio: audioFiles[1]
+                },
+                { 
+                    text: '砰', 
+                    font: "'Noto Sans SC', sans-serif",
+                    audio: audioFiles[3]
+                }
             ];
 
             let isAnimating = false;

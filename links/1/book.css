@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css2?family=Klee+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Klee+One&family=Playwrite+HR:wght@100..400&display=swap");
+@font-face {
+  font-family: "CHOGOONCHICKENSCRATCHV3";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2406-2@1.0/CHOGOONCHICKENSCRATCHV3.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #00a99d;
+  position: relative;
+  overflow: hidden;
+}
+
+img {
+  position: absolute;
+  width: auto;
+  height: auto;
+}
+#book {
+  position: absolute;
+  top: 50%;
+  left: 58%;
+  transform: translate(-50%, -50%) scale(0.8);
+}
+#page-container {
+  position: absolute;
+  left: 407px;
+  top: 473px;
+  transform: translateX(-50%) scale(0.8);
+}
+#reflect-container {
+  position: absolute;
+  left: 282px;
+  top: 473px;
+  transform: translate(-50%, 50%) scale(0.8) scaleX(-1); /* 세로로 반전 */
+  width: 321.884px;
+  height: auto;
+}
+.draggable {
+  cursor: move;
+}
+img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform-origin: left bottom;
+}
+img.hidden {
+  display: none;
+}
+.reflect {
+  transform: scaleX(-1);
+  transform-origin: right bottom; /* 오른쪽 아래 모서리를 기준으로 반전 */
+}
+
+#back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.5); /* 반투명한 흰색 배경 */
+  color: #000; /* 검정 글씨 */
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, box-shadow 0.3s;
+  font-family: "Roboto", sans-serif; /* 키치한 폰트 */
+  text-decoration: none;
+}
+
+#back-button:hover {
+  background-color: rgba(255, 255, 255, 0.7); /* 호버 시 투명도 증가 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+.text {
+  position: absolute;
+  color: transparent;
+  -webkit-text-stroke: 2px #736863;
+  -moz-text-stroke: 2px #736863;
+  text-shadow: 2px 2px #00a99d;
+  font-size: 36px;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+  /**text-shadow:
+        -1px -1px 0 #fff,  
+        1px -1px 0 #fff,
+        -1px 1px 0 #fff,
+        1px 1px 0 #fff; /* 흰색 외곽선 */
+  animation: flip 2s infinite;
+  animation-delay: calc(0.1s * var(--i));
+}
+@keyframes flip {
+  0%,
+  80% {
+    transform: rotateY(360deg);
+  }
+}
+.korean {
+  font-family: "CHOGOONCHICKENSCRATCHV3", sans-serif;
+}
+.english {
+  font-family: "Playwrite Hrvatska", serif;
+}
+.japanese {
+  font-family: "Klee One", sans-serif;
+}

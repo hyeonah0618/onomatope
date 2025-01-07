@@ -74,7 +74,7 @@ gsap.to(".slides", {
         pin: true,
         scrub: 3,
         invalidateOnRefresh: true,
-        markers: true
+        // markers: true
     }
 });
 

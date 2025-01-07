@@ -7,6 +7,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Noto+Sans+JP&family=Roboto&display=swap');
+        
         body {
             margin: 0;
             min-height: 100vh;
@@ -22,7 +24,7 @@
             border-radius: 50%;
             position: relative;
             background: #fff;
-            border: 2px solid #0099ff;
+            border: 5px solid #0099ff;
         }
 
         .grid {
@@ -91,6 +93,15 @@
             font-family: Arial, sans-serif;
             color: #333;
         }
+        .title {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-family:Helvetica, sans-serif;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -102,94 +113,221 @@
         <div class="hand minute-hand"></div>
         <div class="center-dot"></div>
     </div>
-
+    <h2 class="title">Drag the hands to set the time</h2>
     <script>
-        const audioFiles = [
-    "../audio/page2/page2_kr.mp3",
-    "../audio/page2/page2_en.mp3",
-    "../audio/page2/page2_jp.mp3"
-];
+        document.addEventListener("DOMContentLoaded", function() {
+            // 오디오 객체들 미리 생성
+            const audioFiles = {
+                kr: new Audio('../audio/1/clock_kr.mp3'),
+                jp: new Audio('../audio/1/clock_jp.mp3'),
+                en: new Audio('../audio/1/clock_en.mp3')
+            };
 
-const textOptions = [
-    { text: "팔락팔락", font: "CHOGOONCHICKENSCRATCHV3", class: "korean" },
-    { text: "flip", font: "Playwrite HR", class: "english" },
-    { text: "パラパラ", font: "Klee One", class: "japanese" }
-];
-        let isDragging = false;
-        let autoUpdate = true;
+            // 오디오 파일 미리 로드
+            Object.values(audioFiles).forEach(audio => {
+                audio.load();
+                audio.preload = 'auto';
+            });
 
-        function updateTimeDisplay(hourAngle, minuteAngle) {
-            // 각도를 시간으로 변환
-            let hours = Math.floor(hourAngle / 30);  // 30도당 1시간
-            let minutes = Math.floor(minuteAngle / 6);  // 6도당 1분
-            
-            // 24시간 형식으로 변환
-            if (hours === 0) hours = 12;
-            
-            // 두 자리 숫자로 포맷팅
-            const displayHours = hours.toString().padStart(2, '0');
-            const displayMinutes = minutes.toString().padStart(2, '0');
-            
-            document.querySelector('.time-display').textContent = `${displayHours}:${displayMinutes}`;
-        }
+            const randomTexts = [
+                { text: '째깍째깍', font: "'Noto Sans KR', sans-serif", audio: audioFiles.kr },
+                { text: 'カチカチ', font: "'Noto Sans JP', sans-serif", audio: audioFiles.jp },
+                { text: 'tick-tok', font: "'Roboto', sans-serif", audio: audioFiles.en }
+            ];
 
-        function updateClock() {
-            if (!autoUpdate) return;
-            
-            const now = new Date();
-            const hours = now.getHours() % 12;
-            const minutes = now.getMinutes();
-            
-            const hourDegrees = (hours * 30) + (minutes / 2);
-            const minuteDegrees = minutes * 6;
+            let currentTextEffect = null;
+            let audioQueue = [];
+            let isPlaying = false;
+            let lastTextTime = 0; // 마지막 텍스트가 표시된 시간을 저장
 
-            gsap.set(".hour-hand", { rotation: hourDegrees });
-            gsap.set(".minute-hand", { rotation: minuteDegrees });
-            
-            updateTimeDisplay(hourDegrees, minuteDegrees);
-        }
-
-        updateClock();
-        setInterval(updateClock, 1000);
-
-        Draggable.create(".hour-hand", {
-            type: "rotation",
-            onDragStart: function() {
-                autoUpdate = false;
-            },
-            onDragEnd: function() {
-                setTimeout(() => {
-                    autoUpdate = true;
-                }, 1000);
-            },
-            onDrag: function() {
-                let hourAngle = this.rotation % 360;
-                // 음수 각도를 양수로 변환
-                if (hourAngle < 0) hourAngle += 360;
-                let minuteAngle = hourAngle * 12;
-                gsap.set(".minute-hand", {rotation: minuteAngle});
-                updateTimeDisplay(hourAngle, minuteAngle);
+            function playRandomSound() {
+                if (Math.random() < 0.5) {
+                    const randomItem = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+                    audioQueue.push(randomItem.audio);
+                    playNextAudio();
+                }
             }
-        });
 
-        Draggable.create(".minute-hand", {
-            type: "rotation",
-            onDragStart: function() {
-                autoUpdate = false;
-            },
-            onDragEnd: function() {
-                setTimeout(() => {
-                    autoUpdate = true;
-                }, 1000);
-            },
-            onDrag: function() {
-                let minuteAngle = this.rotation % 360;
-                // 음수 각도를 양수로 변환
-                if (minuteAngle < 0) minuteAngle += 360;
-                let hourAngle = minuteAngle / 12;
-                gsap.set(".hour-hand", {rotation: hourAngle});
-                updateTimeDisplay(hourAngle, minuteAngle);
+            function stopAllSounds() {
+                // 모든 오디오 정지
+                Object.values(audioFiles).forEach(audio => {
+                    audio.pause();
+                    audio.currentTime = 0;
+                });
+                audioQueue = [];
+                isPlaying = false;
             }
+
+            function playNextAudio() {
+                if (audioQueue.length > 0 && !isPlaying) {
+                    isPlaying = true;
+                    const audio = audioQueue.shift();
+                    audio.play().then(() => {
+                        audio.onended = () => {
+                            isPlaying = false;
+                            playNextAudio();
+                        };
+                    }).catch(error => {
+                        console.error('Audio playback failed:', error);
+                        isPlaying = false;
+                        playNextAudio();
+                    });
+                }
+            }
+
+            function showRandomText() {
+                const currentTime = Date.now();
+                // 마지막 텍스트 표시 후 2초가 지나지 않았다면 리턴
+                if (currentTime - lastTextTime < 2000) {
+                    return;
+                }
+
+                // 이전 텍스트가 있다면 제거
+                if (currentTextEffect) {
+                    document.body.removeChild(currentTextEffect);
+                    currentTextEffect = null;
+                }
+
+                const randomItem = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+                const textEffect = document.createElement('div');
+                textEffect.textContent = randomItem.text;
+                textEffect.style.position = 'fixed';
+                textEffect.style.fontFamily = randomItem.font;
+                textEffect.style.color = '#FBB03B';
+                textEffect.style.fontSize = '36px';
+                textEffect.style.pointerEvents = 'none';
+                textEffect.style.transition = 'all 3s';
+                textEffect.style.zIndex = '1000';
+                
+                const x = Math.random() * (window.innerWidth - 100);
+                const y = Math.random() * (window.innerHeight - 100);
+                textEffect.style.left = x + 'px';
+                textEffect.style.top = y + 'px';
+                
+                if (!currentTextEffect) {
+                    document.body.appendChild(textEffect);
+                    currentTextEffect = textEffect;
+                    lastTextTime = currentTime; // 현재 시간 저장
+                    
+                    setTimeout(() => {
+                        if (currentTextEffect === textEffect) {
+                            textEffect.style.opacity = '0';
+                            textEffect.style.transform = 'translateY(-20px)';
+                        }
+                    }, 50);
+                    
+                    setTimeout(() => {
+                        if (currentTextEffect === textEffect) {
+                            document.body.removeChild(textEffect);
+                            currentTextEffect = null;
+                        }
+                    }, 1000);
+                }
+            }
+
+            let currentRotation = {
+                hour: 0,
+                minute: 0
+            };
+            let autoUpdate = true;
+            let lastUpdateTime = null;
+
+            function updateTimeDisplay(hourAngle, minuteAngle) {
+                let hours = Math.floor((hourAngle % 360) / 30);
+                let minutes = Math.floor((minuteAngle % 360) / 6);
+                
+                if (hours === 0) hours = 12;
+                
+                const displayHours = hours.toString().padStart(2, '0');
+                const displayMinutes = minutes.toString().padStart(2, '0');
+                
+                document.querySelector('.time-display').textContent = `${displayHours}:${displayMinutes}`;
+            }
+
+            function updateClock() {
+                if (!autoUpdate) return;
+                
+                const now = new Date();
+                const hours = now.getHours() % 12;
+                const minutes = now.getMinutes();
+                const seconds = now.getSeconds();
+                
+                currentRotation.hour = (hours * 30) + (minutes / 2) + (seconds / 120);
+                currentRotation.minute = (minutes * 6) + (seconds / 10);
+
+                gsap.set(".hour-hand", { rotation: currentRotation.hour });
+                gsap.set(".minute-hand", { rotation: currentRotation.minute });
+                
+                updateTimeDisplay(currentRotation.hour, currentRotation.minute);
+                lastUpdateTime = now;
+            }
+
+            // 초기 시간 설정
+            updateClock();
+            const clockInterval = setInterval(() => {
+                if (autoUpdate) {
+                    updateClock();
+                    // 초기 자동 재생 제거
+                    // playRandomSound();
+                    // showRandomText();
+                }
+            }, 1000);
+
+            Draggable.create(".hour-hand", {
+                type: "rotation",
+                onDragStart: function() {
+                    autoUpdate = false;
+                    clearInterval(clockInterval);
+                },
+                onDrag: function() {
+                    currentRotation.hour = this.rotation;
+                    currentRotation.minute = this.rotation * 12;
+                    
+                    while (currentRotation.hour < 0) currentRotation.hour += 360;
+                    while (currentRotation.minute < 0) currentRotation.minute += 360;
+                    
+                    gsap.set(".minute-hand", { rotation: currentRotation.minute });
+                    updateTimeDisplay(currentRotation.hour, currentRotation.minute);
+                    
+                    playRandomSound();
+                    showRandomText();
+                },
+                onDragEnd: function() {
+                    stopAllSounds();
+                    if (currentTextEffect) {
+                        document.body.removeChild(currentTextEffect);
+                        currentTextEffect = null;
+                    }
+                }
+            });
+
+            Draggable.create(".minute-hand", {
+                type: "rotation",
+                onDragStart: function() {
+                    autoUpdate = false;
+                    clearInterval(clockInterval);
+                },
+                onDrag: function() {
+                    currentRotation.minute = this.rotation;
+                    currentRotation.hour = this.rotation / 12;
+                    
+                    while (currentRotation.hour < 0) currentRotation.hour += 360;
+                    while (currentRotation.minute < 0) currentRotation.minute += 360;
+                    
+                    gsap.set(".hour-hand", { rotation: currentRotation.hour });
+                    updateTimeDisplay(currentRotation.hour, currentRotation.minute);
+                    
+                    playRandomSound();
+                    showRandomText();
+                },
+                onDragEnd: function() {
+                    stopAllSounds();
+                    if (currentTextEffect) {
+                        document.body.removeChild(currentTextEffect);
+                        currentTextEffect = null;
+                    }
+                }
+            });
         });
     </script>
 </body>

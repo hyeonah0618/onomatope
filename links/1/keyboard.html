@@ -1,372 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        :root {
+            --green: #A2CCB6;
+            --yellow: #FCEEB5;
+            --peach: #EE786E;
+            --off-white: #FFFFF4;
+        }
+      
+        body {
+            background-color: rgb(67, 67, 67);
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <style>body {background: #333;}
+        .title {
+            color: mintcream;
+            text-transform: uppercase;
+            font-size: 18px;
+            letter-spacing: 0.3em;
+            margin: 0;
+        }
 
-            #keyboard {
-                margin: 50px auto;
-                width: 794px;
-                height: 315px;
-                background:	#d5d9dc  url('') repeat-x;
-                -moz-border-radius-topleft: 7px 21px;
-                -moz-border-radius-topright: 7px 21px;
-                -moz-border-radius-bottomright: 10px;
-                -moz-border-radius-bottomleft: 10px;
-                border-top-left-radius: 7px 21px;
-                border-top-right-radius: 7px 21px;
-                border-bottom-right-radius: 10px;
-                border-bottom-left-radius: 10px;
-                padding: 50px 0 0 10px;
-                -webkit-box-shadow:  
-                    inset 0 0 8px #bbb,
-                    0 1px 0 #aaa,
-                    0 4px 0 #bbb,
-                    0 10px 30px #111;
-                -moz-box-shadow:  
-                    inset 0 0 8px #bbb,
-                    0 1px 0 #aaa,
-                    0 4px 0 #bbb,
-                    0 10px 30px #111;
-                box-shadow:  
-                    inset 0 0 8px #bbb,
-                    0 1px 0 #aaa,
-                    0 4px 0 #bbb,
-                    0 10px 30px #111;}
+        .keyboard {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2em;
+        }
+
+        .row {
+            list-style: none;
+            display: flex;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+  height: 3em;
+  width: 3em;
+  color: rgba(0,0,0,0.7);
+  border-radius: 0.4em;
+  line-height: 3em;
+  letter-spacing: 1px;
+  margin: 0.4em;
+  transition: 0.3s;
+  text-align: center;
+  font-size: 1em;
+}
+
+        #tab { width: 4em; background-color: var(--yellow) !important; }
+        #caps { width: 5em; background-color: var(--yellow) !important; }
+        #left-shift { width: 6.5em; background-color: var(--yellow) !important; }
+        #enter { width: 5em; background-color: var(--yellow) !important; }
+        #right-shift { width: 6.5em; background-color: var(--yellow) !important; }
+        #back { width: 4em; background-color: var(--yellow) !important; }
+        #key.one { width: 12em; background-color: var(--yellow) !important; }
+
+        /* 숫자 키 색상 변경 */
+        .row-0 li:not(#back) {
+            background-color: var(--peach);
+            border: 2px solid var(--peach);
+        }
+
+        /* 방향키 색상 변경 */
+        .pointer1st, .pointer2nd { 
+            background-color: var(--green);
+            border: 2px solid var(--green);
+        }
+
+        /* 나머지 키 색상 변경 */
+        .pinky:not(#tab):not(#caps):not(#left-shift):not(#enter):not(#right-shift):not(#back),
+        .ring, 
+        .middle { 
+            background-color: var(--off-white);
+            border: 2px solid var(--off-white);
+        }
+
+        .selected {
+            background-color: rgb(255, 255, 255, 0.2);
+            color: white !important;
+        }
+
+        .hit {
+            animation: hit 0.05s ease-out;
+            color: white !important;
+        }
+
+        @keyframes hit {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
+        .typewriter-text {
+            width: 100%;
+            text-align: center;
+            font-family: "Courier New", monospace;
+            font-size: 28px;
+            color: white;
+            white-space: pre-wrap;
+            min-height: 30px;
+            padding: 10px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 24px;
+            background-color: white;
+            margin-left: 4px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* 작은 화면을 위한 미디어 쿼리 */
+        @media (max-height: 800px) {
+            body {
+                gap: 10px;
+            }
             
-            ul {list-style-type: none; width: 784px; margin: 0 auto;}
-            li {float: left;}
+            .keyboard {
+                transform: scale(0.75);
+            }
             
+            .typewriter-text {
+                font-size: 24px;
+            }
             
-            .key{
-                display: block;
-                color: #aaa;
-                font: bold 9pt arial;
-                text-decoration: none;
-                text-align: center;
-                width: 44px;
-                height: 41px;
-                margin: 5px;
-                background: #222;
-                -moz-border-radius: 4px;
-                border-radius: 4px;
-                border-top: 1px solid #222;
-                -webkit-box-shadow: 
-                    inset 0 0 25px #333,
-                    0 1px 0 #000,
-                    0 2px 0 #222,
-                    0 2px 3px #333;
-                -moz-box-shadow: 
-                    inset 0 0 25px #333,
-                    0 1px 0 #000,
-                    0 2px 0 #222,
-                    0 2px 3px #333;
-                box-shadow: 
-                    inset 0 0 25px #333,
-                    0 1px 0 #000,
-                    0 2px 0 #222,
-                    0 2px 3px #333;
-                text-shadow: 0px -1px 0px #000;}
-            
-            .key:active, .keydown {
-                color: #888;
-                background: #222;
-                margin: 7px 5px 3px;
-                -webkit-box-shadow:
-                    inset 0 0 25px #333,
-                    0 0 3px #333;
-                -moz-box-shadow: 
-                    inset 0 0 25px #333,
-                    0 0 3px #333;
-                box-shadow: 
-                    inset 0 0 25px #333,
-                    0 0 3px #333;
-                border-top: 1px solid #000;}
-                
-            .fn span {
-                display: block;
-                margin: 14px 5px 0 0;
-                text-align: right;
-                font: bold 6pt arial;
-                text-transform: uppercase;}
-            #esc {
-                margin: 6px 15px 0 0;
-                font-size: 7.5pt;
-                text-transform: lowercase;}
-            
-            
-            #numbers li a span {
-                display: block;}
-                
-            #numbers li a b {
-                margin: 3px 0 3px;
-                display: block;}
-            
-            #numbers li .alt b {display: block;margin: 0 0 3px;}
-            
-            #numbers li #delete span {
-                text-align: right;
-                margin: 23px 10px 0 0;
-                font-size: 7.5pt;
-                text-transform: lowercase;}
-                
-            #qwerty li a span {
-                display: block;
-                margin: 13px 0 0;
-                text-transform: uppercase;}
-                
-            #qwerty li #tab span {
-                text-align: left;
-                margin: 23px 0 0 10px;
-                font-size: 7.5pt;
-                text-transform: lowercase;}	
-            
-            #qwerty li .alt b {display: block; margin: 3px 0 0;}
-            #qwerty li .alt span {margin: 2px 0 0;}
-            
-            
-            #asdfg li a span {
-                display: block;
-                margin: 13px 0 0;
-                text-transform: uppercase;}
-            
-            #asdfg li .alt span {margin: 0; text-transform: lowercase;}
-            #asdfg li .alt b {display: block; margin: 3px 0 0;}
-            #asdfg li #caps b {
-                display: block;
-                background: #999;
-                width: 4px;
-                height: 4px;
-                border-radius: 10px;
-                margin: 9px 0 0 10px;
-                -webkit-box-shadow: inset 0 1px 0 #666;
-                -moz-box-shadow:inset 0 1px 0 #666;
-                box-shadow:inset 0 1px 0 #666;}
-            #asdfg li #caps span {
-                text-align: left;
-                margin: 10px 0 0 10px;
-                font-size: 7.5pt;}
-            #asdfg li #enter span {
-                text-align: right;
-                margin: 23px 10px 0 0;
-                font-size: 7.5pt;}
-            
-            
-            #zxcvb li a span {
-                display: block;
-                margin: 13px 0 0;
-                text-transform: uppercase;}
-            #zxcvb li .shiftleft span {
-                text-align: left;
-                margin: 23px 0 0 10px;
-                font-size: 7.5pt;
-                text-transform: lowercase;}
-            #zxcvb li .shiftright span {
-                text-align: right;
-                margin: 23px 10px 0 0;
-                font-size: 7.5pt;
-                text-transform: lowercase;}
-            #zxcvb li .alt b {display: block;margin: 4px 0 0;}
-            #zxcvb li .alt span {margin: 0;}
-            
-                
-            #bottomrow li #fn span, #bottomrow li #control span, #bottomrow li #optionleft span, #bottomrow li #commandleft span {
-                display: block;
-                text-align: left;
-                margin: 31px 0 0 8px;
-                font-size: 7.5pt;
-                text-transform: lowercase;}
-            
-            #bottomrow li #optionright span, #bottomrow li #commandright span {
-                display: block;
-                text-align: right;
-                margin: 31px 8px 0 0;
-                font-size: 7.5pt;
-                text-transform: lowercase;}
-            
-            #bottomrow ol li #left span, #bottomrow ol li #right span, #bottomrow ol li #up span, #bottomrow ol li #down span {
-                display: block;
-                margin: 9px 0 0;}
-            
-            .fn {height: 26px; width: 46px;}
-            #delete {width: 72px;}
-            #tab {width: 72px;}
-            #caps {width: 85px;}
-            #enter {width: 85px;}
-            .shiftleft, .shiftright {width: 112px;}
-            #fn, #control, .option, .command, #spacebar {height: 49px;}
-            
-            #control {width: 56px;}
-            .option {width: 46px;}
-            .command {width: 67px;}
-            #spacebar {width: 226px;}
-            
-            #left img, #up img, #down img, #right img {border: none;}
-            ul ol {list-style-type: none;}
-            #down {height: 23px;}
-            #up, #left, #right {height: 24px;}
-            #left, #right {margin: 30px 5px 5px;}
-            #left:active, #right:active {margin: 32px 5px 3px;}
-            #up {margin: 5px 5px 1px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;}
-            #up:active {margin: 8px 5px -2px;}
-            #down {margin: 0 5px 5px; border-top-left-radius: 0px; border-top-right-radius: 0px;}
-            #down:Active {margin: 3px 5px 4px;}
-            
-            #main {
-                width: 700px;
-                padding: 20px 50px;
-                margin: 0 auto 50px;
-                background: #fff;
-                border-radius: 5px;
-                -webkit-box-shadow: 0 1px 2px #aaa;}
-                    
-            h1 {
-                color: #888;
-                text-align: center;
-                font: bold 25pt/25pt arial;
-                margin: 30px 0 60px;}
-                
-            h2 {
-                color: #666;
-                font: 13pt/0pt arial;}
-                
-            p {
-                color: #999;
-                font: 9pt/17pt arial;
-                margin: 0 0 50px;}
-                
-            small {
-                font: italic 8pt/12pt arial;
-                color: #aaa;
-                padding: 0 130px 0 0;
-                display: block;}
-                
-            cite {
-                display: block;
-                padding: 0 0 30px;
-                margin: 0 auto;
-                text-align: center;
-                color: #ccc;
-                font: italic bold 8pt arial;}
-                
-            cite a {
-                color: #e5e5e5;
-                text-decoration: underline;}
-            
-            #main a {color: #007fff;}
-            
-            ul, ol {padding: 0px; margin: 0;}
-                
-            /* Micro Clearfix by Nicolas Gallagher - http://nicolasgallagher.com/micro-clearfix-hack */
-                    /* For modern browsers */
-                    .cf:before, .cf:after {content:""; display:table;}
-                    .cf:after {clear:both;}
-            
-                    /* For IE 6/7 (trigger hasLayout) */
-                    .cf {zoom:1;}</style>
-    </head>
-    <body>
-        <div id="keyboard">
-            <ul class="cf">
-                <li><a href="#" class="key c27 fn"><span id="esc">esc</span></a></li>
-                <li><a href="#" class="key c112 fn"><span>F1</span></a></li>
-                <li><a href="#" class="key c113 fn"><span>F2</span></a></li>
-                <li><a href="#" class="key c114 fn"><span>F3</span></a></li>
-                <li><a href="#" class="key c115 fn"><span>F4</span></a></li>
-                <li><a href="#" class="key c116 fn"><span>F5</span></a></li>
-                <li><a href="#" class="key c117 fn"><span>F6</span></a></li>
-                <li><a href="#" class="key c118 fn"><span>F7</span></a></li>
-                <li><a href="#" class="key c119 fn"><span>F8</span></a></li>
-                <li><a href="#" class="key c120 fn"><span>F9</span></a></li>
-                <li><a href="#" class="key c121 fn"><span>F10</span></a></li>
-                <li><a href="#" class="key c122 fn"><span>F11</span></a></li>
-                <li><a href="#" class="key c123 fn"><span>F12</span></a></li>
-                <li><a href="#" class="key fn"><span>Eject</span></a></li>
-            </ul>
-            <ul class="cf" id="numbers">
-                <li><a href="#" class="key c192"><b>~</b><span>`</span></a></li>
-                <li><a href="#" class="key c49"><b>!</b><span>1</span></a></li>
-                <li><a href="#" class="key c50"><b>@</b><span>2</span></a></li>
-                <li><a href="#" class="key c51"><b>#</b><span>3</span></a></li>
-                <li><a href="#" class="key c52"><b>$</b><span>4</span></a></li>
-                <li><a href="#" class="key c53"><b>%</b><span>5</span></a></li>
-                <li><a href="#" class="key c54"><b>^</b><span>6</span></a></li>
-                <li><a href="#" class="key c55"><b>&amp;</b><span>7</span></a></li>
-                <li><a href="#" class="key c56"><b>*</b><span>8</span></a></li>
-                <li><a href="#" class="key c57"><b>(</b><span>9</span></a></li>
-                <li><a href="#" class="key c48"><b>)</b><span>0</span></a></li>
-                <li><a href="#" class="key c189 alt"><b>_</b><span>-</span></a></li>
-                <li><a href="#" class="key c187"><b>+</b><span>=</span></a></li>
-                <li><a href="#" class="key c46" id="delete"><span>Delete</span></a></li>
-            </ul>
-            <ul class="cf" id="qwerty">
-                <li><a href="#" class="key c9" id="tab"><span>tab</span></a></li>
-                <li><a href="#" class="key c81"><span>q</span></a></li>
-                <li><a href="#" class="key c87"><span>w</span></a></li>
-                <li><a href="#" class="key c69"><span>e</span></a></li>
-                <li><a href="#" class="key c82"><span>r</span></a></li>
-                <li><a href="#" class="key c84"><span>t</span></a></li>
-                <li><a href="#" class="key c89"><span>y</span></a></li>
-                <li><a href="#" class="key c85"><span>u</span></a></li>
-                <li><a href="#" class="key c73"><span>i</span></a></li>
-                <li><a href="#" class="key c79"><span>o</span></a></li>
-                <li><a href="#" class="key c80"><span>p</span></a></li>
-                <li><a href="#" class="key c219 alt"><b>{</b><span>[</span></a></li>
-                <li><a href="#" class="key c221 alt"><b>}</b><span>]</span></a></li>
-                <li><a href="#" class="key c220 alt"><b>|</b><span>\</span></a></li>
-            </ul>
-            <ul class="cf" id="asdfg">
-                <li><a href="#" class="key c20 alt" id="caps"><b></b><span>caps lock</span></a></li>
-                <li><a href="#" class="key c65"><span>a</span></a></li>
-                <li><a href="#" class="key c83"><span>s</span></a></li>
-                <li><a href="#" class="key c68"><span>d</span></a></li>
-                <li><a href="#" class="key c70"><span>f</span></a></li>
-                <li><a href="#" class="key c71"><span>g</span></a></li>
-                <li><a href="#" class="key c72"><span>h</span></a></li>
-                <li><a href="#" class="key c74"><span>j</span></a></li>
-                <li><a href="#" class="key c75"><span>k</span></a></li>
-                <li><a href="#" class="key c76"><span>l</span></a></li>
-                <li><a href="#" class="key c186 alt"><b>:</b><span>;</span></a></li>
-                <li><a href="#" class="key c222 alt"><b>"</b><span>'</span></a></li>
-                <li><a href="#" class="key c13 alt" id="enter"><span>return</span></a></li>
-            </ul>
-            <ul class="cf" id="zxcvb">
-                <li><a href="#" class="key c16 shiftleft"><span>Shift</span></a></li>
-                <li><a href="#" class="key c90"><span>z</span></a></li>
-                <li><a href="#" class="key c88"><span>x</span></a></li>
-                <li><a href="#" class="key c67"><span>c</span></a></li>
-                <li><a href="#" class="key c86"><span>v</span></a></li>
-                <li><a href="#" class="key c66"><span>b</span></a></li>
-                <li><a href="#" class="key c78"><span>n</span></a></li>
-                <li><a href="#" class="key c77"><span>m</span></a></li>
-                <li><a href="#" class="key c188 alt"><b>&lt;</b><span>,</span></a></li>
-                <li><a href="#" class="key c190 alt"><b>&gt;</b><span>.</span></a></li>
-                <li><a href="#" class="key c191 alt"><b>?</b><span>/</span></a></li>
-                <li><a href="#" class="key c16 shiftright"><span>Shift</span></a></li>
-            </ul>
-            <ul class="cf" id="bottomrow">
-                <li><a href="#" class="key" id="fn"><span>fn</span></a></li>
-                <li><a href="#" class="key c17" id="control"><span>control</span></a></li>
-                <li><a href="#" class="key option" id="optionleft"><span>option</span></a></li>
-                <li><a href="#" class="key command" id="commandleft"><span>command</span></a></li>
-                <li><a href="#" class="key c32" id="spacebar"></a></li>
-                <li><a href="#" class="key command" id="commandright"><span>command</span></a></li>
-                <li><a href="#" class="key option" id="optionright"><span>option</span></a></li>
-                <ol class="cf">
-                        <li><a href="#" class="key c37" id="left"><span>&#9666;</span></a></li>
-                    <li>
-                            <a href="#" class="key c38" id="up"><span>&#9652;</span></a>
-                            <a href="#" class="key c40" id="down"><span>&#9662;</span></a>
-                    </li>
-                        <li><a href="#" class="key c39" id="right"><span>&#9656;</span></a></li>
-                </ol>
-            </ul>
-        </div>
+            .title {
+                font-size: 16px;
+            }
+        }
+
+
+        /* 잘못된 입력 스타일 */
+        .typewriter-text.error {
+            color: #ff4444;
+        }
+
+        /* 스페이스바 컨테이너 스타일 */
+        .row:last-child {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* 스페이스바 스타일 */
+        .key.one {
+            width: 12em;
+            background-color: #ff4444;  /* 빨간색 배경 */
+        }
+
+        .key.one.hit {
+            background-color: #ff6666;  /* 눌렀을 때의 빨간색 */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="typewriter-text"></div>
+    <div class="keyboard">
+        <ul class="row row-0">
+            <li class="pinky" id="esc">ESC</li>
+            <li class="pinky" id="1">1</li>
+            <li class="ring" id="2">2</li>
+            <li class="middle" id="3">3</li>
+            <li class="pointer1st" id="4">4</li>
+            <li class="pointer2nd" id="5">5</li>
+            <li class="pointer2nd" id="6">6</li>
+            <li class="pointer1st" id="7">7</li>
+            <li class="middle" id="8">8</li>
+            <li class="ring" id="9">9</li>
+            <li class="pinky" id="10">0</li>
+            <li class="pinky" >-</li>
+            <li class="pinky" >+</li>
+            <li class="pinky" id="back">BACK</li>
+        </ul>
+        <ul class="row row-1">
+            <li class="pinky" id="tab">TAB</li>
+            <li class="pinky" id="Q">Q</li>
+            <li class="ring" id="W">W</li>
+            <li class="middle" id="E">E</li>
+            <li class="pointer1st" id="R">R</li>
+            <li class="pointer2nd" id="T">T</li>
+            <li class="pointer2nd" id="Y">Y</li>
+            <li class="pointer1st" id="U">U</li>
+            <li class="middle" id="I">I</li>
+            <li class="ring" id="O">O</li>
+            <li class="pinky" id="P">P</li>
+            <li class="pinky" >[</li>
+            <li class="pinky" >]</li>
+            <li class="pinky" >\</li>
+        </ul>
+        <ul class="row row-2">
+            <li class="pinky" id="caps">CAPS</li>
+            <li class="pinky" id="A">A</li>
+            <li class="ring" id="S">S</li>
+            <li class="middle" id="D">D</li>
+            <li class="pointer1st" id="F">F</li>
+            <li class="pointer2nd" id="G">G</li>
+            <li class="pointer2nd" id="H">H</li>
+            <li class="pointer1st" id="J">J</li>
+            <li class="middle" id="K">K</li>
+            <li class="ring" id="L">L</li>
+            <li class="pinky" >:</li>
+            <li class="pinky" >''</li>
+            <li class="pinky" id="enter">ENTER</li>
+        </ul>
+        <ul class="row row-3">
+            <li class="pinky" id="left-shift">SHIFT</li>
+            <li class="pinky" id="Z">Z</li>
+            <li class="ring" id="X">X</li>
+            <li class="middle" id="C">C</li>
+            <li class="pointer1st" id="V">V</li>
+            <li class="pointer2nd" id="B">B</li>
+            <li class="pointer2nd" id="N">N</li>
+            <li class="pointer1st" id="M">M</li>
+            <li class="middle" >,</li>
+            <li class="ring" >.</li>
+            <li class="pinky" >;</li>
+            <li class="key.one" id="right-shift">SHIFT</li>
+        </ul>
+        <ul class="row row-4">
+            <li class="key.one" id="key.one">SPACE</li>
+        </ul>
+    </div>
+    <h1 class="title">Type the highlighted keys</h1>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const targetText = "HelloWorld";
+        let currentIndex = 0;
+        let typedText = [];
+        const typewriterElement = document.querySelector('.typewriter-text');
         
-        <cite>
-        </cite>
-    </body>
-    </html>
+        const cursor = document.createElement('span');
+        cursor.className = 'cursor';
+
+        function updateDisplay() {
+            typewriterElement.innerHTML = '';
+            typedText.forEach(char => {
+                const span = document.createElement('span');
+                span.textContent = char.text;
+                if (char.isError) {
+                    span.style.color = '#ff4444';
+                }
+                typewriterElement.appendChild(span);
+            });
+            typewriterElement.appendChild(cursor);
+        }
+
+        function highlightNextKey() {
+            document.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+            
+            if (currentIndex < targetText.length) {
+                const nextChar = targetText[currentIndex].toUpperCase();
+                let key;
+                
+                switch(nextChar) {
+                    case ' ':
+                        key = document.querySelector('li[id="SPACE"]');
+                        break;
+                    case '!':
+                        key = document.querySelector('li[id="1"]');
+                        break;
+                    default:
+                        key = document.querySelector(`li[id="${nextChar}"]`);
+                }
+                
+                if (key) {
+                    key.classList.add("selected");
+                }
+            }
+        }
+
+        // 오디오 객체들 미리 생성
+        const audioFiles = {
+            kr: new Audio('../audio/1/keyboard_kr.mp3'),
+            jp: new Audio('../audio/1/keyboard_jp.mp3'),
+            en: new Audio('../audio/1/keyboard_en.mp3')
+        };
+
+        // 오디오 파일 미리 로드
+        Object.values(audioFiles).forEach(audio => {
+            audio.load();
+            audio.preload = 'auto';
+        });
+
+        const randomTexts = [
+            { text: '딸깍', font: 'MBC1961GulimM', audio: audioFiles.kr },
+            { text: 'カチッ', font: 'Noto Sans JP', audio: audioFiles.jp },
+            { text: 'click', font: 'GongGothicMedium', audio: audioFiles.en }
+        ];
+
+        let audioQueue = [];
+        let isPlaying = false;
+
+        function playNextAudio() {
+            if (audioQueue.length > 0 && !isPlaying) {
+                isPlaying = true;
+                const audio = audioQueue.shift();
+                audio.play().then(() => {
+                    audio.onended = () => {
+                        isPlaying = false;
+                        playNextAudio();
+                    };
+                }).catch(error => {
+                    console.error('Audio playback failed:', error);
+                    isPlaying = false;
+                    playNextAudio();
+                });
+            }
+        }
+
+        function playRandomSound() {
+            // 50% 확률로 소리 재생
+            if (Math.random() < 0.5) {
+                const randomItem = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+                audioQueue.push(randomItem.audio);
+                playNextAudio();
+            }
+        }
+
+        function showRandomText() {
+            const randomItem = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+            
+            // 랜덤 텍스트 표시
+            const textEffect = document.createElement('div');
+            textEffect.textContent = randomItem.text;
+            textEffect.style.position = 'fixed';
+            textEffect.style.fontFamily = randomItem.font;
+            textEffect.style.color = 'white';
+            textEffect.style.fontSize = '20px';
+            textEffect.style.pointerEvents = 'none';
+            textEffect.style.transition = 'all 0.5s';
+            
+            // 랜덤 위치 설정
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            textEffect.style.left = x + 'px';
+            textEffect.style.top = y + 'px';
+            
+            document.body.appendChild(textEffect);
+            
+            // 애니메이션 효과
+            setTimeout(() => {
+                textEffect.style.opacity = '0';
+                textEffect.style.transform = 'translateY(-20px)';
+            }, 50);
+            
+            // 요소 제거
+            setTimeout(() => {
+                document.body.removeChild(textEffect);
+            }, 1000);
+        }
+
+        document.addEventListener('keydown', function(event) {
+            const expectedChar = currentIndex < targetText.length ? targetText[currentIndex] : '';
+            const pressedKey = event.key === ' ' ? ' ' : event.key;
+
+            if (event.key === 'Backspace') {
+                if (typedText.length > 0) {
+                    // 마지막 문자가 올바른 입력이었다면 이전 상태로 돌아가기
+                    if (!typedText[typedText.length - 1].isError) {
+                        currentIndex--;
+                    }
+                    typedText.pop();
+                    
+                    // 백스페이스로 지운 후 잘못된 입력 표시
+                    if (typedText.length > 0 && typedText[typedText.length - 1].text !== targetText[typedText.length - 1]) {
+                        typedText[typedText.length - 1].isError = true;
+                    }
+                    highlightNextKey();
+                }
+            } else if (event.key.length === 1) {
+                // 소리와 텍스트 효과 분리
+                playRandomSound();  // 50% 확률로 소리 재생
+                showRandomText();   // 매번 텍스트 표시
+                
+                if (pressedKey.toLowerCase() === expectedChar.toLowerCase()) {
+                    typedText.push({ text: expectedChar, isError: false });
+                    currentIndex++;
+                    
+                    let keyElement = pressedKey === ' ' 
+                        ? document.querySelector('li[id="SPACE"]')
+                        : document.querySelector(`li[id="${pressedKey.toUpperCase()}"]`);
+                    
+                    if (keyElement) {
+                        keyElement.classList.add("hit");
+                        keyElement.addEventListener('animationend', () => {
+                            keyElement.classList.remove("hit");
+                        });
+                    }
+                } else {
+                    typedText.push({ text: pressedKey, isError: true });
+                    setTimeout(() => {
+                        if (typedText.length > 0 && typedText[typedText.length - 1].isError) {
+                            typedText.pop();
+                            updateDisplay();
+                        }
+                    }, 3000);
+                }
+                highlightNextKey();
+            }
+            
+            updateDisplay();
+        });
+
+        // 초기 하이라이트
+        highlightNextKey();
+    });
+    </script>
+
+</body>
+</html>

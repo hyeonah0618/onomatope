@@ -30,7 +30,7 @@
             position: absolute;
             width: 600px;
             height: 290px;
-            left: 303px;
+            left: 515px;
             top: 50%;
             transform: translate(-50%, -50%);
             z-index: 1;
@@ -39,7 +39,7 @@
             position: absolute;
             width: 200px;
             height: 20px;
-            left: 270px;
+            left: 500px;
             top: 50%;
             transform: translate(-10%, -50%);
             cursor: grab;
@@ -57,49 +57,120 @@
     </div>
 
     <script>
-        const arrow = document.getElementById('arrow');
-        const stringPath = document.getElementById('stringPath');
-        let startX;
-        let isDragging = false;
+        document.addEventListener('DOMContentLoaded', function() {
+            const arrow = document.getElementById('arrow');
+            const stringPath = document.getElementById('stringPath');
+            let startX;
+            let isDragging = false;
 
-        arrow.addEventListener('mousedown', (e) => {
-            startX = e.clientX;
-            isDragging = true;
-            arrow.style.cursor = 'grabbing';
-        });
+            // 오디오 파일 배열
+            const audioFiles = [
+                '../audio/2/arrow_kr.mp3',
+                '../audio/2/arrow_en.mp3',
+                '../audio/2/arrow_jp.mp3',
+                '../audio/2/arrow_cn.mp3'
+            ];
 
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
+            // 효과음 텍스트 배열
+            const effectTexts = [
+                { text: '슈욱', font: "'Noto Sans KR', sans-serif" },
+                { text: 'シュッ', font: "'Zen Maru Gothic', sans-serif" },
+                { text: 'Whoosh', font: "'Oswald', sans-serif" },
+                { text: '嗖嗖', font: "'Noto Sans SC', sans-serif" }
+            ];
 
-            const deltaX = e.clientX - startX;
-            const pullBack = Math.min(Math.max(deltaX, -100), 0);
-            
-            arrow.style.transform = `translate(-10%, -50%) translateX(${pullBack}px)`;
-            
-            const middlePointX = pullBack;
-            stringPath.setAttribute('d', `M 0 0 L ${middlePointX} 150 L 0 300`);
-        });
+            let currentTextEffect = null;
 
-        document.addEventListener('mouseup', () => {
-            if (!isDragging) return;
-            isDragging = false;
-            arrow.style.cursor = 'grab';
+            function playRandomSound() {
+                const randomIndex = Math.floor(Math.random() * audioFiles.length);
+                const audio = new Audio(audioFiles[randomIndex]);
+                audio.play();
+            }
 
-            const transform = arrow.style.transform;
-            const pullBack = parseFloat(transform.match(/translateX\(([-\d.]+)px\)/)?.[1] || 0);
-            const power = Math.abs(pullBack) * 8;
+            function showEffectText() {
+    if (currentTextEffect) {
+        document.body.removeChild(currentTextEffect);
+    }
 
-            anime({
-                targets: '#arrow',
-                translateX: [pullBack, power],
-                duration: 800,
-                easing: 'easeOutQuad',
-                complete: function() {
-                    setTimeout(() => {
-                        arrow.style.transform = 'translate(-10%, -50%)';
-                        stringPath.setAttribute('d', 'M 0 0 L 0 150 L 0 300');
-                    }, 500);
-                }
+    const randomItem = effectTexts[Math.floor(Math.random() * effectTexts.length)];
+    const textEffect = document.createElement('div');
+    textEffect.style.position = 'fixed';
+    textEffect.style.fontFamily = randomItem.font;
+    textEffect.style.color = 'white';
+    textEffect.style.fontSize = '48px';
+    textEffect.style.pointerEvents = 'none';
+    textEffect.style.zIndex = '1000';
+    
+    const startX = -200;  // 텍스트가 시작할 X 좌표
+    const endX = window.innerWidth - 200; // 텍스트가 끝날 X 좌표
+    const y = Math.random() * (window.innerHeight - 100); // Y 좌표는 랜덤으로
+
+    textEffect.style.left = startX + 'px';
+    textEffect.style.top = y + 'px';
+    textEffect.textContent = randomItem.text;
+
+    document.body.appendChild(textEffect);
+    currentTextEffect = textEffect;
+
+    // 텍스트가 왼쪽에서 오른쪽으로 슉 하고 움직이는 애니메이션
+    anime({
+        targets: textEffect,
+        translateX: [startX, endX],
+        duration: 1000, // 1초 동안 이동
+        easing: 'easeOutQuad',
+        complete: function() {
+            if (currentTextEffect === textEffect) {
+                document.body.removeChild(textEffect);
+                currentTextEffect = null;
+            }
+        }
+    });
+}
+
+
+            arrow.addEventListener('mousedown', (e) => {
+                startX = e.clientX;
+                isDragging = true;
+                arrow.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+
+                const deltaX = e.clientX - startX;
+                const pullBack = Math.min(Math.max(deltaX, -100), 0);
+                
+                arrow.style.transform = `translate(-10%, -50%) translateX(${pullBack}px)`;
+                
+                const middlePointX = pullBack;
+                stringPath.setAttribute('d', `M 0 0 L ${middlePointX} 150 L 0 300`);
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                arrow.style.cursor = 'grab';
+
+                const transform = arrow.style.transform;
+                const pullBack = parseFloat(transform.match(/translateX\(([-\d.]+)px\)/)?.[1] || 0);
+                const power = Math.abs(pullBack) * 8;
+
+                // 화살이 발사될 때 효과음과 텍스트 표시
+                playRandomSound();
+                showEffectText();
+
+                anime({
+                    targets: '#arrow',
+                    translateX: [pullBack, power],
+                    duration: 800,
+                    easing: 'easeOutQuad',
+                    complete: function() {
+                        setTimeout(() => {
+                            arrow.style.transform = 'translate(-10%, -50%)';
+                            stringPath.setAttribute('d', 'M 0 0 L 0 150 L 0 300');
+                        }, 500);
+                    }
+                });
             });
         });
     </script>

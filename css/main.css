@@ -10,6 +10,7 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  overflow-y: auto;
   font-family: "Oswald", sans-serif;
   font-weight: 700;
   /* ::-webkit-scrollbar {
@@ -17,34 +18,23 @@ body {
     } */
 }
 .scene {
-  display: flex;
-  flex-shrink: 0; /* 가로 공간 축소 방지 */
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
+  flex: 0 0 auto;
   height: 100vh;
-}
-.slides {
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  overscroll-behavior: none;
-  flex-wrap: nowrap;
   position: relative;
-  flex-basis: auto;
 }
 .scene-slides {
-  position: relative;
-  width: 100%;
   height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
   overflow: hidden;
 }
 
 .slides {
-  position: absolute;
-  height: 100vh;
   display: flex;
-  transform: translateX(0); /* GSAP로 제어할 초기값 */
+  height: 100vh;
+  position: relative;
 }
 
 .gif-container {
@@ -98,6 +88,7 @@ body {
 }
 .scene5 {
   width: 3800px;
+  background-color: #6eb4f5;
 }
 .scene6 {
   width: 5900px;
@@ -348,7 +339,7 @@ body {
   z-index: 9;
 }
 #sun2 {
-  top: 100px;
+  bottom: 950px;
   right: 600px;
   z-index: 10;
 }
@@ -408,6 +399,7 @@ body {
   left: 0;
   bottom: 550px;
   z-index: 1;
+  width: 100%;
 }
 #pool {
   left: 1000px;
@@ -546,9 +538,9 @@ body {
   z-index: 2;
 }
 #gym_dumbbell {
-  left: 2665px;
+  left: 2695px;
   bottom: 875px;
-  z-index: 4;
+  z-index: 3;
 }
 #gym_bench {
   left: 2090px;
@@ -581,9 +573,10 @@ body {
 }
 #wall_5 {
   left: 0;
-  top: 0;
+  bottom: 500px;
   z-index: 1;
   width: 100%;
+  height: 100%;
 }
 #bt_5 {
   left: 0;
@@ -883,8 +876,9 @@ body {
 }
 #school_wall {
   left: 0;
-  height: 650px;
-  top: 0;
+  height: 850px;
+  width: 5000px;
+  bottom: 450px;
   z-index: 1;
 }
 #school_wall_sunban {
@@ -998,9 +992,9 @@ body {
 }
 #caterpillar-container {
   position: absolute;
-  left: 800px;
+  left: 500px;
   bottom: 350px;
-  z-index: 10;
+  z-index: 5;
 }
 #camera-container {
   position: absolute;

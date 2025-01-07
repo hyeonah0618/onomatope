@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dog</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+@font-face {
+    font-family: 'SBAggroB';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+        body {
+            background-color: #19AA4A;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        img {
+            position: absolute;
+            width: auto;
+            height: auto;
+        }
+        h1 {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 64px;
+            color: #ff0000;
+            font-family: Impact, sans-serif;
+            display: inline-block;
+        }
+        h2 {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 24px;
+            color: #ffffff;
+            font-weight: 400;
+            font-family: Oswald, sans-serif;
+            display: inline-block;
+        }
+        #dog {
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        #treat {
+            top: 15%;
+            left: 120px;
+            transform: translate(-50%, -50%);
+        }
+        #lemon {
+            top: 15%;
+            right: 80px;
+            transform: translate(0, -50%);
+        }
+        .bark-text {
+            position: absolute;
+            font-size: 48px;
+            color: rgb(0, 0, 0);
+            pointer-events: none;
+            animation: fadeOut 3s forwards;
+            z-index: 10;
+        }
+
+        .bark-text.kr {
+            font-family: SBAggroB, sans-serif;
+        }
+
+        .bark-text.jp {
+            font-family: 'Dela Gothic One', sans-serif;
+        }
+
+        .bark-text.en {
+            font-family: Impact, sans-serif;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+<h2>Give dog snack or lemon!</h2>
+    <img src="./img/dog/dog.webp" alt="dog" id="dog">
+    <img src="./img/dog/treat.webp" alt="treat" id="treat">
+    <img src="./img/dog/lemon.webp" alt="lemon" id="lemon">
+    <h1>BEWARE OF DOG</h1>
+    <audio id="barkSound_en" preload="auto">
+        <source src="../audio/1/dog_en.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="barkSound_jp" preload="auto">
+        <source src="../audio/1/dog_cn.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="barkSound_kr" preload="auto">
+        <source src="../audio/1/dog_kr.mp3" type="audio/mpeg">
+    </audio>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+    
+    <script>
+        const dog = document.getElementById('dog');
+        const treat = document.getElementById('treat');
+        const lemon = document.getElementById('lemon');
+        const dogNormalSrc = './img/dog/dog.webp';
+        const dogHappySrc = './img/dog/dog_happy.webp';
+        const dogAngrySrc = './img/dog/dog_angry.webp';
+        
+        let angryShakeAnimation;
+
+        function getDistance(elem1, elem2) {
+            const rect1 = elem1.getBoundingClientRect();
+            const rect2 = elem2.getBoundingClientRect();
+            const x1 = rect1.left + rect1.width / 2;
+            const y1 = rect1.top + rect1.height / 2;
+            const x2 = rect2.left + rect2.width / 2;
+            const y2 = rect2.top + rect2.height / 2;
+            return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+        }
+
+        function createAngryShake() {
+            angryShakeAnimation = gsap.timeline({repeat: -1})
+                .to(dog, {
+                    x: -5,
+                    duration: 0.1
+                })
+                .to(dog, {
+                    x: 5,
+                    duration: 0.1
+                })
+                .to(dog, {
+                    x: -5,
+                    duration: 0.1
+                })
+                .to(dog, {
+                    x: 5,
+                    duration: 0.1
+                })
+                .to(dog, {
+                    x: 0,
+                    duration: 0.1
+                });
+            
+            return angryShakeAnimation;
+        }
+
+        const barkSounds = [
+            document.getElementById('barkSound_en'),
+            document.getElementById('barkSound_jp'),
+            document.getElementById('barkSound_kr')
+        ];
+
+        let isPlayingAudio = false;
+
+        function playRandomBarkSound() {
+            if (!isPlayingAudio) {
+                try {
+                    const randomSound = barkSounds[Math.floor(Math.random() * barkSounds.length)];
+                    if (randomSound) {
+                        isPlayingAudio = true;
+                        randomSound.currentTime = 0;
+                        randomSound.play();
+                        
+                        // 오디오 재생이 끝나면 플래그 초기화
+                        randomSound.onended = () => {
+                            isPlayingAudio = false;
+                        };
+                    }
+                } catch (error) {
+                    console.error("Error playing sound:", error);
+                    isPlayingAudio = false;
+                }
+            }
+        }
+
+        const barkTexts = [
+            { text: '멍멍', lang: 'kr' },
+            { text: 'ワンワン', lang: 'jp' },
+            { text: 'bark', lang: 'en' },
+            { text: '汪汪', lang: 'jp' },
+            { text: 'Ouaf ouaf', lang: 'en' }
+        ];
+        let isBarking = false;
+
+        let activeBarkText = null;
+
+        function createBarkText() {
+            if (activeBarkText) {
+                return;
+            }
+
+            const randomItem = barkTexts[Math.floor(Math.random() * barkTexts.length)];
+            const barkElement = document.createElement('div');
+            barkElement.className = `bark-text ${randomItem.lang}`;
+            barkElement.textContent = randomItem.text;
+            
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            barkElement.style.left = x + 'px';
+            barkElement.style.top = y + 'px';
+            
+            document.body.appendChild(barkElement);
+            activeBarkText = barkElement;
+            
+            setTimeout(() => {
+                if (activeBarkText === barkElement) {
+                    barkElement.remove();
+                    activeBarkText = null;
+                }
+            }, 1000);
+        }
+
+        function startBarking() {
+            if (!isBarking) {
+                isBarking = true;
+                createBarkText();
+                playRandomBarkSound();
+                barkInterval = setInterval(() => {
+                    if (!isPlayingAudio && !activeBarkText) {
+                        createBarkText();
+                        playRandomBarkSound();
+                    }
+                }, 1000);
+                return barkInterval;
+            }
+        }
+
+        function stopBarking(interval) {
+            if (interval) {
+                clearInterval(interval);
+                isBarking = false;
+                if (activeBarkText) {
+                    activeBarkText.remove();
+                    activeBarkText = null;
+                }
+            }
+        }
+
+        let barkInterval;
+
+        function updateDogState() {
+            const treatDistance = getDistance(dog, treat);
+            const lemonDistance = getDistance(dog, lemon);
+            const threshold = 150;
+
+            if (angryShakeAnimation) {
+                angryShakeAnimation.kill();
+            }
+            
+            stopBarking(barkInterval);
+
+            if (treatDistance < threshold) {
+                gsap.to(dog, {
+                    scale: 1.1,
+                    duration: 0.3,
+                    onStart: () => dog.src = dogHappySrc
+                });
+            } else if (lemonDistance < threshold) {
+                gsap.to(dog, {
+                    scale: 1.1,
+                    duration: 0.3,
+                    onStart: () => {
+                        dog.src = dogAngrySrc;
+                        createAngryShake();
+                        barkInterval = startBarking();
+                    }
+                });
+            } else {
+                gsap.to(dog, {
+                    scale: 1,
+                    duration: 0.3,
+                    onStart: () => dog.src = dogNormalSrc
+                });
+            }
+        }
+
+        // treat 드래그 설정
+        Draggable.create(treat, {
+            type: "x,y",
+            onDrag: updateDogState,
+            onDragEnd: updateDogState
+        });
+
+        // lemon 드래그 설정
+        Draggable.create(lemon, {
+            type: "x,y",
+            onDrag: updateDogState,
+            onDragEnd: updateDogState
+        });
+    </script>
+</body>
+</html>

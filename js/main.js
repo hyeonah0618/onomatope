@@ -67,18 +67,35 @@ window.addEventListener("scroll", () => {
     }, 100); // 100ms 동안 스크롤이 없으면 정지
 });
 
+// 전체 가로 스크롤 설정
+gsap.registerPlugin(ScrollTrigger);
 
-gsap.to(".slides", {
-    x: () => -(document.querySelector(".slides").scrollWidth - window.innerWidth),
+// 가로 스크롤 설정
+const sections = gsap.utils.toArray(".scene");
+const totalWidth = sections.reduce((width, section) => width + section.offsetWidth, 0);
+
+let mainScroll = gsap.to(".slides", {
+    x: () => -(totalWidth - window.innerWidth),
     ease: "none",
     scrollTrigger: {
         trigger: ".scene-slides",
         start: "top top",
-        end: () => `+=${document.querySelector(".slides").scrollWidth - window.innerWidth}`,
+        end: () => `+=${totalWidth}`,
         pin: true,
-        scrub: 3,
+        anticipatePin: 1,
+        scrub: 1,
         invalidateOnRefresh: true,
     }
+});
+
+
+
+// ScrollTrigger 새로고침 시 업데이트
+ScrollTrigger.refresh();
+
+// 브라우저 리사이즈 시 업데이트
+window.addEventListener("resize", () => {
+    ScrollTrigger.refresh();
 });
 
 document.querySelectorAll('.bubble').forEach(bubble => {
@@ -97,25 +114,113 @@ document.querySelectorAll('.bubble').forEach(bubble => {
         }
     });
 });
-// 개별 요소 애니메이션
 
-gsap.to("#running-container", {
-    x: 1000,
+// 개별 요소 애니메이션
+gsap.to("#cloud1", {
+    x: "-500",
+    ease: "none",
     scrollTrigger: {
-        trigger: ".scene4",
-        start: "90% 20% ",
-        end: "+=4000",
-        scrub: 3,
-        markers: true,
-        onUpdate: function(self) {
-            const bubble = document.getElementById('running-bubble');
-            if (!bubble.classList.contains('wobble-animation')) {
-                bubble.classList.add('wobble-animation');
-            }
-        }
+        trigger: "#cloud1",
+        start: "left 70%",
+        end: "+=6000",
+        scrub: 3
     }
 });
 
+gsap.to("#cloud2", {
+    x: "-=1000",
+    ease: "none",
+    scrollTrigger: {
+        trigger: "#cloud2",
+        start: "left 70%",
+        end: "+=6000",
+        scrub: 3
+    }
+});
+gsap.to("#cloud3", {
+    x: "-=1000",
+    ease: "none",
+    scrollTrigger: {
+        trigger: "#cloud3",
+        start: "left 70%",
+        end: "+=6000",
+        scrub: 3
+    }
+});
+
+gsap.to("#bus-container", {
+    x: 2200,
+    scrollTrigger: {
+        trigger: "#bus-container",
+        start: "left 70%", // 씬4의 왼쪽 끝이 뷰포트의 왼쪽에 닿는 순간 시작
+        end: "+=3000",
+        scrub: 3,               // scrub 값을 true로 변경
+        // markers: true,
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
+gsap.fromTo("#sun2", {
+    x: 0
+    },
+    {
+    x: -1500, y: 200,
+    scrollTrigger: {
+        trigger: "#sun2",
+        start: " right 5%",
+        end: "+=2000",
+        scrub: 3,
+        markers: true,
+            containerAnimation: mainScroll,
+            horizontal: true
+    }
+});
+gsap.to("#running-container", {
+    x: 1200,
+    scrollTrigger: {
+        trigger: "#running-container",
+        start: "left 70%", // 씬4의 왼쪽 끝이 뷰포트의 왼쪽에 닿는 순간 시작
+        end: "+=3000",
+        scrub: true,               // scrub 값을 true로 변경
+        // markers: true,
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
+gsap.to("#swimming-container", {
+    x: 2500,
+    scrollTrigger: {
+        trigger: ".scene4",
+        start: "left center",
+        end: "right center",
+        scrub: true,
+        // markers: true,
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
+
+gsap.to("#dog-container", {
+    x: -200,
+    scrollTrigger: {
+        trigger: "#dog-container",
+        start: "left 90%",
+        end: "center center",
+        scrub: 3,
+        // markers: true,
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
+
+gsap.to("#dog", {
+    y: -20, // 위로 20px 점프
+    duration: 0.4, // 애니메이션 속도
+    repeat: -1, // 무한 반복
+    yoyo: true, // 부드러운 위아래 움직임
+    ease: "power2.out", // 더 탄력적인 이징
+    yoyoEase: "power1.in" // 내려올 때는 더 빠르게
+});
 
 // running-person만의 점프 애니메이션
 gsap.to("#running-person", {
@@ -138,28 +243,19 @@ gsap.to("#diving-person", {
     ease: "power1.inOut" // 부드러운 움직임
 });
 
-gsap.to("#swimming-container", {
-        x: 2000,
-        scrollTrigger: {
-            trigger: ".scene2",
-            start: "top top",
-            end: "+=4000",
-            scrub: 3,
-            ease: "power1.inOut",
-
- } }  
-);
-
 gsap.fromTo("#bird", {
     x: 0
     },
     {
     x: -1000, y: 100,
     scrollTrigger: {
-        trigger: ".scene1",
-        start: "top top",
-        end: "+=2000",
-        scrub: 3
+        trigger: "#bird",
+        start: " right right",
+        end: "+=1000",
+        scrub: 3,
+        markers: true,
+            containerAnimation: mainScroll,
+            horizontal: true
     }
 });
 
@@ -176,34 +272,56 @@ gsap.to("#arrow-person", {
 });
 // 짐볼 애니메이션 수정
 gsap.to("#gymball_p", {
+    x: 500,
     scrollTrigger: {
-        trigger: ".scene-slides2", // 트리거 요소 변경
-        start: "top top",
-        end: "+=3000", // 스크롤 거리 명시적 지정
-        scrub: 3, // 부드러운 애니메이션을 위해 값 조정
+        trigger: "#gymball_p",
+        start: "right right",
+        end: "+=1000",
+        scrub: 3,
+        containerAnimation: mainScroll,
+        horizontal: true
     },
-    x: 500
 });
-
 gsap.to("#gymball_y", {
+    x: 3400,
     scrollTrigger: {
-        trigger: ".scene-slides2",
-        start: "top top",
-        end: "+=3000",
-        scrub: 2,
+        trigger: "#gymball_y",
+        start: "right right",
+        end: "+=7300",
+        scrub: 5,
+        containerAnimation: mainScroll,
+        horizontal: true
     },
-    x: 600
+
+});
+gsap.to("#gymball_g", {
+    x: 500,
+    scrollTrigger: {
+        trigger: "#gymball_g",
+        start: "right right",
+        end: "+=1000",
+        scrub: 2,
+        containerAnimation: mainScroll,
+        horizontal: true
+    },
+
+});
+gsap.to("#gym_dumbbell", {
+    y: 500,
+    opacity: 1,
+    duration: 1.5,
+    ease: "bounce.out",
+    scrollTrigger: {
+        trigger: "#gym_dumbbell",
+        start: "center center",
+        end: "right 60%",
+        scrub: 3,
+        containerAnimation: mainScroll,
+        horizontal: true
+
+    }
 });
 
-gsap.to("#gymball_g", {
-    scrollTrigger: {
-        trigger: ".scene-slides2",
-        start: "top top",
-        end: "+=3000",
-        scrub: 1,
-    },
-    x: 250
-});
 
 // gym-person"의 transform-origin 설정 및 숨쉬기 애니메이션
 gsap.set("#gym-person", {
@@ -228,6 +346,12 @@ gsap.to("#gym-person", {
 // water-person"의 transform-origin 설정 및 숨쉬기 애니메이션
 gsap.set("#water-person", {
     transformOrigin: "bottom center" // 변환 기준점을 하단 중앙으로 설정
+})
+gsap.set("#boxing1", {
+    transformOrigin: "bottom center" // 변환 기준점을 하단 중앙으로 설정
+})
+gsap.set("#boxing2", {
+    transformOrigin: "bottom center" // 변환 기준점을 하단 중앙으로 설정
 });
 // 타임라인을 생성하여 여러 애니메이션을 연속적으로 실행
 const breathingTimeline = gsap.timeline({
@@ -241,26 +365,72 @@ breathingTimeline
         ease: "power1.inOut"
     })
     .to("#water-person", {
-        scale: 1,
+        scale: 1.01,
         duration: 1.2,
         ease: "power1.inOut"
     });
 
-    gsap.to("#gym_dumbbell", {
-        y: 500,
-        opacity: 1,
-        duration: 1.5,
-        ease: "bounce.out",
-        scrollTrigger: {
-            trigger: "#gym_dumbbell",
-            start: "left+=100 center",
-            end: "+=3000",
-            scrub: true,
 
+
+
+    gsap.to("#vacuum-container", {
+        x: -1500,
+        scrollTrigger: {
+            trigger: "#vacuum-container",
+            start: "left right",
+            end: "+=4000",
+            scrub: 3,
+            // markers: true,
+            containerAnimation: mainScroll,
+            horizontal: true
+        }
+    });
+    
+
+    gsap.to("#caterpillar-container", {
+        x: 900,
+        scrollTrigger: {
+            trigger: "#caterpillar-container",
+            start: "right right",
+            end: "+=4000",
+            scrub: 3,
+            markers: true,
+            containerAnimation: mainScroll,
+            horizontal: true
         }
     });
 
+// 지그재그 움직임을 위한 타임라인 생성
+const zigzagTimeline = gsap.timeline({
+    scrollTrigger: {
+        trigger: "#caterpillar-container",
+        start: "right right",
+        end: "+=4000",
+        scrub: 3,
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
 
-
-
-
+zigzagTimeline
+    .to("#caterpillar-container", {
+        x: 20,
+        y: 15,
+    })
+    .to("#caterpillar-container", {
+        x: 40,
+        y: -15,
+    })
+    .to("#caterpillar-container", {
+        x: 60,
+        y: 15,
+    })
+    .to("#caterpillar-container", {
+        x: 80,
+        y: -10,
+    })
+    .to("#caterpillar-container", {
+        x: 90,
+        y: 0,
+        
+    });
