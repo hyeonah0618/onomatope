@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>running</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+
+        h2 {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 32px;
+            color: #ffffff;
+            font-weight: 600;
+            font-family: Oswald, sans-serif;
+            display: inline-block;
+        }
+
+
+        body {
+            background-color: #50b0a0; 
+            overflow: hidden;
+        }
+        img {
+            position: absolute;
+            width: auto;
+            height: auto;
+        }
+        #character {
+            position: absolute;
+            bottom: 20px;
+            left: 50px;
+            transform: scaleX(1);
+            transition: transform 0.1s;
+            width: 300px;
+            height: 300px;
+            object-fit: contain;
+            z-index: 10;
+        }
+        .flip {
+            transform: scaleX(-1) !important;
+        }
+        .spin {
+            animation: spin 1s linear forwards;
+        }
+        .fallen {
+            transform: rotate(90deg) !important;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        #rock {
+            position: absolute;
+            bottom: 20px;
+            right: 50px;
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+        .text {
+            position: absolute;
+            font-size: 48px;
+            color: red;
+            font-weight: bold;
+            z-index: 20;
+            opacity: 0;
+            scale: 0;
+        }
+        .arrow-container {
+            position: absolute;
+            top: 100px;  /* h2 아래 위치 */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+        }
+
+        .arrow {
+            color: white;
+            font-size: 24px;
+            transform-origin: center;
+        }
+
+        @keyframes poking {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Sans+KR&family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../common.css">
+</head>
+<body>
+    <h2>Run forward with arrow key!</h2>
+    <img src="./img/running/run1.webp" alt="running" id="character">
+    <img src="./img/running/rock.webp" alt="rock" id="rock">
+
+    <div class="arrow-container">
+        <div class="arrow">→</div>
+    </div>
+
+    <script>
+        const character = document.getElementById('character');
+        let currentFrame = 1;
+        let positionX = 50;
+        let isMoving = false;
+        let direction = 'right';
+        let canMove = true;
+
+        function updateAnimation() {
+            if (isMoving) {
+                currentFrame = currentFrame % 3 + 1;
+                character.src = `./img/running/run${currentFrame}.webp`;
+            }
+        }
+
+        function moveCharacter() {
+            if (isMoving) {
+                if (direction === 'right') {
+                    positionX += 5;
+                } else {
+                    positionX -= 5;
+                }
+                character.style.left = positionX + 'px';
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (!canMove) return;
+            
+            if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') {
+                return;
+            }
+
+            if (!isMoving) {
+                isMoving = true;
+                setInterval(updateAnimation, 200);
+                setInterval(moveCharacter, 80);
+            }
+
+            if (e.key === 'ArrowRight') {
+                direction = 'right';
+                character.classList.remove('flip');
+            } else if (e.key === 'ArrowLeft') {
+                direction = 'left';
+                character.classList.add('flip');
+            }
+        });
+
+        document.addEventListener('keyup', () => {
+            isMoving = false;
+            character.src = './img/running/run1.webp';
+        });
+
+        // 오디오 파일 배열
+        const audioFiles = [
+            '../audio/2/run_kr.mp3',
+            '../audio/2/run_en.mp3',
+            '../audio/2/run_jp.mp3',
+            '../audio/2/run_cn.mp3',
+            '../audio/2/run_fr.mp3'
+        ];
+
+        // 효과음 텍스트 배열
+        const randomTexts = [
+            { 
+                text: '철푸덕', 
+                font: "'Noto Sans KR', sans-serif",
+                audio: audioFiles[0]
+            },
+            { 
+                text: 'thud', 
+                font: "'Impact', sans-serif",
+                audio: audioFiles[1]
+            },
+            { 
+                text: 'ドサッ', 
+                font: "'Noto Sans JP', sans-serif",
+                audio: audioFiles[2]
+            },
+            { 
+                text: '扑通', 
+                font: "'Noto Sans SC', sans-serif",
+                audio: audioFiles[3]
+            },
+            { 
+                text: 'Plaf plaf', 
+                font: "'Impact', sans-serif",
+                audio: audioFiles[4]
+            }
+        ];
+
+        function showEffect(characterElement) {
+            const randomConfig = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+            const textElement = $('<div>')
+                .addClass('text')
+                .text(randomConfig.text)
+                .css({
+                    'font-family': randomConfig.font,
+                    'position': 'absolute',
+                    'transform': 'rotate(30deg)',  // 초기 30도 회전
+                    'transform-origin': 'center'
+                });
+            
+            const characterRect = characterElement.getBoundingClientRect();
+            const x = characterRect.left;
+            const y = characterRect.top - 50;  // 시작 위치를 약간 위로
+            
+            textElement.css({
+                left: x + 'px',
+                top: y + 'px'
+            });
+            
+            $('body').append(textElement);
+
+            const audio = new Audio(randomConfig.audio);
+            audio.play();
+
+            // 새로운 애니메이션
+            gsap.fromTo(textElement, 
+                {
+                    scale: 0,
+                    opacity: 0
+                },
+                {
+                    scale: 1,
+                    opacity: 1,
+                    duration: 0.2,
+                    ease: "back.out(1.7)",
+                    onComplete: () => {
+                        gsap.to(textElement, {
+                            x: '+=100',    // 오른쪽으로 이동
+                            y: '+=150',    // 아래로 이동
+                            opacity: 0,
+                            scale: 0.8,
+                            duration: 1,
+                            ease: "power2.in",
+                            onComplete: function() {
+                                textElement.remove();
+                            }
+                        });
+                    }
+                }
+            );
+        }
+
+        function checkCollision() {
+            const rock = document.getElementById('rock');
+            if (rock) {
+                const characterRect = character.getBoundingClientRect();
+                const rockRect = rock.getBoundingClientRect();
+
+                if (characterRect.left < rockRect.right &&
+                    characterRect.right > rockRect.left &&
+                    characterRect.top < rockRect.bottom &&
+                    characterRect.bottom > rockRect.top) {
+                    if (!character.classList.contains('spinning')) {
+                        character.classList.add('spinning');
+                        isMoving = false;
+                        canMove = false;
+
+                        showEffect(character);  // 효과음과 텍스트 표시
+
+                        gsap.to(character, {
+                            x: "+=200",
+                            rotation: 360,
+                            duration: 1,
+                            ease: "power1.inOut",
+                            onComplete: () => {
+                                gsap.to(character, {
+                                    rotation: 90,
+                                    duration: 0.5,
+                                    ease: "bounce.out"
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        setInterval(checkCollision, 100);
+
+        // 화살표 애니메이션
+        gsap.to('.arrow', {
+            x: 10,
+            duration: 0.5,
+            repeat: -1,
+            yoyo: true,
+            ease: "power1.inOut"
+        });
+    </script>
+        <button id="back-button">close</button>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="../common.js"></script>
+</body>
+</html>

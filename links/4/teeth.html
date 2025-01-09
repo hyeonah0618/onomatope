@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cavity</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <link rel="stylesheet" href="../common.css">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+</head>
+<style>
+      @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+
+h2 {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: 36px;
+    color: #ffffff;
+    font-weight: 600;
+    font-family: Oswald, sans-serif;
+    display: inline-block;
+}
+    body {
+        background-color: #F2CB51;
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+    }
+    img {
+        position: absolute;
+        display: block;
+    }
+    .teeth {
+        position: relative;
+    }
+    .cavity {
+        position: absolute;
+        left: 388px;
+        top: 200px;
+    }
+    .pain-effect {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+        transform-origin: center;
+    }
+    .pain-line {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+    .teeth-container {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: fit-content;
+        height: fit-content;
+    }
+    .effect-text {
+        position: absolute;
+        font-size: 36px;
+        color: white;
+        -webkit-text-stroke: 1px #53C1B9;
+        font-weight: bold;
+        pointer-events: none;
+        z-index: 10;
+        text-shadow: 
+            2px 2px 0 #53C1B9,
+            -2px -2px 0 #53C1B9,
+            2px -2px 0 #53C1B9,
+            -2px 2px 0 #53C1B9;
+    }
+</style>
+<body>
+    <h2>Click the cavity!</h2>
+    <div class="teeth-container">
+        <img src="./img/teeth/teeth.webp" alt="" class="teeth">
+        <img src="./img/teeth/cavity.webp" alt="" class="cavity">
+    </div>
+    <div class="effect-text"></div>
+    <script>
+        const teethContainer = document.querySelector('.teeth-container');
+        const cavity = document.querySelector('.cavity');
+        const painEffect = document.querySelector('.pain-effect');
+        
+        const audioFiles = [
+            '../audio/4/teeth_kr.mp3',
+            '../audio/4/teeth_en.mp3',
+            '../audio/4/teeth_jp.mp3'
+        ];
+        
+        const randomTexts = [
+            { 
+                text: 'ズキズキ', 
+                font: "'Zen Maru Gothic', Impact, sans-serif",
+                audio: audioFiles[2]
+            },
+            { 
+                text: '욱신욱신', 
+                font: "'Black Han Sans', Impact, sans-serif",
+                audio: audioFiles[0]
+            },
+            { 
+                text: 'Throb throb', 
+                font: "Impact, sans-serif",
+                audio: audioFiles[1]
+            }
+        ];
+
+        let isPlaying = false;
+
+        cavity.addEventListener('click', () => {
+            if (isPlaying) return;
+            isPlaying = true;
+
+            // 랜덤 텍스트 효과
+            const randomEffect = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+            const textElement = document.querySelector('.effect-text');
+            textElement.textContent = randomEffect.text;
+            textElement.style.fontFamily = randomEffect.font;
+            
+            // 텍스트 위치 설정 및 애니메이션
+            textElement.style.left = (cavity.offsetLeft + 50) + 'px';
+            textElement.style.top = (cavity.offsetTop - 30) + 'px';
+            
+            gsap.to(textElement, {
+                opacity: 1,
+                y: -20,
+                duration: 0.5,
+                ease: "power1.out",
+                onComplete: () => {
+                    gsap.to(textElement, {
+                        opacity: 0,
+                        duration: 0.3
+                    });
+                }
+            });
+
+            // 오디오 재생
+            const audio = new Audio(randomEffect.audio);
+            audio.play();
+
+            // 2~3개의 번개 효과 생성
+            const numEffects = Math.floor(Math.random() * 2) + 2; // 2 또는 3
+            
+            for (let i = 0; i < numEffects; i++) {
+                const painEffect = document.createElement('svg');
+                painEffect.className = 'pain-effect';
+                painEffect.setAttribute('width', '100');
+                painEffect.setAttribute('height', '100');
+                painEffect.setAttribute('viewBox', '0 0 100 100');
+                
+                const path = document.createElement('path');
+                path.className = 'pain-line';
+                path.setAttribute('stroke', '#FFD700');
+                path.setAttribute('stroke-width', '3');
+                path.setAttribute('fill', 'none');
+                path.setAttribute('d', 'M30,20 L45,35 L35,50 L50,65 L40,80');
+                
+                painEffect.appendChild(path);
+                document.body.appendChild(painEffect);
+
+                // 랜덤 위치 계산
+                const angle = (Math.PI * 2 * i) / numEffects + (Math.random() * 0.5);
+                const radius = 50;
+                const x = cavity.offsetLeft + Math.cos(angle) * radius;
+                const y = cavity.offsetTop + Math.sin(angle) * radius;
+                
+                painEffect.style.left = x + 'px';
+                painEffect.style.top = y + 'px';
+                painEffect.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+                gsap.to(painEffect, {
+                    opacity: 1,
+                    scale: 1.5,
+                    duration: 0.3,
+                    repeat: 2,
+                    yoyo: true,
+                    ease: "power1.inOut",
+                    onComplete: () => {
+                        painEffect.remove();
+                    }
+                });
+            }
+
+            // 기존 떨림 애니메이션
+            gsap.to(teethContainer, {
+                x: 3,
+                duration: 0.1,
+                repeat: 5,
+                yoyo: true,
+                ease: "none",
+                onComplete: () => {
+                    gsap.to(teethContainer, {
+                        x: 0,
+                        duration: 0.1,
+                        onComplete: () => {
+                            isPlaying = false;
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+        <button id="back-button">close</button>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="../common.js"></script>
+</body>
+</html>

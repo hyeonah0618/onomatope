@@ -84,6 +84,7 @@ h2 {
 
 
     </style>
+    <link rel="stylesheet" href="../common.css">
 </head>
 <body>
     <h2>Punch the man!</h2>
@@ -96,32 +97,32 @@ h2 {
 // 오디오 객체들을 미리 생성하고 로드
             // 오디오 파일 배열
             const audioFiles = [
-                '../audio/2/punch_kr.mp3',
-                '../audio/2/punch_en.mp3',
-                '../audio/2/punch_jp.mp3',
-                '../audio/2/punch_cn.mp3'
+                '../audio/2/roll_kr.mp3',
+                '../audio/2/roll_en.mp3',
+                '../audio/2/roll_jp.mp3',
+                '../audio/2/roll_es.mp3'
             ];
 
             // 효과음 텍스트 배열
             const randomTexts = [
                 { 
-                    text: 'ドスッ', 
+                    text: 'クルクル', 
                     font: "'Noto Sans JP', sans-serif",
                     audio: audioFiles[2]
                 },
                 { 
-                    text: '퍽', 
+                    text: '돌돌', 
                     font: "'Noto Sans KR', sans-serif",
                     audio: audioFiles[0]
                 },
                 { 
-                    text: 'Pow', 
+                    text: 'Roll roll', 
                     font: "'Impact', sans-serif",
                     audio: audioFiles[1]
                 },
                 { 
-                    text: '砰', 
-                    font: "'Noto Sans SC', sans-serif",
+                    text: 'Rueda rueda', 
+                    font: "'Noto Sans', sans-serif",
                     audio: audioFiles[3]
                 }
             ];
@@ -290,5 +291,9 @@ h2 {
             }
         });
     </script>
+    <button id="back-button">close</button>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="../common.js"></script>
 </body>
 </html>

@@ -28,28 +28,6 @@ html {
   overflow: hidden;
 }
 
-#back-button {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 10px 20px;
-  font-size: 20px;
-  cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.5);
-  color: #333;
-  border: 1.5px solid #333;
-  border-radius: 25px;
-  transition: all 0.3s ease;
-  font-family: "BagelFatOne-Regular", sans-serif;
-  text-decoration: none;
-  z-index: 90;
-}
-
-#back-button:hover {
-  background-color: #333;
-  color: #eae5da;
-}
-
 img {
   position: absolute;
   width: auto;
@@ -92,27 +70,6 @@ img.hidden {
   transform-origin: right bottom; /* 오른쪽 아래 모서리를 기준으로 반전 */
 }
 
-#back-button {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.5); /* 반투명한 흰색 배경 */
-  color: #000; /* 검정 글씨 */
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s, box-shadow 0.3s;
-  font-family: "Roboto", sans-serif; /* 키치한 폰트 */
-  text-decoration: none;
-}
-
-#back-button:hover {
-  background-color: rgba(255, 255, 255, 0.7); /* 호버 시 투명도 증가 */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
 .text {
   position: absolute;
   color: transparent;

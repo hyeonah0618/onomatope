@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>9</title>
+    <link rel="stylesheet" href="../common.css">
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Anton&family=Cherry+Bomb+One&display=swap');
@@ -93,27 +94,6 @@ body {
     transition: opacity 2s;
 }
 
-#back-button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    font-size: 20px;
-    cursor: pointer;
-    background-color: rgba(255, 255, 255, 0.5);
-    color: #333;
-    border: 1.5px solid #333;
-    border-radius: 25px;
-    transition: all 0.3s ease;
-    font-family: 'BagelFatOne-Regular', sans-serif;
-    text-decoration: none;
-    z-index: 90;
-}
-
-#back-button:hover {
-    background-color: #333;
-    color: #EAE5DA;
-}
 .click-text {
     position: absolute;
     background: repeating-radial-gradient(ellipse at bottom, rgba(198, 255, 221, 0.7), rgba(251, 215, 134, 0.7), rgba(249, 121, 125, 0.7));
@@ -161,7 +141,7 @@ body {
         <audio id="audio2" src="../audio/page9_jp.mp3"></audio>
         <audio id="audio3" src="../audio/page9_cn.mp3"></audio>
     </div>
-    <button id="back-button">close</button>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
@@ -175,9 +155,6 @@ body {
     ];
     let currentAudio;
 
-    $('#back-button').on('click', () => {
-        window.close();
-    });
 
     const textOptions = [
         { text: "치카치카", class: "korean" },
@@ -266,5 +243,7 @@ body {
 });
 
     </script>
+    <button id="back-button">close</button>
+    <script src="../common.js"></script>
 </body>
 </html>

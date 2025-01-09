@@ -38,7 +38,7 @@ h2 {
             z-index: 10;
             transform-origin: center;
             left: 120px;
-            bottom: 100px;
+            bottom: 3px;
         }
         .mat_r {
             position: absolute;
@@ -59,6 +59,7 @@ h2 {
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+    <link rel="stylesheet" href="../common.css">
 </head> 
 
 <body>
@@ -71,11 +72,88 @@ h2 {
 
     <script>
         $(function() {
+            // 오디오 파일 배열
+            const audioFiles = [
+                '../audio/2/roll_kr.mp3',
+                '../audio/2/roll_en.mp3',
+                '../audio/2/roll_jp.mp3',
+                '../audio/2/roll_sp.mp3'
+            ];
+
+            // 효과음 텍스트 배열
+            const randomTexts = [
+                { 
+                    text: 'クルクル', 
+                    font: "'Noto Sans JP', sans-serif",
+                    audio: new Audio(audioFiles[2])
+                },
+                { 
+                    text: '돌돌', 
+                    font: "'Noto Sans KR', sans-serif",
+                    audio: new Audio(audioFiles[0])
+                },
+                { 
+                    text: 'Roll roll', 
+                    font: "'Impact', sans-serif",
+                    audio: new Audio(audioFiles[1])
+                },
+                { 
+                    text: 'Rueda rueda', 
+                    font: "'Noto Sans', sans-serif",
+                    audio: new Audio(audioFiles[3])
+                }
+            ];
+
             const $container = $('#draggable');
             const $matL = $('.mat_l');
             const minLeft = 50;
-            const maxLeft = 400;
+            const maxLeft = 300;
             const initialHeight = $matL.height();
+            let lastSoundTime = 0;
+            let currentAudio = null;
+            let isAnimating = false;  // 애니메이션 상태 추적
+
+            // 텍스트 효과를 위한 div 추가 - 스타일 수정
+            $('body').append('<div id="effectText" style="position: absolute; z-index: 1000; pointer-events: none; font-size: 24px; opacity: 0; color: #FF69B4;"></div>');
+            const $effectText = $('#effectText');
+
+            function showEffectText(text, font, x, y) {
+                if (isAnimating) return;
+                isAnimating = true;
+
+                $effectText.css({
+                    'font-family': font,
+                    'left': x + 'px',
+                    'top': y - 20 + 'px',
+                    'transform-origin': 'center'
+                }).text(text);
+
+                gsap.timeline()
+                    .to($effectText, {
+                        opacity: 1,
+                        scale: 1.2,
+                        duration: 0.2
+                    })
+                    .to($effectText, {
+                        y: '-=30',
+                        scale: 1,
+                        duration: 0.4,
+                        ease: "bounce.out"
+                    })
+                    .to($effectText, {
+                        y: '-=20',
+                        scale: 0.8,
+                        opacity: 0,
+                        duration: 0.8,
+                        onComplete: () => {
+                            isAnimating = false;
+                            $effectText.css({
+                                'y': '0',
+                                'scale': 1
+                            });
+                        }
+                    });
+            }
 
             $container.on('mousedown', function(e) {
                 const offsetX = e.clientX - $container.offset().left;
@@ -87,6 +165,32 @@ h2 {
                     const scale = 1 + (newLeft - minLeft) / 1000;
                     const newWidth = 100 * scale;
                     const newHeight = initialHeight * scale;
+                    
+                    const currentTime = Date.now();
+                    if (currentTime - lastSoundTime > 500 && !isAnimating) {  // 간격 늘리고 애니메이션 체크
+                        // 이전 오디오 페이드아웃
+                        if (currentAudio) {
+                            const prevAudio = currentAudio;
+                            gsap.to(prevAudio, {
+                                volume: 0,
+                                duration: 0.2,
+                                onComplete: () => {
+                                    prevAudio.pause();
+                                    prevAudio.currentTime = 0;
+                                    prevAudio.volume = 1;
+                                }
+                            });
+                        }
+
+                        const randomEffect = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+                        currentAudio = randomEffect.audio;
+                        currentAudio.volume = 1;
+                        currentAudio.currentTime = 0;
+                        currentAudio.play();
+                        
+                        showEffectText(randomEffect.text, randomEffect.font, e.clientX, e.clientY);
+                        lastSoundTime = currentTime;
+                    }
                     
                     gsap.to($container, {
                         x: newLeft,
@@ -107,5 +211,9 @@ h2 {
             });
         });
     </script>
+    <button id="back-button">close</button>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="../common.js"></script>
 </body>
 </html>

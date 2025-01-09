@@ -26,6 +26,7 @@ body {
     background-color: #f0f0f0;
     margin: 0;
     position: relative;
+    overflow: hidden;
 }
 img {
             position: absolute;
@@ -84,7 +85,7 @@ h2 {
 
 .text {
     position: absolute;
-    font-size: 48px;
+    font-size: 24px;
     font-weight: bold;
     z-index: 5; /* 텍스트는 모든 요소 위에 표시 */
     opacity: 0;
@@ -168,6 +169,7 @@ h2 {
 
 </style>
 <title>toaster</title>
+    <link rel="stylesheet" href="../common.css">
 </head>
 <body>  
   <h2>Toast the bread!</h2>
@@ -193,8 +195,8 @@ $(document).ready(function(){
     let textInterval;
   
     // 음성 파일 배열
-    const initialAudioFiles = ['../links/3/audio/toaster_kr1.mp3', '../links/3/audio/toaster_en1.mp3'];
-    const finalAudioFiles = ['../links/3/audio/toaster_jp2.mp3', '../links/3/audio/toaster_en2.mp3'];
+    const initialAudioFiles = ['../audio/3/toaster_kr1.mp3', '../audio/3/toaster_en1.mp3'];
+    const finalAudioFiles = ['../audio/3/toaster_jp2.mp3', '../audio/3/toaster_en2.mp3'];
     const initialTexts = [
       { text: '째깍째깍', class: 'korean' },
       { text: 'tick tock', class: 'english' }
@@ -318,5 +320,9 @@ $(document).ready(function(){
 
 
 </script>
+    <button id="back-button">close</button>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="../common.js"></script>
 </body>
 </html>

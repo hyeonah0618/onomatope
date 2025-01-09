@@ -105,12 +105,17 @@ const textColors = ['#19AA4A', '#EC008C', '#DDE349', '#0099D9','#ffffff']; // �
 
 // 페이지 로드 시 각 말풍선에 랜덤 색상 적용
 document.querySelectorAll('.bubble').forEach(bubble => {
+    const parentDiv = bubble.parentElement; // 부모 div 선택
+    
     // 초기 ??? 텍스트 색상을 랜덤으로 설정
     const randomInitialColor = initialColors[Math.floor(Math.random() * initialColors.length)];
     bubble.style.color = randomInitialColor;
     
-    bubble.addEventListener('click', function() {
-        if (!this.classList.contains('clicked')) {
+    // 부모 div에 클릭 이벤트 추가
+    parentDiv.addEventListener('click', function() {
+        const bubbleElement = this.querySelector('.bubble'); // 부모 div 내의 bubble 클래스를 가진 요소 선택
+        
+        if (!bubbleElement.classList.contains('clicked')) {
             // 배경색 선택 (흰색 제외)
             const randomBgColor = bgColors[Math.floor(Math.random() * bgColors.length)];
             
@@ -118,18 +123,18 @@ document.querySelectorAll('.bubble').forEach(bubble => {
             let availableTextColors = textColors.filter(color => color !== randomBgColor);
             const randomTextColor = availableTextColors[Math.floor(Math.random() * availableTextColors.length)];
             
-            const newText = this.dataset.clickedText || '완료!';
+            const newText = bubbleElement.dataset.clickedText || '완료!';
             
-            this.classList.add('clicked');
-            this.textContent = newText;
-            this.style.backgroundColor = randomBgColor;
-            this.style.color = randomTextColor;
-            this.style.borderColor = randomBgColor;
+            bubbleElement.classList.add('clicked');
+            bubbleElement.textContent = newText;
+            bubbleElement.style.backgroundColor = randomBgColor;
+            bubbleElement.style.color = randomTextColor;
+            bubbleElement.style.borderColor = randomBgColor;
             
             // 말풍선 꼬리 색상도 변경
             const afterStyle = document.createElement('style');
             afterStyle.textContent = `
-                #${this.id}.clicked:after {
+                #${bubbleElement.id}.clicked:after {
                     border-color: ${randomBgColor} transparent;
                 }
             `;
@@ -457,3 +462,35 @@ zigzagTimeline
         y: 0,
         
     });
+
+// 방문한 페이지를 저장할 Set 생성 (중복 방지)
+let visitedPages = new Set();
+
+// 카운터 초기화 및 업데이트 함수
+function initializeCounter() {
+    // 방문 기록 초기화
+    visitedPages.clear();
+    localStorage.removeItem('visitedPages');
+    
+    // 카운터 업데이트
+    updateCounter();
+}
+
+// 카운터 업데이트 함수
+function updateCounter() {
+    document.getElementById('current').textContent = visitedPages.size;
+    document.getElementById('total').textContent = '/23';
+}
+
+// 클릭 트래킹 함수
+function trackClick() {
+    // 현재 클릭한 링크의 URL을 Set에 추가
+    const clickedUrl = event.currentTarget.getAttribute('onclick').match(/['"]([^'"]*)['"]/)[1];
+    visitedPages.add(clickedUrl);
+    
+    // 카운터 업데이트
+    updateCounter();
+}
+
+// 페이지 로드 시 초기화 실행
+window.addEventListener('load', initializeCounter);

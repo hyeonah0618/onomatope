@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>caterpillar</title>
+    <link rel="stylesheet" href="../common.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="../common.css">
+</head>
+<style>
+          @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+
+h2 {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: 36px;
+    color: #ffffff;
+    font-weight: 600;
+    font-family: Oswald, sans-serif;
+    display: inline-block;
+}
+body{
+  background:#ffd1dc;
+}
+body:hover{
+  cursor:none;
+}
+.pointer{
+ position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:50px;
+  height:50px;
+  background:#77dd77;
+  border-radius:50%;
+  pointer-events:none;
+  transition:0.1s ease-out;
+}
+.pointer1{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:50px;
+  height:50px;
+  background:#fff;
+  border-radius:50%;
+  pointer-events:none;
+  transition:0.2s ease-out;
+  z-index:-1;
+}
+.pointer2{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:50px;
+  height:50px;
+  background:#77dd77;
+  border-radius:50%;
+  pointer-events:none;
+  transition:0.3s ease-out;
+  z-index:-2;
+}
+.pointer3{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:50px;
+  height:50px;
+  background:#fff;
+  border-radius:50%;
+  pointer-events:none;
+  transition:0.4s ease-out;
+  z-index:-3;
+}
+.pointer4{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:50px;
+  height:50px;
+  background:#77dd77;
+  border-radius:50%;
+  pointer-events:none;
+  transition:0.5s ease-out;
+  z-index:-4;
+}
+.pointer:hover{
+  cursor:none;
+}
+.effect-text {
+    position: absolute;
+    pointer-events: none;
+    font-size: 24px;
+    opacity: 0;
+    color: #87CEEB;
+    z-index: 100;
+}
+</style>
+<body>
+    <section>
+        <div class="pointer"></div>
+        <div class="pointer1"></div>
+        <div class="pointer2"></div>
+        <div class="pointer3"></div>
+        <div class="pointer4"></div>
+        <div class="effect-text"></div>
+    </section>
+    
+    <script>
+        const audioFiles = [
+            '../audio/4/caterpillar_kr.mp3',
+            '../audio/4/caterpillar_en.mp3',
+            '../audio/4/caterpillar_jp.mp3'
+        ];
+
+        const randomTexts = [
+            { 
+                text: 'もぞもぞ', 
+                font: "'Zen Maru Gothic', Impact, sans-serif",
+                audio: audioFiles[2]
+            },
+            { 
+                text: '꼬물꼬물', 
+                font: "'Black Han Sans', Impact, sans-serif",
+                audio: audioFiles[0]
+            },
+            { 
+                text: 'Wriggle wriggle', 
+                font: "Impact, sans-serif",
+                audio: audioFiles[1]
+            }
+        ];
+
+        let lastMoveTime = 0;
+        const moveDelay = 1000; // 1초 딜레이
+
+        $(document).mousemove(function(e) {
+            // 포인터들의 위치를 마우스 커서 위치로 업데이트
+            $('.pointer').css({
+                left: e.pageX,
+                top: e.pageY
+            });
+            
+            $('.pointer1').css({
+                left: e.pageX,
+                top: e.pageY
+            });
+            
+            $('.pointer2').css({
+                left: e.pageX,
+                top: e.pageY
+            });
+            
+            $('.pointer3').css({
+                left: e.pageX,
+                top: e.pageY
+            });
+            
+            $('.pointer4').css({
+                left: e.pageX,
+                top: e.pageY
+            });
+
+            // 텍스트와 사운드 효과 (1초 딜레이 적용)
+            const currentTime = Date.now();
+            if (currentTime - lastMoveTime < moveDelay) return;
+            
+            lastMoveTime = currentTime;
+            
+            const randomEffect = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+            const textElement = document.querySelector('.effect-text');
+            textElement.textContent = randomEffect.text;
+            textElement.style.fontFamily = randomEffect.font;
+            
+            $(textElement).css({
+                left: (e.pageX + 30) + 'px',
+                top: (e.pageY - 30) + 'px'
+            });
+            
+            // 텍스트 애니메이션
+            $(textElement).stop().animate({opacity: 1}, 100)
+                         .animate({top: '-=20px'}, 500)
+                         .animate({opacity: 0}, 300);
+
+            // 오디오 재생
+            const audio = new Audio(randomEffect.audio);
+            audio.play();
+        });
+    </script>
+    
+    <button id="back-button">close</button>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="../common.js"></script>
+</body>
+</html>

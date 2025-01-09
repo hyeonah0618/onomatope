@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>water</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+                @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: beige;
+        }
+
+        .face {
+            position: fixed;
+            bottom: -260px;
+            right: -10%;
+            width: auto;
+            transform-origin: center;
+            z-index: 10;
+        }
+        h2 {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 36px;
+            color: #5822a4;
+            font-weight: 600;
+            font-family: Oswald, sans-serif;
+            display: inline-block;
+        }
+        #water-path {
+            fill: none;
+            stroke: #5aafff;
+            stroke-width: 25;
+            stroke-linecap: round;
+            filter: drop-shadow(0 0 2px rgba(90, 175, 255, 0.5));
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200;
+        }
+
+        .water-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        @font-face {
+            font-family: 'Impact';
+            src: local('Impact');
+        }
+    </style>
+        <link rel="stylesheet" href="../common.css">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h2>Tilt your head to drink</h2>
+    <img src="./img/water/face.webp" class="face" id="face">
+    <div class="water-container">
+        <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path id="water-path" d="M10,10 Q50,20 50,50" stroke-dasharray="200" stroke-dashoffset="200"/>
+        </svg>
+    </div>
+
+    <script>
+        const face = document.getElementById('face');
+        const waterPath = document.getElementById('water-path');
+
+        let isFlowing = false;
+        let currentAnimation = null;
+        let breathingAnimation;
+        let isDefaultBreathing = true;
+
+        function updateWaterPath(rotation) {
+            const controlX = 50 + (rotation/4);
+            const controlY = 30;
+            const endX = 50 + (rotation/6);
+            const endY = 60;
+            
+            waterPath.setAttribute('d', `M10,10 C30,15 ${controlX},${controlY} ${endX},${endY}`);
+
+            if (!isFlowing) {
+                isFlowing = true;
+                
+                if (currentAnimation) {
+                    currentAnimation.kill();
+                }
+
+                currentAnimation = gsap.fromTo(waterPath, 
+                    {
+                        strokeDashoffset: 200
+                    },
+                    {
+                        strokeDashoffset: 0,
+                        duration: 1.5,
+                        ease: "power1.inOut",
+                        onComplete: () => {
+                            waterPath.style.strokeDashoffset = "0";
+                        }
+                    }
+                );
+            }
+        }
+
+        let timeout;
+        function debounce(func, wait) {
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        const debouncedUpdateWaterPath = debounce((rotation) => {
+            updateWaterPath(rotation);
+        }, 100);
+
+        function startDefaultBreathing() {
+            if (breathingAnimation) {
+                breathingAnimation.kill();
+            }
+
+            // 기본 숨쉬기 (작은 움직임)
+            breathingAnimation = gsap.to(face, {
+                scale: 1.01,
+                duration: 1.8,
+                repeat: -1,
+                yoyo: true,
+                ease: "power1.inOut"
+            });
+            isDefaultBreathing = true;
+        }
+
+        function startHeavyBreathing() {
+            if (isDefaultBreathing) {
+                if (breathingAnimation) {
+                    breathingAnimation.kill();
+                }
+
+                // 물 마실 때 숨쉬기 (더 큰 움직임, 더 빠른 속도)
+                breathingAnimation = gsap.to(face, {
+                    scale: 1.03,
+                    duration: 1.2,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "power1.inOut"
+                });
+                isDefaultBreathing = false;
+            }
+        }
+
+        // 페이지 로드 시 기본 숨쉬기 시작
+        startDefaultBreathing();
+
+        // 효과음 텍스트 배열 추가
+        const drinkingSounds = [
+            { 
+                text: '꿀꺽꿀꺽', 
+                font: "'Noto Sans KR', sans-serif",
+                audio: '../audio/2/water_kr.mp3'
+            },
+            { 
+                text: 'ゴクゴク', 
+                font: "'Noto Sans JP', sans-serif",
+                audio: '../audio/2/water_jp.mp3'
+            },
+            { 
+                text: 'gulp', 
+                font: "'Impact', sans-serif",
+                audio: '../audio/2/water_en.mp3'
+            },
+            { 
+                text: 'Glu glu', 
+                font: "'Arial', sans-serif",
+                audio: '../audio/2/water_sp.mp3'
+            }
+        ];
+
+        function createWaterDrop() {
+            const drop = document.createElement('div');
+            // ... existing drop creation code ...
+
+            // 물방울 애니메이션
+            gsap.to(drop, {
+                duration: 1,
+                y: '+=400',
+                ease: "none",
+                onUpdate: function() {
+                    // 물방울과 얼굴의 충돌 감지
+                    const dropRect = drop.getBoundingClientRect();
+                    const faceRect = face.getBoundingClientRect();
+                    
+                    if (isColliding(dropRect, faceRect) && !drop.hasCollided) {
+                        drop.hasCollided = true;  // 충돌 플래그 설정
+                        showDrinkingEffect();  // 충돌 시 효과 표시
+                    }
+                },
+                onComplete: function() {
+                    document.body.removeChild(drop);
+                }
+            });
+        }
+
+        // 충돌 감지 함수
+        function isColliding(rect1, rect2) {
+            return !(rect1.right < rect2.left || 
+                     rect1.left > rect2.right || 
+                     rect1.bottom < rect2.top || 
+                     rect1.top > rect2.bottom);
+        }
+
+        function showDrinkingEffect() {
+            const randomConfig = drinkingSounds[Math.floor(Math.random() * drinkingSounds.length)];
+            const textElement = document.createElement('div');
+            
+            // 랜덤 위치 계산
+            const randomX = Math.random() * (window.innerWidth - 100); // 화면 가장자리 여백 고려
+            const randomY = Math.random() * (window.innerHeight - 100);
+            
+            textElement.style.position = 'fixed';
+            textElement.style.fontFamily = randomConfig.font;
+            textElement.style.fontSize = '48px';
+            textElement.style.color = '#ffffff'; // 흰색으로 변경
+            textElement.style.fontWeight = 'bold';
+            textElement.style.zIndex = '9999';
+            textElement.style.opacity = '0';
+            textElement.textContent = randomConfig.text;
+            textElement.style.left = `${randomX}px`;
+            textElement.style.top = `${randomY}px`;
+            textElement.style.textShadow = '2px 2px 4px rgba(0,0,0,0.3)'; // 가독성을 위한 그림자 추가
+            
+            document.body.appendChild(textElement);
+
+            const audio = new Audio(randomConfig.audio);
+            audio.play().catch(console.error);
+
+            gsap.to(textElement, {
+                duration: 0.3,
+                opacity: 1,
+                scale: 1.2,
+                ease: "back.out(1.7)",
+                onComplete: () => {
+                    gsap.to(textElement, {
+                        duration: 0.5,
+                        opacity: 0,
+                        y: '-=30',
+                        delay: 0.5,
+                        ease: "power2.out",
+                        onComplete: () => {
+                            document.body.removeChild(textElement);
+                        }
+                    });
+                }
+            });
+        }
+
+        let drinkingSoundTimeout;
+
+        document.addEventListener('mousemove', (e) => {
+            const faceRect = face.getBoundingClientRect();
+            const faceCenterX = faceRect.left + faceRect.width / 2;
+            const faceCenterY = faceRect.top + faceRect.height / 2;
+            
+            const angle = Math.atan2(e.clientY - faceCenterY, e.clientX - faceCenterX);
+            const distance = Math.hypot(e.clientX - faceCenterX, e.clientY - faceCenterY);
+            
+            const maxRotation = 35;
+            const rotationFactor = Math.min(distance / 900, 1);
+            let rotation = -(angle * 180 / Math.PI) * rotationFactor;
+            
+            rotation = Math.max(0, rotation);
+            
+            gsap.to(face, {
+                duration: 1.2,
+                rotation: Math.min(maxRotation, rotation),
+                ease: "power2.out"
+            });
+
+            if (Math.abs(rotation) > 5) {
+                debouncedUpdateWaterPath(rotation);
+                gsap.to(waterPath, {
+                    opacity: 1,
+                    duration: 0.5
+                });
+                startHeavyBreathing();
+
+                // 물 마시는 효과음 재생 (일정 간격으로)
+                clearTimeout(drinkingSoundTimeout);
+                drinkingSoundTimeout = setTimeout(() => {
+                    showDrinkingEffect();
+                }, 800); // 0.8초 간격
+
+            } else {
+                isFlowing = false;
+                gsap.to(waterPath, {
+                    opacity: 0,
+                    duration: 0.8,
+                    onComplete: () => {
+                        waterPath.style.strokeDashoffset = "200";
+                    }
+                });
+                startDefaultBreathing();
+                clearTimeout(drinkingSoundTimeout);
+            }
+        });
+
+        // 초기 설정
+        gsap.set(face, {
+            transformOrigin: "center center",
+            scale: 1
+        });
+    </script>
+            <button id="back-button">close</button>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+            <script src="../common.js"></script>
+</body>
+</html>

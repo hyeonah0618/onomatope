@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>frog</title>
+    <link rel="stylesheet" href="../common.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <style>
+              @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+
+h2 {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: 36px;
+    color: #ffffff;
+    font-weight: 600;
+    font-family: Oswald, sans-serif;
+    display: inline-block;
+}
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #c9eb69;
+        }
+        
+        .frog {
+            margin-top: auto;
+            margin-bottom: 10vh; /* 화면 높이의 20% 만큼 아래 여백 */
+        }
+
+        .effect-text {
+            position: absolute;
+            pointer-events: none;
+            font-size: 28px;
+            opacity: 0;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <h2>Tap the frog!</h2>  
+    <img src="img/frog/frog.webp" alt="frog" class="frog">
+    <div class="effect-text"></div>
+
+    <script>
+        const audioFiles = [
+            '../audio/4/frog_kr.mp3',
+            '../audio/4/frog_en.mp3',
+            '../audio/4/frog_jp.mp3',
+            '../audio/4/frog_cn.mp3'
+        ];
+
+        const randomTexts = [
+            { 
+                text: 'ゲロゲロ', 
+                font: "'Zen Maru Gothic', sans-serif",
+                audio: audioFiles[2]
+            },
+            { 
+                text: '개굴개굴', 
+                font: "'Black Han Sans', sans-serif",
+                audio: audioFiles[0]
+            },
+            { 
+                text: 'Ribbit', 
+                font: "Impact, sans-serif",
+                audio: audioFiles[1]
+            },
+            { 
+                text: '呱呱', 
+                font: "'Noto Sans SC', sans-serif",
+                audio: audioFiles[3]
+            }
+        ];
+
+        $('.frog').click(function(e) {
+            // GSAP 개구리 애니메이션
+            gsap.timeline()
+                .to(this, {
+                    y: -100,
+                    rotation: 5,
+                    duration: 0.3,
+                    ease: "power2.out"
+                })
+                .to(this, {
+                    y: 0,
+                    rotation: 0,
+                    duration: 0.3,
+                    ease: "bounce.out"
+                });
+
+            // 랜덤 효과 선택
+            const randomEffect = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+            
+            // 여러 개의 텍스트 효과 생성
+            for (let i = 0; i < 3; i++) {
+                const textElement = document.createElement('div');
+                textElement.className = 'effect-text';
+                textElement.textContent = randomEffect.text;
+                textElement.style.fontFamily = randomEffect.font;
+                textElement.style.left = (e.pageX + (-20 + Math.random() * 40)) + 'px';
+                textElement.style.top = (e.pageY) + 'px';
+                document.body.appendChild(textElement);
+
+                // GSAP 텍스트 애니메이션
+                gsap.timeline()
+                    .to(textElement, {
+                        opacity: 1,
+                        duration: 0.2
+                    })
+                    .to(textElement, {
+                        y: -100 - (Math.random() * 50),
+                        x: 50 - (Math.random() * 100),
+                        rotation: -15 + (Math.random() * 30),
+                        opacity: 0,
+                        duration: 1,
+                        ease: "power1.out",
+                        onComplete: () => textElement.remove()
+                    });
+            }
+
+            // 오디오 재생
+            const audio = new Audio(randomEffect.audio);
+            audio.play();
+        });
+    </script>
+        <button id="back-button">close</button>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="../common.js"></script>
+</body>
+</html>
