@@ -1,7 +1,3 @@
-$('#back-button').on('click', () => {
-    window.close();
-});
-
 const pages = [
     d3.select("#page1"),
     d3.select("#page2"),
@@ -9,6 +5,8 @@ const pages = [
     d3.select("#page4"),
     d3.select("#page5"),
     d3.select("#page6"),
+    d3.select("#page7"),
+    d3.select("#reflect7"),
     d3.select("#reflect6"),
     d3.select("#reflect5"),
     d3.select("#reflect4"),
@@ -17,11 +15,7 @@ const pages = [
     d3.select("#reflect1")
 ];
 
-const audioFiles = [
-    "../audio/1/book_kr.mp3",
-    "../audio/1/book_en.mp3",
-    "../audio/1/book_jp.mp3"
-];
+const audioFiles = [     "../audio/1/book_kr.mp3",     "../audio/1/book_en.mp3",     "../audio/1/book_jp.mp3" ];
 
 const textOptions = [
     { text: "팔락팔락", font: "CHOGOONCHICKENSCRATCHV3", class: "korean" },
