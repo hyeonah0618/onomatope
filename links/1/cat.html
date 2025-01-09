@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cat</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <style>
+/* 폰트 임포트 */
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+@font-face {
+    font-family: 'LOTTERIACHAB';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/LOTTERIACHAB.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'JSArirang-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/JSArirang-RegularA1.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Katuri';
+    src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_13@1.0/Katuri.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TTHakgyoansimKkwabaegiR';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimKkwabaegiR.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+        body {
+            background-color: #538BC1;
+            display: flex;
+    justify-content: center;
+    align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            cursor: url();
+        }
+
+        #cat-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+        
+        .cat-part {
+            position: absolute;
+            transform: translateX(-50%);
+        }
+
+        #body {
+            left: 50%;
+            bottom: 50px;
+            z-index: 2;
+        }
+
+        #eye {
+            bottom: 295px;
+            left: 375px;
+            z-index: 3;
+        }
+
+        #tail {
+            position: absolute;
+            bottom: 80px;
+            left: 575px;
+            z-index: 1;
+        }
+
+        #tail.angry {
+            left: 500px !important;  /* 화났을 때 꼬리 위치 조정 */
+        }
+
+        #cat-text {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            opacity: 0;
+            z-index: 999;
+        }
+        h2 {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 24px;
+            color: #ffffff;
+            font-weight: 400;
+            font-family: Oswald, sans-serif;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h2>Click the cat to pet it!</h2>
+    <div id="cat-container">
+        <div id="cat-text"></div>
+        <img src="./img/cat/body.webp" id="body" class="cat-part">
+        <img src="./img/cat/eye_normal.webp" id="eye" class="cat-part">
+        <img src="./img/cat/tail_normal.webp" id="tail" class="cat-part">
+    </div>
+<script>
+    $(document).ready(function() {
+        const catBody = $('#body');
+        const catEye = $('#eye');
+        const catTail = $('#tail');
+        const catText = $('#cat-text');
+        
+        var happyTexts = ['고롱고롱', 'ゴロゴロ', 'purr'];
+        var angryTexts = ['하악-', 'シャー', 'hiss'];
+        var normalTexts = ['야옹', 'ニャー', 'meow'];
+        
+        var textFonts = {
+            'meow': 'Katuri',
+            'ニャー': 'TTHakgyoansimKkwabaegiR',
+            'ゴロゴロ': 'LOTTERIACHAB',
+            '고롱고롱': 'LOTTERIACHAB',
+            'purr': 'LOTTERIACHAB',
+            '야옹': 'Katuri',
+            'シャー': 'JSArirang-Regular',
+            'hiss': 'JSArirang-Regular',
+            '하악-': 'JSArirang-Regular'
+        };
+
+        function playRandomSound(state) {
+            const lang = ['en', 'jp', 'kr'][Math.floor(Math.random() * 3)];
+            const audio = new Audio(`../audio/1/cat_${state}_${lang}.mp3`);
+            audio.play();
+        }
+
+        function showText(texts) {
+            const randomText = texts[Math.floor(Math.random() * texts.length)];
+            
+            // 랜덤 위치 계산 (고양이 주변으로 제한)
+            const randomX = Math.random() * 200 + 300; // 300~500px 사이
+            const randomY = Math.random() * 200 + 200; // 200~400px 사이
+            
+            catText.text(randomText)
+                   .css({
+                       'font-family': `'${textFonts[randomText]}', sans-serif`,
+                       'left': randomX + 'px',
+                       'top': randomY + 'px'
+                   });
+            
+            gsap.to(catText, {
+                opacity: 1,
+                duration: 0.3,
+                yoyo: true,
+                repeat: 1,
+                repeatDelay: 0.5
+            });
+        }
+        
+        function setHappyState() {
+            catEye.attr('src', './img/cat/eye_happy.webp');
+            catTail.attr('src', './img/cat/tail_happy.webp');
+            catTail.removeClass('angry');
+            
+            playRandomSound('happy');
+            showText(happyTexts);
+            
+            gsap.to([catBody, catEye, catTail], {
+                y: -40,
+                duration: 0.4,
+                ease: "power1.out",
+                yoyo: true,
+                repeat: 1
+            });
+        }
+
+        function setNormalState() {
+            catEye.attr('src', './img/cat/eye_normal.webp');
+            catTail.attr('src', './img/cat/tail_normal.webp');
+            catTail.removeClass('angry');
+            
+            playRandomSound('normal');
+            showText(normalTexts);
+            
+            gsap.to([catBody, catEye, catTail], {
+                y: -15,
+                duration: 0.3,
+                ease: "power1.out",
+                yoyo: true,
+                repeat: 1
+            });
+        }
+
+        function setAngryState() {
+            catEye.attr('src', './img/cat/eye_angry.webp');
+            catTail.attr('src', './img/cat/tail_angry.webp');
+            catTail.addClass('angry');
+            
+            playRandomSound('angry');
+            showText(angryTexts);
+            
+            gsap.to([catBody, catEye], {
+                x: 5,
+                duration: 0.1,
+                ease: "none",
+                yoyo: true,
+                repeat: 3
+            });
+        }
+
+        catBody.click(function(e) {
+            const clickY = e.offsetY;
+            const bodyHeight = catBody.height();
+            
+            if (clickY < bodyHeight * 0.4) {
+                setHappyState();
+            }
+            else if (clickY < bodyHeight * 0.7) {
+                setNormalState();
+            }
+            else {
+                setAngryState();
+            }
+        });
+
+        catTail.click(function() {
+            setAngryState();
+        });
+    });
+</script>
+</body>
+</html>

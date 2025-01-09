@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>swimming</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            overflow: hidden;
+            background-image: url('./img/swimming/base.webp');
+        }
+
+        #pool {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #swimming {
+            position: absolute;
+            left: 65%;
+            bottom: 10px;
+        }
+
+        .pado {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            mix-blend-mode: multiply;
+            width: 35px;
+            height: 35px;
+        }
+                h2 {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 36px;
+            color: #f96ff2;
+            font-weight: 400;
+            font-family: Oswald, sans-serif;
+            display: inline-block;
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <h2>Press WASD to swim!</h2>
+    <img src="./img/swimming/pool.webp" alt="pool" id="pool">
+    <img src="./img/swimming/person.webp" alt="swimming" id="swimming">
+    <script>
+        const swimming = document.getElementById('swimming');
+        const pool = document.getElementById('pool');
+        let posX = swimming.offsetLeft;
+        let posY = swimming.offsetTop;
+        const speed = 5;
+        const keys = {};
+
+        document.addEventListener('keydown', (e) => {
+            keys[e.key.toLowerCase()] = true;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            keys[e.key.toLowerCase()] = false;
+        });
+
+        let isMoving = false;
+        let padoTimeout;
+
+        // 오디오 파일 배열
+        const audioFiles = [
+            '../audio/2/swimming_kr.mp3',
+            '../audio/2/swimming_en.mp3',
+            '../audio/2/swimming_jp.mp3',
+            '../audio/2/swimming_cn.mp3'
+        ];
+
+        // 효과음 텍스트 배열
+        const randomTexts = [
+            { 
+                text: 'バシャバシャ', 
+                font: "'Noto Sans JP', sans-serif",
+                audio: audioFiles[2]
+            },
+            { 
+                text: '어푸어푸', 
+                font: "'Noto Sans KR', sans-serif",
+                audio: audioFiles[0]
+            },
+            { 
+                text: 'splash', 
+                font: "'Impact', sans-serif",
+                audio: audioFiles[1]
+            },
+            { 
+                text: '扑通扑通', 
+                font: "'Noto Sans SC', sans-serif",
+                audio: audioFiles[3]
+            }
+        ];
+
+        let textTimeout;
+        let isTextPlaying = false;
+
+        function createPado() {
+            const pado = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            pado.setAttribute("viewBox", "0 0 100 100");
+            pado.setAttribute("class", "pado");
+            
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", "M0,50 C25,30 25,70 50,50 C75,30 75,70 100,50");
+            path.setAttribute("fill", "none");
+            path.setAttribute("stroke", "#1E90FF");
+            path.setAttribute("stroke-width", "12");
+            path.setAttribute("stroke-linecap", "round");
+            
+            pado.appendChild(path);
+            
+            const rotation = Math.random() < 0.5 ? 0 : 180;
+            pado.style.transform = `rotate(${rotation}deg)`;
+            
+            const distance = Math.random() * 40;
+            const offsetX = (Math.random() < 0.5 ? -1 : 1) * distance;
+            const offsetY = (Math.random() - 0.5) * 10;
+            
+            pado.style.left = (posX + offsetX) + 'px';
+            pado.style.top = (posY + offsetY) + 'px';
+            
+            document.body.appendChild(pado);
+
+            setTimeout(() => {
+                pado.style.opacity = '0.7';
+                setTimeout(() => {
+                    pado.style.opacity = '0';
+                    setTimeout(() => {
+                        pado.remove();
+                    }, 300);
+                }, 500);
+            }, 0);
+        }
+
+        function createRandomText() {
+            if (!isMoving || isTextPlaying) return;
+            
+            isTextPlaying = true;
+            const randomEffect = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+            
+            // 텍스트 요소 생성
+            const textElement = document.createElement('div');
+            textElement.style.position = 'absolute';
+            textElement.style.fontFamily = randomEffect.font;
+            textElement.style.fontSize = '24px';
+            textElement.style.color = '#ffffff';
+            textElement.style.pointerEvents = 'none';
+            textElement.style.zIndex = '2';
+            textElement.style.opacity = '0';
+            textElement.textContent = randomEffect.text;
+            
+            // 위치 설정 (캐릭터 위쪽)
+            textElement.style.left = posX + 'px';
+            textElement.style.top = (posY - 30) + 'px';
+            textElement.style.transform = 'translate(-50%, -50%)';
+            
+            document.body.appendChild(textElement);
+            
+            // 오디오 재생
+            const audio = new Audio(randomEffect.audio);
+            audio.play();
+            
+            // 애니메이션
+            gsap.to(textElement, {
+                opacity: 1,
+                y: -20,
+                duration: 0.3,
+                onComplete: () => {
+                    gsap.to(textElement, {
+                        opacity: 0,
+                        y: -40,
+                        duration: 0.3,
+                        delay: 0.2,
+                        onComplete: () => {
+                            textElement.remove();
+                            setTimeout(() => {
+                                isTextPlaying = false;
+                            }, 100);
+                        }
+                    });
+                }
+            });
+        }
+
+        function update() {
+            let rotation = 0;
+            let scaleX = 1;
+            let newPosX = posX;
+            let newPosY = posY;
+            let isCurrentlyMoving = false;
+
+            if (keys['w'] || keys['a'] || keys['s'] || keys['d']) {
+                isCurrentlyMoving = true;
+            }
+
+            if (keys['w']) {
+                newPosY -= speed;
+                rotation = -90;
+            }
+            if (keys['s']) {
+                newPosY += speed;
+                rotation = 90;
+            }
+            if (keys['a']) {
+                newPosX -= speed;
+                rotation = 0;
+                scaleX = -1;
+            }
+            if (keys['d']) {
+                newPosX += speed;
+                rotation = 0;
+            }
+
+            // 대각선 이동시 회전 각도 조정
+            if (keys['w'] && keys['a']) rotation = -45;
+            if (keys['w'] && keys['d']) rotation = -135;
+            if (keys['s'] && keys['a']) rotation = 45;
+            if (keys['s'] && keys['d']) rotation = 135;
+
+            // 수영장 경계 체크
+            const poolRect = pool.getBoundingClientRect();
+            const padding = 20;
+
+            newPosX = Math.max(
+                poolRect.left + padding, 
+                Math.min(poolRect.right - padding, newPosX)
+            );
+            newPosY = Math.max(
+                poolRect.top + padding, 
+                Math.min(poolRect.bottom - padding, newPosY)
+            );
+
+            if (newPosX >= poolRect.left + padding && 
+                newPosX <= poolRect.right - padding && 
+                newPosY >= poolRect.top + padding && 
+                newPosY <= poolRect.bottom - padding) {
+                posX = newPosX;
+                posY = newPosY;
+            }
+
+            swimming.style.left = posX + 'px';
+            swimming.style.top = posY + 'px';
+            swimming.style.transform = `translate(-50%, -50%) rotate(${rotation}deg) scaleX(${scaleX})`;
+
+            // 움직임 상태가 변경될 때
+            if (isCurrentlyMoving && !isMoving) {
+                isMoving = true;
+                createPadoEffect();
+                // 텍스트 효과 시작
+                createRandomText();
+                textTimeout = setInterval(createRandomText, 1000); // 1초마다 텍스트 생성
+            } else if (!isCurrentlyMoving && isMoving) {
+                isMoving = false;
+                clearTimeout(padoTimeout);
+                clearInterval(textTimeout);
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        function createPadoEffect() {
+            if (!isMoving) return;
+            
+            // 한 번에 1~2개의 파도 생성
+            const count = 1 + Math.floor(Math.random() * 2);
+            for (let i = 0; i < count; i++) {
+                createPado();
+            }
+            
+            // 생성 간격을 더 짧게 (150~350ms)
+            padoTimeout = setTimeout(createPadoEffect, 150 + Math.random() * 200);
+        }
+
+        // 초기 위치 설정
+        function initPosition() {
+            const poolRect = pool.getBoundingClientRect();
+            posX = poolRect.left + (poolRect.width * 0.15);
+            posY = poolRect.top + (poolRect.height * 0.75);
+            swimming.style.left = posX + 'px';
+            swimming.style.top = posY + 'px';
+            swimming.style.transform = `translate(-50%, -50%)`;
+        }
+
+        window.addEventListener('load', initPosition);
+        update();
+    </script>
+</body>
+</html>

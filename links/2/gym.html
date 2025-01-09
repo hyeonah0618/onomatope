@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Sans+JP:wght@900&family=Noto+Sans+KR:wght@900&family=Noto+Sans+SC:wght@900&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #E2562B;
+}
+
+        img {
+            position: absolute;
+            width: auto;
+            height: auto;
+        }
+        .power-effect {
+            position: absolute;
+            pointer-events: none;
+            mix-blend-mode: multiply;
+            width: 50px;
+            height: 50px;
+        }
+        h2 {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 36px;
+            color: #ffffff;
+            font-weight: 600;
+            font-family: Oswald, sans-serif;
+            display: inline-block;
+        }
+
+        .effect-text {
+            position: absolute;
+            font-size: 36px;
+            font-weight: 900;
+            pointer-events: none;
+            z-index: 100;
+            white-space: nowrap;
+            color: #0051ff;
+
+        }
+    </style>
+</head>
+<body>
+    <h2>Press the muscle!</h2>
+    <img src="./img/muki/arm1.webp" alt="arm1" id="armImage">
+
+    <script>
+        const armImage = document.getElementById('armImage');
+        let isArm1 = true;
+        let isAnimating = false;
+
+        // 효과음 텍스트 배열
+        const randomTexts = [
+            { 
+                text: 'ムキムキ', 
+                font: "'Anton', 'Noto Sans JP', sans-serif",
+                audio: '../audio/2/gym_jp.mp3'
+            },
+            { 
+                text: '울끈불끈', 
+                font: "'Anton', 'Noto Sans KR', sans-serif",
+                audio: '../audio/2/gym_kr.mp3'
+            },
+            { 
+                text: 'PUM-PUM', 
+                font: "'Anton', sans-serif",
+                audio: '../audio/2/gym_en.mp3'
+            },
+            { 
+                text: 'Phình phình', 
+                font: "'Anton', 'Noto Sans SC', sans-serif",
+                audio: '../audio/2/gym_cn.mp3'
+            }
+        ];
+
+        // 오디오 객체들을 미리 생성
+        const audioObjects = randomTexts.map(item => {
+            const audio = new Audio(item.audio);
+            audio.preload = 'auto';
+            return audio;
+        });
+
+        armImage.addEventListener('click', (e) => {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            // 랜덤 텍스트 선택
+            const randomEffect = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+            
+            // 효과음 재생
+            const audio = audioObjects[randomTexts.indexOf(randomEffect)];
+            audio.currentTime = 0;
+            audio.play();
+
+            // 텍스트 효과 생성
+            const textEffect = document.createElement('div');
+            textEffect.className = 'effect-text';
+            textEffect.textContent = randomEffect.text;
+            textEffect.style.fontFamily = randomEffect.font;
+            textEffect.style.left = (e.clientX - 50) + 'px';
+            textEffect.style.top = (e.clientY - 20) + 'px';
+            document.body.appendChild(textEffect);
+
+            // 텍스트 애니메이션
+            gsap.fromTo(textEffect,
+                {
+                    scale: 0.2,
+                    rotation: -10,
+                },
+                {
+                    scale: 1,
+                    rotation: 0,
+                    duration: 0.3,
+                    ease: "elastic.out(1, 0.3)",
+                    onComplete: () => {
+                        gsap.to(textEffect, {
+                            scale: 1.2,
+                            duration: 0.2,
+                            delay: 0.1,
+                            onComplete: () => {
+                                gsap.to(textEffect, {
+                                    y: -100,
+                                    duration: 0.5,
+                                    delay: 0.2,
+                                    ease: "power2.in",
+                                    onComplete: () => textEffect.remove()
+                                });
+                            }
+                        });
+                    }
+                }
+            );
+
+            // 이전 애니메이션 초기화
+            gsap.killTweensOf(armImage);
+
+            isArm1 = !isArm1;
+            armImage.src = `./img/muki/${isArm1 ? 'arm1' : 'arm2'}.webp`;
+
+            gsap.to(armImage, {
+                scale: 1.3,
+                duration: 0.3,
+                ease: "power2.out",
+                yoyo: true,
+                repeat: 1,
+                onComplete: () => {
+                    isAnimating = false;
+                    gsap.set(armImage, { scale: 1 });
+                }
+            });
+
+            // 파워 이펙트 생성 및 위치 조정
+            const power = document.createElement('img');
+            power.src = './img/muki/power.webp';
+            power.className = 'power-effect';
+            document.body.appendChild(power);
+
+            const powerSize = 50;
+            power.style.left = (e.clientX - powerSize/2) + 'px';
+            power.style.top = (e.clientY - powerSize/2) + 'px';
+
+            // 랜덤 위치, 크기, 각도 설정
+            const randomRotation = Math.random() * 360;
+            const randomScale = 0.5 + Math.random() * 1;
+            
+            // 파워 이펙트 애니메이션
+            gsap.fromTo(power, 
+                {
+                    opacity: 1,
+                    scale: 1,
+                    rotation: randomRotation
+                },
+                {
+                    scale: randomScale * 3,
+                    opacity: 1,
+                    duration: 0.4,
+                    ease: "power3.out",
+                    onComplete: () => {
+                        gsap.to(power, {
+                            opacity: 0,
+                            duration: 0.5,
+                            delay: 0.3,
+                            ease: "power2.in",
+                            onComplete: () => power.remove()
+                        });
+                    }
+                }
+            );
+        });
+    </script>
+</body>
+</html>

@@ -6,6 +6,8 @@
     <title>다이빙 애니메이션</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <style>
+        
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
         body {
             background-color: #f0f0f0;
             overflow: hidden;
@@ -22,7 +24,7 @@
             height: auto;
             position: absolute;
             left: 50%;
-            top:5%;
+            top:15%;
             transform: translateX(-50%);
             cursor: pointer;
         }
@@ -70,9 +72,31 @@
             border-radius: 50%;
             opacity: 0.6;
         }
+
+        .splash-text {
+            position: absolute;
+            font-size: 36px;
+            color: #1E90FF;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        h2 {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 36px;
+            color: #f96ff2;
+            font-weight: 400;
+            font-family: Oswald, sans-serif;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
+    <h2>Click to dive!</h2>
     <div class="container">
         <img src="./img/diving_1.png" alt="다이버" class="diver" onclick="dive()">
         <div class="water"></div>
@@ -112,36 +136,138 @@
             }
         }
 
+        const audioFiles = [
+            '../audio/2/diving_kr.mp3',
+            '../audio/2/diving_en.mp3',
+            '../audio/2/diving_jp.mp3'
+        ];
+
+        const randomTexts = [
+            { 
+                text: 'ドボン', 
+                font: "'Noto Sans JP', sans-serif",
+                audio: audioFiles[2]
+            },
+            { 
+                text: '풍덩', 
+                font: "'Noto Sans KR', sans-serif",
+                audio: audioFiles[0]
+            },
+            { 
+                text: 'sploosh', 
+                font: "'Impact', sans-serif",
+                audio: audioFiles[1]
+            }
+        ];
+
+        function playRandomEffect() {
+            const randomEffect = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+            
+            // 오디오 즉시 재생
+            const audio = new Audio(randomEffect.audio);
+            audio.play();
+            
+            // 텍스트 효과
+            const textElement = document.createElement('div');
+            textElement.className = 'splash-text';
+            textElement.style.fontFamily = randomEffect.font;
+            textElement.textContent = randomEffect.text;
+            
+            const water = document.querySelector('.water');
+            const waterRect = water.getBoundingClientRect();
+            textElement.style.left = (waterRect.left + waterRect.width/2) + 'px';
+            textElement.style.top = (waterRect.top + 30) + 'px';
+            textElement.style.transform = 'translate(-50%, -50%)';
+            
+            document.body.appendChild(textElement);
+            
+            // 텍스트 애니메이션
+            gsap.to(textElement, {
+                opacity: 1,
+                y: -20,
+                duration: 0.3,
+                onComplete: () => {
+                    gsap.to(textElement, {
+                        opacity: 0,
+                        y: -40,
+                        duration: 0.3,
+                        delay: 0.2,
+                        onComplete: () => {
+                            textElement.remove();
+                        }
+                    });
+                }
+            });
+        }
+
         function dive() {
             if (isAnimating) return;
             isAnimating = true;
 
             const diver = document.querySelector('.diver');
             
+            // 오디오 0.2초 후 재생
+            const randomEffect = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+            setTimeout(() => {
+                const audio = new Audio(randomEffect.audio);
+                audio.play();
+            }, 200);
+            
             anime.timeline({
                 easing: 'easeInOutQuad',
                 complete: function() {
-                    setTimeout(() => {
-                        anime({
-                            targets: '.diver',
-                            translateY: [anime.get(diver, 'translateY'), 0],
-                            rotate: [anime.get(diver, 'rotate'), 0],
-                            opacity: [0, 1],
-                            duration: 0,
-                            complete: function() {
-                                isAnimating = false;
-                            }
-                        });
-                    }, 300); // 리셋 타이밍도 단축
+                    diver.style.transform = 'translateX(-50%) translateY(0) rotate(0deg)';
+                    diver.style.opacity = '1';
+                    isAnimating = false;
                 }
             })
             .add({
                 targets: '.diver',
                 translateY: [0, window.innerHeight * 0.6],
                 rotate: [0, 180],
-                duration: 1000, // 다이빙 시간 단축
+                duration: 1000,
                 complete: function() {
                     createWaterDrops();
+                    
+                    // 텍스트 효과
+                    const splashText = document.createElement('div');
+                    splashText.className = 'splash-text';
+                    splashText.textContent = randomEffect.text;
+                    splashText.style.fontFamily = randomEffect.font;
+                    splashText.style.position = 'absolute';
+                    
+                    // 화면 전체 범위에서 랜덤 위치 계산
+                    const randomX = Math.random() * (window.innerWidth - 100); // 화면 가로 범위
+                    const randomY = Math.random() * (window.innerHeight - 100); // 화면 세로 범위
+                    
+                    splashText.style.left = randomX + 'px';
+                    splashText.style.top = randomY + 'px';
+                    splashText.style.fontSize = '24px';
+                    splashText.style.color = '#1E90FF';
+                    splashText.style.opacity = '0';
+                    splashText.style.zIndex = '999';
+                    
+                    document.body.appendChild(splashText);
+                    
+                    anime({
+                        targets: splashText,
+                        opacity: [0, 1],
+                        translateY: -20,
+                        duration: 300,
+                        complete: function() {
+                            setTimeout(() => {
+                                anime({
+                                    targets: splashText,
+                                    opacity: 0,
+                                    translateY: -40,
+                                    duration: 300,
+                                    complete: function() {
+                                        splashText.remove();
+                                    }
+                                });
+                            }, 200);
+                        }
+                    });
                 }
             })
             .add({

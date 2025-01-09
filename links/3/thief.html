@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>800x600</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Shizuru&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&display=swap');
 @font-face {
@@ -13,6 +14,19 @@
  font-weight: normal;
  font-style: normal;
 }      
+
+
+        h2 {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 24px;
+            color: #09943a;
+            font-weight: 600;
+            font-family: Oswald, sans-serif;
+            display: inline-block;
+        }
 
         body {
             display: flex;
@@ -73,6 +87,7 @@
     </style>
 </head>
 <body>
+    <h2>An uninvited guest, maybe...</h2>
     <div class="container">
         <!-- 왼쪽 눈 -->
         <svg id="left-eye-svg" width="308" height="154">
@@ -151,7 +166,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const eyes = document.querySelectorAll('.eye');
     const container = document.querySelector('.container');
-    const audioFiles = ['../audio/page1/page1_kr.mp3', '../audio/page1/page1_jp.mp3', '../audio/page1/page1_cn.mp3'];
+    const audioFiles = ['../audio/3/thief_kr.mp3', '../audio/3/thief_jp.mp3', '../audio/3/thief_cn.mp3'];
     const texts = ['힐끔힐끔', 'キョロキョロ', '一瞟一瞟'];
     let currentAudio = null;
     let isTextVisible = false;

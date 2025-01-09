@@ -6,6 +6,8 @@
     <title>vacuum</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
+            @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+
         @font-face {
             font-family: 'MBC1961GulimM';
             src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/MBC1961GulimM.woff2') format('woff2');
@@ -19,12 +21,24 @@
             font-weight: normal;
             font-style: normal;
         }
+    
+h2 {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: 36px;
+    color: #ffffff;
+    font-weight: 600;
+    font-family: Oswald, sans-serif;
+    display: inline-block;
+}
 
         .click-text {
             font-family: 'MBC1961GulimM', 'Noto Sans KR', 'Noto Sans JP', sans-serif;
             font-size: 24px;
             font-weight: bold;
-            color: #000;
+            color: #811CFF;
             text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
         }
 
@@ -79,6 +93,7 @@
 </head>
 
 <body>
+    <h2>Clean the house!</h2>
     <img src="../svg/4/vacuum/vacuum.webp" id="vacuum">
     <div id="dark-area"></div>
 

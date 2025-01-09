@@ -325,17 +325,17 @@ body {
 #scene2_bottom1 {
   bottom: 0;
   left: 0;
-  z-index: 1;
+  z-index: 5;
 }
 #bus-container {
   position: absolute;
   bottom: 60px;
   left: 260px;
-  z-index: 10;
+  z-index: 50;
 }
 #busstop {
   bottom: 120px;
-  right: 400px;
+  right: 200px;
   z-index: 9;
 }
 #sun2 {
@@ -343,7 +343,36 @@ body {
   right: 600px;
   z-index: 10;
 }
-
+#buspannel {
+  bottom: 100px;
+  right: 300px;
+  z-index: 30;
+}
+#mt1_pink {
+  bottom: 120px;
+  left: 20px;
+  z-index: 3;
+}
+#mt2_pink {
+  bottom: 120px;
+  right: 0;
+  z-index: 2;
+}
+#cloud_y1 {
+  bottom: 300px;
+  left: 260px;
+  z-index: 1;
+}
+#cloud_y2 {
+  bottom: 300px;
+  right: 260px;
+  z-index: 1;
+}
+#tree_pink {
+  bottom: 120px;
+  left: 260px;
+  z-index: 20;
+}
 /* 운동 */
 #bt1 {
   bottom: 0;

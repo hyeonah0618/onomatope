@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cup</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+        body{
+            background-color: #F3DE6E;
+        }
+        h2 {
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 36px;
+            color: #ffffff;
+            font-weight: 600;
+            font-family: Oswald, sans-serif;
+            display: inline-block;
+        }
+
+        #cup{
+            position: absolute;
+            top: 50%;
+            bottom: 0;
+            left: -20px;
+        }
+
+        #hammer{
+            position: absolute;
+            top: 180px;
+            left: 300px;
+        }
+
+        .text {
+            position: absolute;
+            font-size: 48px;
+            color: red;
+            font-weight: bold;
+            z-index: 20;
+            opacity: 0;
+            scale: 0;
+        }
+
+        .arrow-down {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid #ffffff;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(10px);
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+    <h2>Break the cup!</h2>
+    <div class="arrow-down"></div>
+    <img src="./img/cup/before.webp" alt="cup" id="cup">
+    <img src="./img/cup/hammer.webp" alt="hammer" id="hammer">
+    
+    <script>
+        const hammer = document.querySelector('#hammer');
+        const cup = document.querySelector('#cup');
+        let isBroken = false;
+        
+        // 오디오 파일과 텍스트 설정
+        const audioFiles = [
+            '../audio/3/cup_kr.mp3',
+            '../audio/3/cup_en.mp3',
+            '../audio/3/cup_jp.mp3',
+            '../audio/3/cup_de.mp3'
+        ];
+
+        const randomTexts = [
+            { 
+                text: 'ガチャン', 
+                font: "'Noto Sans JP', sans-serif",
+                audio: audioFiles[2]
+            },
+            { 
+                text: '쨍그랑', 
+                font: "'Noto Sans KR', sans-serif",
+                audio: audioFiles[0]
+            },
+            { 
+                text: 'crash', 
+                font: "'Impact', sans-serif",
+                audio: audioFiles[1]
+            },
+            { 
+                text: 'krach', 
+                font: "'Arial', sans-serif",
+                audio: audioFiles[3]
+            }
+        ];
+
+        function showEffect() {
+            const randomConfig = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+            const text = randomConfig.text;
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            
+            // 텍스트를 한 글자씩 분리
+            [...text].forEach((char, index) => {
+                const charElement = document.createElement('div');
+                charElement.className = 'text';
+                charElement.textContent = char;
+                charElement.style.fontFamily = randomConfig.font;
+                charElement.style.left = (x + (index * 45)) + 'px'; // 각 글자 간격
+                charElement.style.top = y + 'px';
+                
+                document.body.appendChild(charElement);
+
+                // 각 글자별로 시차를 두고 애니메이션 적용
+                gsap.fromTo(charElement, 
+                    {
+                        opacity: 0,
+                        scale: 0,
+                        y: '+=50'
+                    },
+                    {
+                        duration: 0.3,
+                        scale: 1.5,
+                        opacity: 1,
+                        y: '-=50',
+                        ease: "back.out(1.7)",
+                        delay: index * 0.1 // 글자별 시차
+                    }
+                );
+
+                // 사라지는 애니메이션
+                gsap.to(charElement, {
+                    duration: 0.5,
+                    scale: 1,
+                    opacity: 0,
+                    y: '-=50',
+                    delay: (index * 0.1) + 0.5, // 나타난 후 사라지는 시차
+                    ease: "power2.out",
+                    onComplete: () => {
+                        charElement.remove();
+                    }
+                });
+            });
+
+            const audio = new Audio(randomConfig.audio);
+            audio.play();
+        }
+        
+        hammer.addEventListener('click', () => {
+            gsap.timeline()
+                .to(hammer, {
+                    rotation: -20,
+                    x: -10,
+                    y: -30,
+                    duration: 0.3,
+                    transformOrigin: "left bottom"
+                })
+                .to(hammer, {
+                    rotation: 45,
+                    x: 15,
+                    y: 20,
+                    duration: 0.2,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        if (!isBroken) {
+                            cup.src = "./img/cup/after.webp";
+                            showEffect(); // 컵이 깨질 때만 효과 표시
+                        } else {
+                            cup.src = "./img/cup/before.webp";
+                        }
+                        isBroken = !isBroken;
+                    }
+                })
+                .to(hammer, {
+                    rotation: 0,
+                    x: 0,
+                    y: 0,
+                    duration: 0.3,
+                    delay: 0.1
+                });
+        });
+    </script>
+</body>
+</html>
