@@ -98,19 +98,42 @@ window.addEventListener("resize", () => {
     ScrollTrigger.refresh();
 });
 
+// 색상 배열 정의
+const initialColors = ['#19AA4A', '#EC008C', '#DDE349','#0099D9']; // 초기 ??? 텍스트용
+const bgColors = ['#19AA4A', '#EC008C', '#DDE349','#0099D9']; // 배경색용
+const textColors = ['#19AA4A', '#EC008C', '#DDE349', '#0099D9','#ffffff']; // 텍스트용
+
+// 페이지 로드 시 각 말풍선에 랜덤 색상 적용
 document.querySelectorAll('.bubble').forEach(bubble => {
-    // 원래 텍스트를 저장
-    const originalText = bubble.textContent;
+    // 초기 ??? 텍스트 색상을 랜덤으로 설정
+    const randomInitialColor = initialColors[Math.floor(Math.random() * initialColors.length)];
+    bubble.style.color = randomInitialColor;
     
     bubble.addEventListener('click', function() {
-        this.classList.toggle('clicked');
-        
-        // clicked 클래스가 있으면 새로운 텍스트로, 없으면 원래 텍스트로
-        if (this.classList.contains('clicked')) {
-            const newText = this.dataset.clickedText || '완료!'; // 데이터 속성이 없을 경우 기본값
+        if (!this.classList.contains('clicked')) {
+            // 배경색 선택 (흰색 제외)
+            const randomBgColor = bgColors[Math.floor(Math.random() * bgColors.length)];
+            
+            // 선택된 배경색을 제외한 나머지 색상들 중에서 텍스트 색상 선택
+            let availableTextColors = textColors.filter(color => color !== randomBgColor);
+            const randomTextColor = availableTextColors[Math.floor(Math.random() * availableTextColors.length)];
+            
+            const newText = this.dataset.clickedText || '완료!';
+            
+            this.classList.add('clicked');
             this.textContent = newText;
-        } else {
-            this.textContent = originalText;
+            this.style.backgroundColor = randomBgColor;
+            this.style.color = randomTextColor;
+            this.style.borderColor = randomBgColor;
+            
+            // 말풍선 꼬리 색상도 변경
+            const afterStyle = document.createElement('style');
+            afterStyle.textContent = `
+                #${this.id}.clicked:after {
+                    border-color: ${randomBgColor} transparent;
+                }
+            `;
+            document.head.appendChild(afterStyle);
         }
     });
 });

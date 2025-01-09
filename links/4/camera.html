@@ -6,7 +6,13 @@
     <title>camera</title>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Sans+KR&family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+
+
         body {
             display: flex;
             flex-direction: column;
@@ -19,6 +25,38 @@
             background-position: center;
             overflow: hidden;
             font-family: Arial, sans-serif;
+        }
+        h2 {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: 36px;
+    color: #ffffff;
+    font-weight: 600;
+    font-family: Oswald, sans-serif;
+    display: inline-block;
+}
+.arrow-down {
+            position: absolute;
+            top: 130px;
+            left: 560px;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid #FF7BAC;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(10px);
+            }
         }
         #camera {
             width: 400px;
@@ -55,6 +93,8 @@
     </style>
 </head>
 <body>  
+    <h2>Snap your favorite view!</h2>
+    <div class="arrow-down"></div>
     <svg id="camera" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 491.03 345.86">
         <defs>
             <style>
@@ -101,6 +141,10 @@
             let currentY;
             let initialX;
             let initialY;
+            let arrowOffset = {
+                x: $(".arrow-down").offset().left - $("#camera").offset().left,
+                y: $(".arrow-down").offset().top - $("#camera").offset().top
+            };
 
             $("#camera").on("mousedown", function(e) {
                 isDragging = true;
@@ -115,10 +159,19 @@
                     e.preventDefault();
                     currentX = e.clientX - initialX;
                     currentY = e.clientY - initialY;
+                    
+                    // 카메라 이동
                     $("#camera").css({
                         "left": currentX + "px",
                         "top": currentY + "px",
                         "transform": "none"
+                    });
+                    
+                    // 화살표도 함께 이동 (초기 간격 유지)
+                    $(".arrow-down").css({
+                        "left": (currentX + arrowOffset.x) + "px",
+                        "top": (currentY + arrowOffset.y) + "px",
+                        "transform": "translateX(-50%)"
                     });
                 }
             });
@@ -128,7 +181,74 @@
                 $("#camera").css('cursor', 'grab');
             });
 
+            const audioFiles = [
+                '../audio/4/camera_kr.mp3',
+                '../audio/4/camera_en.mp3',
+                '../audio/4/camera_jp.mp3',
+                '../audio/4/camera_cn.mp3'
+            ];
+
+            const randomTexts = [
+                { 
+                    text: '찰칵', 
+                    font: "'Dela Gothic One', cursive",
+                    audio: audioFiles[0]
+                },
+                { 
+                    text: 'パシャッ', 
+                    font: "'Dela Gothic One', cursive",
+                    audio: audioFiles[2]
+                },
+                { 
+                    text: 'snap', 
+                    font: "'Oswald', sans-serif",
+                    audio: audioFiles[1]
+                },
+                { 
+                    text: '咔嚓', 
+                    font: "'Dela Gothic One', cursive",
+                    audio: audioFiles[3]
+                },
+                { 
+                    text: 'Chas', 
+                    font: "'Oswald', sans-serif",
+                    audio: audioFiles[4]
+                }
+            ];
+
             $(".cls-4").click(function() {
+                const randomText = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+                
+                new Audio(randomText.audio).play();
+
+                // 랜덤 위치 계산
+                const randomX = Math.random() * (window.innerWidth - 100); // 화면 가장자리 여백 고려
+                const randomY = Math.random() * (window.innerHeight - 100);
+
+                const textElement = $('<div>')
+                    .text(randomText.text)
+                    .css({
+                        position: 'absolute',
+                        left: randomX + 'px',
+                        top: randomY + 'px',
+                        fontSize: '48px',
+                        fontFamily: randomText.font,
+                        color: '#FF7BAC',
+                        zIndex: 9999,
+                        opacity: 0,
+                        fontWeight: 'bold',
+                        textShadow: '2px 2px 4px rgba(0,0,0,0.2)'
+                    })
+                    .appendTo('body');
+
+                gsap.to(textElement, {
+                    opacity: 1,
+                    duration: 0.2,
+                    yoyo: true,
+                    repeat: 1,
+                    onComplete: () => textElement.remove()
+                });
+
                 const camera = $("#camera");
                 const viewfinderArea = {
                     x: camera.offset().left + 30,
@@ -137,9 +257,17 @@
                     height: 220
                 };
 
+                // 카메라 임시 숨김
+                camera.hide();
+                $(".arrow-down").hide();
+
                 html2canvas(document.body, {
                     backgroundColor: null
                 }).then(canvas => {
+                    // 캡처 후 카메라 다시 표시
+                    camera.show();
+                    $(".arrow-down").show();
+
                     const croppedCanvas = document.createElement('canvas');
                     const ctx = croppedCanvas.getContext('2d');
                     croppedCanvas.width = viewfinderArea.width;
@@ -156,11 +284,39 @@
                     film.empty().append($("<img>").attr("src", croppedCanvas.toDataURL()));
                     film.fadeIn();
 
-                    // 1초 후 필름 사라짐
                     setTimeout(() => {
                         film.fadeOut();
                     }, 1000);
                 });
+            });
+
+            // 색상 배열 정의
+            const bubbleColors = ['#19AA4A', '#EC008C', '#DDE349'];
+
+            // 페이지 로드 시 각 말풍선에 랜덤 색상 적용
+            $('.bubble').each(function() {
+                // 각 말풍선마다 랜덤 색상 선택
+                const randomColor = bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
+                // 선택된 색상을 데이터 속성으로 저장
+                $(this).attr('data-color', randomColor)
+                       .css('color', randomColor)
+                       .text('???');
+            });
+
+            // 말풍선 클릭 이벤트
+            $('.bubble').click(function() {
+                if (!$(this).hasClass('clicked')) {
+                    const bubbleColor = $(this).attr('data-color'); // 저장된 색상 가져오기
+                    
+                    $(this).addClass('clicked')
+                           .css({
+                               'background-color': bubbleColor,
+                               'color': '#ffffff'
+                           });
+                    
+                    // 말풍선 꼬리 색상도 변경
+                    $(this).css('border-color', `${bubbleColor} transparent`);
+                }
             });
         });
     </script>

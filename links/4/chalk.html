@@ -6,6 +6,9 @@
     <title>chalk</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+
+
         *{
             cursor:url(../img/chalk.png),auto;
         }
@@ -14,7 +17,8 @@
 	padding:0;
 	height:100%;
 	overflow:hidden;
-	cursor: url(img/chalk.png) 25 25, auto;
+	cursor: url(./img/chalk.png) 25 25, auto;
+    background-image: url(./img/texture.jpg);
 	}
 #chalkboard{
 	position:absolute;
@@ -23,25 +27,82 @@
 	width:100%;
 	height:100%;
 	z-index:1;
-	cursor: url(img/chalk.png) 25 25, auto;
+	cursor: url(./img/chalk.png) 25 25, auto;
 	background-color: gray;
 	}
 .chalk{
 	width:50px;
 	height:50px;
-	background:url(img/chalk.png)no-repeat center/contain;
+	background:url(./img/chalk.png)no-repeat center/contain;
 	position:absolute;
 	padding:0;
 	margin:0;
 	bottom:0;
 	left:0;
-	cursor: url(img/chalk.png) 25 25, auto;
+	cursor: url(./img/chalk.png) 25 25, auto;
 	z-index:2;
 	}
+
+    
+h2 {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: 36px;
+    color: #4dc2cf;
+    font-weight: 600;
+    font-family: Oswald, sans-serif;
+    display: inline-block;
+    z-index: 1000;
+}
     </style>
 </head>
 <body>
+    <h2>Draw whatever you want!
+    </h2>
     <script>
+        // 전역 범위로 이동
+        const audioFiles = [
+            '../audio/4/chalk_kr.mp3',
+            '../audio/4/chalk_en.mp3',
+            '../audio/4/chalk_jp.mp3',
+            '../audio/4/chalk_fr.mp3',
+            '../audio/4/chalk_sp.mp3'
+        ];
+
+        const chalkSounds = [
+            { 
+                text: '사각사각', 
+                font: "'Noto Sans KR', sans-serif",
+                audio: audioFiles[0]
+            },
+            { 
+                text: 'Skree', 
+                font: "'Impact', sans-serif",
+                audio: audioFiles[1]
+            },
+            { 
+                text: 'カ리カ리', 
+                font: "'Noto Sans JP', sans-serif",
+                audio: audioFiles[2]
+            },
+            { 
+                text: 'Cric cric', 
+                font: "'Arial', sans-serif",
+                audio: audioFiles[3]
+            },
+            { 
+                text: 'Ras ras', 
+                font: "'Arial', sans-serif",
+                audio: audioFiles[4]
+            }
+        ];
+
+        let lastSoundIndex = -1; // 마지막으로 재생된 소리의 인덱스
+        let lastEffectTime = 0;  // 마지막 효과 시간 추적
+        let isEffectPlaying = false;  // 효과 재생 중 여부
+
         $(document).ready(chalkboard);
     
         function chalkboard() {
@@ -151,6 +212,54 @@
     
                 xLast = x;
                 yLast = y;
+    
+                const currentTime = Date.now();
+                // 마지막 효과로부터 1초 이상 지났고, 현재 재생 중이 아닐 때만 새로운 효과 재생
+                if (Math.random() < 0.1 && 
+                    currentTime - lastEffectTime > 1000 && 
+                    !isEffectPlaying) {
+                    
+                    let newIndex;
+                    do {
+                        newIndex = Math.floor(Math.random() * chalkSounds.length);
+                    } while (newIndex === lastSoundIndex);
+                    
+                    lastSoundIndex = newIndex;
+                    lastEffectTime = currentTime;
+                    isEffectPlaying = true;
+                    
+                    const randomSound = chalkSounds[newIndex];
+                    const audio = new Audio(randomSound.audio);
+                    audio.play();
+                    
+                    // 이전 텍스트 효과 제거
+                    $('.chalk-effect-text').remove();
+                    
+                    // 텍스트 효과 표시
+                    const textDiv = $('<div>')
+                        .text(randomSound.text)
+                        .addClass('chalk-effect-text')  // 클래스 추가
+                        .css({
+                            position: 'absolute',
+                            left: x + 'px',
+                            top: y + 'px',
+                            color: 'rgba(255,255,255,0.8)',
+                            fontFamily: randomSound.font,
+                            fontSize: '24px',
+                            pointerEvents: 'none',
+                            zIndex: 1000
+                        })
+                        .appendTo('body');
+
+                    // 텍스트 애니메이션 후 제거
+                    textDiv.animate({
+                        opacity: 0,
+                        top: '-=50'
+                    }, 1000, function() {
+                        $(this).remove();
+                        isEffectPlaying = false;  // 애니메이션 완료 후 상태 초기화
+                    });
+                }
             }
     
             $(window).resize(function () {

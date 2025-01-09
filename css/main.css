@@ -134,6 +134,7 @@ body {
 #mirror,
 #book,
 #laptop,
+#cat,
 #clock,
 #bus,
 #japan_hand,
@@ -148,7 +149,6 @@ body {
 #out_caterpillar,
 #out_frog,
 #out_rain,
-#out_vane,
 #sweat-person,
 #diving-person,
 #swimming-person,
@@ -157,7 +157,8 @@ body {
 #water-person,
 #yoga_person1,
 #yoga_person2,
-#boxing1 {
+#boxing1,
+#out_vane1 {
   position: relative;
   left: 0;
   bottom: 0;
@@ -295,7 +296,12 @@ body {
   left: 8300px;
   z-index: 1;
 }
-
+#cat-container {
+  position: absolute;
+  left: 8050px;
+  bottom: 100px;
+  z-index: 15;
+}
 #grass1 {
   bottom: 100px;
   right: 450px;
@@ -1099,11 +1105,13 @@ body {
   bottom: 400px;
   z-index: 10;
 }
-#out_vane1 {
+#vane-container {
+  position: absolute;
   left: 8200px;
   bottom: 400px;
   z-index: 10;
 }
+
 #out_vane2 {
   left: 8500px;
   bottom: 400px;
@@ -1195,7 +1203,7 @@ body {
   width: 250px;
   height: 120px;
   padding: 0px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.7); /* 배경색 투명도 0.7 추가 */
   -webkit-border-radius: 80px;
   -moz-border-radius: 80px;
   border-radius: 80px;
@@ -1203,32 +1211,25 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 36px;
-  cursor: pointer; /* 클릭 가능함을 표시 */
-  transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+  cursor: pointer;
+  transition: all 0.3s ease;
   z-index: 999;
+  color: #ec008c;
 }
 .bubble:after {
   content: "";
   position: absolute;
   border-style: solid;
   border-width: 26px 19px 0;
-  border-color: #ffffff transparent;
+  border-color: rgba(255, 255, 255, 0.7) transparent; /* 꼬리 부분도 동일한 투명도 적용 */
   display: block;
   width: 0;
   z-index: 999;
   bottom: -26px;
   left: 121px;
 }
+/* 클릭된 말풍선 스타일은 JavaScript에서 동적으로 처리되므로 제거 */
 
-/* 말풍선 클릭후 스타일 */
-.bubble.clicked {
-  background: #ffb6c1; /* 클릭했을 때의 배경색 */
-  color: #ffffff; /* 클릭했을 때의 텍스트 색상 */
-}
-/* 클릭된 말풍선의 꼬리 스타일 */
-.bubble.clicked:after {
-  border-color: #ffb6c1 transparent;
-}
 /* 별도의 클래스로 애니메이션 분리 */
 .wobble-animation {
   animation: wobble 1s ease infinite;
@@ -1279,6 +1280,12 @@ body {
   position: absolute;
   left: 50px;
   bottom: 450px;
+}
+
+#cat-bubble {
+  position: absolute;
+  left: -100px;
+  bottom: 200px;
 }
 
 #clock-bubble {
@@ -1413,4 +1420,9 @@ body {
   position: absolute;
   left: 50px;
   bottom: 480px;
+}
+#vane-bubble {
+  position: absolute;
+  left: 50px;
+  bottom: 180px;
 }

@@ -2,28 +2,31 @@
 <html>
 <head>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
         body {
             background: #5a798d;
             margin: 0;
             overflow: hidden;
         }
-        h1{
-            font-family: 'Pretendard', sans-serif;
-            font-size: 20px;
-            position: relative;
-            color: #fff;
-            justify-content: center;
-            display: flex;
-            margin-top: 100px;
+        h2 {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 24px;
+            color: #ffffff;
+            font-weight: 600;
+            font-family: Oswald, sans-serif;
+            display: inline-block;
         }
         #cloud {
             position: absolute;
-            width: 380px;
+            width: 300px;
             height: auto;
             cursor: move;
             fill: #04040a;
             left: 50%;
-            top: 15%;
+            top: 30%;
             transform: translateX(-50%);
             -webkit-mask-image: url('./img/texture.jpg');
             mask-image: url('./img/texture.jpg');
@@ -53,14 +56,14 @@
 </head>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <body>
-    <h1>Drag and click the cloud!</h1>
+    <h2>Drag and click the cloud!</h2>
     <div class="cloud-wrapper">
         <svg id="cloud" viewBox="0 0 309.08 164.56">
             <path class="cls-1" d="M273.59,66.75c-3.16-24.56-24.13-43.54-49.55-43.54-9.31,0-18.03,2.56-25.49,6.99C190.89,12.44,173.23,0,152.65,0c-18.36,0-34.39,9.9-43.08,24.65-3.83-.94-7.82-1.45-11.93-1.45-24.69,0-45.18,17.91-49.23,41.44C21.53,65.48,0,87.51,0,114.58s22.37,49.97,49.97,49.97h209.13c27.6,0,49.97-22.37,49.97-49.97,0-22.56-14.96-41.63-35.49-47.83Z"/>
         </svg>
     </div>
 
-    <svg id="thunder" viewBox="0 0 187.48 257.55" style="display: none; position: absolute; width: 180px; fill: #ffcd40;">
+    <svg id="thunder" viewBox="0 0 187.48 257.55" style="display: none; position: absolute; width: 140px; fill: #ffcd40;">
         <polygon class="cls-1" points="0 257.55 75.26 155.78 25.41 155.78 87.27 96.9 25.01 109.99 83.5 3.26 162.48 0 100.22 62.67 187.48 52.84 116.25 118.29 162.02 118.29 0 257.55"/>
     </svg>
 
@@ -71,6 +74,86 @@
         $(document).ready(function() {
             let rainInterval;
             let raindrops = [];
+            
+            const thunderTexts = [
+                { 
+                    text: 'ゴロゴロ', 
+                    font: "'Zen Maru Gothic', sans-serif",
+                    audio: '../audio/4/thunder_jp.mp3'
+                },
+                { 
+                    text: '우르릉쾅쾅', 
+                    font: "'Noto Sans KR', sans-serif",
+                    audio: '../audio/4/thunder_kr.mp3'
+                },
+                { 
+                    text: 'Rumble', 
+                    font: "'Impact', sans-serif",
+                    audio: '../audio/4/thunder_en.mp3'
+                },
+                { 
+                    text: '轰隆隆', 
+                    font: "'Noto Sans SC', sans-serif",
+                    audio: '../audio/4/thunder_cn.mp3'
+                },
+                { 
+                    text: 'เปรี้ยงปร้าง', 
+                    font: "'Noto Sans Thai', sans-serif",
+                    audio: '../audio/4/thunder_th.mp3'
+                }
+            ];
+
+            function showThunderEffect() {
+                // 랜덤 텍스트 선택
+                const randomEffect = thunderTexts[Math.floor(Math.random() * thunderTexts.length)];
+                
+                // 텍스트 요소 생성
+                const textElement = document.createElement('div');
+                textElement.style.position = 'absolute';
+                textElement.style.fontSize = '48px';
+                textElement.style.color = '#FFD700';
+                textElement.style.fontFamily = randomEffect.font;
+                textElement.style.textShadow = '0 0 10px rgba(255, 215, 0, 0.8)';
+                textElement.textContent = randomEffect.text;
+                
+                // 구름 위치 기준으로 텍스트 위치 설정
+                const cloud = $('#cloud')[0].getBoundingClientRect();
+                textElement.style.left = `${cloud.left + cloud.width/2}px`;
+                textElement.style.top = `${cloud.top + cloud.height}px`;
+                
+                document.body.appendChild(textElement);
+                
+                // 오디오 재생
+                const audio = new Audio(randomEffect.audio);
+                audio.play();
+                
+                // 애니메이션
+                gsap.fromTo(textElement, 
+                    {
+                        opacity: 0,
+                        scale: 0.5,
+                        y: 0
+                    },
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        y: 50,
+                        duration: 0.5,
+                        ease: "elastic.out(1, 0.3)",
+                        onComplete: () => {
+                            gsap.to(textElement, {
+                                opacity: 0,
+                                y: 100,
+                                duration: 0.3,
+                                delay: 0.2,
+                                onComplete: () => {
+                                    textElement.remove();
+                                }
+                            });
+                        }
+                    }
+                );
+            }
 
             function createRain() {
                 const cloud = $('#cloud');
@@ -132,10 +215,9 @@
                     display: 'block',
                     left: cloudRect.left + randomHorizontal,
                     top: cloudRect.bottom + randomVertical,
-                    filter: 'brightness(1.5) drop-shadow(0 0 10px rgba(255, 205, 64, 0.8))' // 빛나는 효과 추가
+                    filter: 'brightness(1.5) drop-shadow(0 0 10px rgba(255, 205, 64, 0.8))'
                 });
 
-                // 더 역동적인 번개 애니메이션
                 gsap.fromTo(thunder, 
                     {
                         opacity: 0,
@@ -144,10 +226,10 @@
                     },
                     {
                         opacity: 1,
-                        scale: 1.3, // 더 크게 확대
+                        scale: 1.3,
                         rotation: 0,
                         duration: 0.2,
-                        ease: "elastic.out(1, 0.5)", // 탄성 효과 추가
+                        ease: "elastic.out(1, 0.5)",
                         onComplete: () => {
                             gsap.to(thunder, {
                                 opacity: 0,
@@ -166,7 +248,9 @@
                     }
                 );
 
-                // 번쩍이는 배경 효과 (선택적)
+                // 번개 효과와 함께 텍스트 효과 표시
+                showThunderEffect();
+
                 gsap.to('body', {
                     backgroundColor: '#5a798d',
                     duration: 0.1,

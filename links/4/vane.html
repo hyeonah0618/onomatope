@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Sans+KR&family=Noto+Sans+SC&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
         body {
             margin: 0;
             padding: 0;
@@ -19,7 +20,38 @@
             background-color: #ffb84d;
             overflow: hidden;
         }
-        
+        h2 {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 36px;
+            color: #ffffff;
+            font-weight: 600;
+            font-family: Oswald, sans-serif;
+            display: inline-block;
+        }
+
+        .arrow-down {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid #ffffff;
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(10px);
+            }
+        }
         #vane-container {
             position: absolute;
             width: 200px;
@@ -80,6 +112,8 @@
     </style>
 </head>
 <body>
+    <h2>Spin the vane!</h2>
+    <div class="arrow-down"></div>
     <div id="vane-container">
         <img src="./img/vane/vane.webp" alt="vane" class="vane">
         <div class="center-circle"></div>
@@ -94,13 +128,13 @@
             '../audio/4/vane_kr.mp3',
             '../audio/4/vane_en.mp3',
             '../audio/4/vane_jp.mp3',
-            '../audio/4/vane_cn.mp3'
+            '../audio/4/vane_fr.mp3'
         ];
         
         const randomTexts = [
             { 
                 text: 'くるくる', 
-                font: "'Noto Sans JP', sans-serif",
+                font: "'Zen Maru Gothic', sans-serif",
                 audio: audioFiles[2]
             },
             { 
@@ -109,13 +143,13 @@
                 audio: audioFiles[0]
             },
             { 
-                text: 'whoosh', 
+                text: 'spin spin', 
                 font: "'Impact', sans-serif",
                 audio: audioFiles[1]
             },
             { 
-                text: '呼呼', 
-                font: "'Noto Sans SC', sans-serif",
+                text: 'Tourne tourne', 
+                font: "'Quicksand', 'Arial Rounded MT Bold', sans-serif",
                 audio: audioFiles[3]
             }
         ];

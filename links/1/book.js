@@ -18,7 +18,9 @@ const audioFiles = [
     "../audio/1/book_en.mp3",
     "../audio/1/book_jp.mp3"
 ];
-
+$('#back-button').on('click', () => {
+    window.close();
+});
 const textOptions = [
     { text: "팔락팔락", font: "CHOGOONCHICKENSCRATCHV3", class: "korean" },
     { text: "flip", font: "Playwrite HR", class: "english" },
