@@ -8,6 +8,13 @@
     <style>
         
 @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');
+@font-face {
+    font-family: 'establishRetrosansOTF';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/establishRetrosansOTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
         body {
             background-color: #f0f0f0;
             overflow: hidden;
@@ -80,11 +87,11 @@
             pointer-events: none;
             z-index: 999;
             opacity: 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
         h2 {
             position: absolute;
-            top: 24px;
+            top: 12px;
             left: 50%;
             transform: translate(-50%, 0);
             font-size: 36px;
@@ -146,12 +153,12 @@
         const randomTexts = [
             { 
                 text: 'ドボン', 
-                font: "'Noto Sans JP', sans-serif",
+                font: "'Mochiy Pop One', sans-serif",
                 audio: audioFiles[2]
             },
             { 
                 text: '풍덩', 
-                font: "'Noto Sans KR', sans-serif",
+                font: "'establishRetrosansOTF', sans-serif",
                 audio: audioFiles[0]
             },
             { 
@@ -243,7 +250,7 @@
                     
                     splashText.style.left = randomX + 'px';
                     splashText.style.top = randomY + 'px';
-                    splashText.style.fontSize = '24px';
+                    splashText.style.fontSize = '30px';
                     splashText.style.color = '#1E90FF';
                     splashText.style.opacity = '0';
                     splashText.style.zIndex = '999';

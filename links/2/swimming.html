@@ -11,6 +11,12 @@
     <style>
         
 @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+@font-face {
+    font-family: 'LOTTERIACHAB';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/LOTTERIACHAB.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
         body {
             margin: 0;
             padding: 0;
@@ -49,7 +55,7 @@
         }
                 h2 {
             position: absolute;
-            top: 24px;
+            top: 20ㅇpx;
             left: 50%;
             transform: translate(-50%, 0);
             font-size: 36px;
@@ -98,22 +104,22 @@
         const randomTexts = [
             { 
                 text: 'バシャバシャ', 
-                font: "'Noto Sans JP', sans-serif",
+                font: "'LOTTERIACHAB', sans-serif",
                 audio: audioFiles[2]
             },
             { 
                 text: '어푸어푸', 
-                font: "'Noto Sans KR', sans-serif",
+                font: "'LOTTERIACHAB', sans-serif",
                 audio: audioFiles[0]
             },
             { 
                 text: 'splash', 
-                font: "'Impact', sans-serif",
+                font: "'LOTTERIACHAB', sans-serif",
                 audio: audioFiles[1]
             },
             { 
                 text: '扑通扑通', 
-                font: "'Noto Sans SC', sans-serif",
+                font: "'LOTTERIACHAB', sans-serif",
                 audio: audioFiles[3]
             }
         ];
@@ -168,11 +174,16 @@
             const textElement = document.createElement('div');
             textElement.style.position = 'absolute';
             textElement.style.fontFamily = randomEffect.font;
-            textElement.style.fontSize = '24px';
+            textElement.style.fontSize = '30px';
             textElement.style.color = '#ffffff';
             textElement.style.pointerEvents = 'none';
             textElement.style.zIndex = '2';
             textElement.style.opacity = '0';
+            textElement.style.textShadow = `
+                -2px -2px 0 #1E90FF,  
+                2px -2px 0 #1E90FF,
+                -2px 2px 0 #1E90FF,
+                2px 2px 0 #1E90FF`;
             textElement.textContent = randomEffect.text;
             
             // 위치 설정 (캐릭터 위쪽)

@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Noto+Sans+JP&family=Roboto&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=RocknRoll+One&family=Orbitron&display=swap');
         
         body {
             margin: 0;
@@ -86,11 +86,11 @@
 
         .time-display {
             position: absolute;
-            top: 20px;
+            top: 24px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 24px;
-            font-family: Arial, sans-serif;
+            font-size: 36px;
+            font-family: 'Orbitron', sans-serif;
             color: #333;
         }
         .title {
@@ -99,7 +99,7 @@
             left: 50%;
             transform: translateX(-50%);
             font-size: 24px;
-            font-family:Helvetica, sans-serif;
+            font-family:'Orbitron', sans-serif;
             color: #333;
         }
     </style>
@@ -131,9 +131,9 @@
             });
 
             const randomTexts = [
-                { text: '째깍째깍', font: "'Noto Sans KR', sans-serif", audio: audioFiles.kr },
-                { text: 'カチカチ', font: "'Noto Sans JP', sans-serif", audio: audioFiles.jp },
-                { text: 'tick-tok', font: "'Roboto', sans-serif", audio: audioFiles.en }
+                { text: '째깍째깍', font: "'Black Han Sans', sans-serif", audio: audioFiles.kr },
+                { text: 'カチカチ', font: "'RocknRoll One', sans-serif", audio: audioFiles.jp },
+                { text: 'tick-tock', font: "'Orbitron', sans-serif", audio: audioFiles.en }
             ];
 
             let currentTextEffect = null;

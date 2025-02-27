@@ -63,14 +63,35 @@
             height: 100px;
             object-fit: contain;
         }
+        @keyframes shakeAndFade {
+            0% { 
+                opacity: 0; 
+                transform: translateX(0) rotate(0deg);
+            }
+            10% { 
+                opacity: 1; 
+                transform: translateX(0) rotate(0deg);
+            }
+            20% { transform: translateX(-20px) rotate(-15deg); }
+            40% { transform: translateX(20px) rotate(15deg); }
+            60% { transform: translateX(-10px) rotate(-5deg); }
+            80% { 
+                opacity: 1;
+                transform: translateX(0) rotate(0deg);
+            }
+            100% { 
+                opacity: 0;
+                transform: translateX(0) rotate(0deg);
+            }
+        }
         .text {
             position: absolute;
             font-size: 48px;
-            color: red;
+            color: #c61f1f;
             font-weight: bold;
             z-index: 20;
-            opacity: 0;
-            scale: 0;
+            transform-origin: center center;
+            animation: shakeAndFade 1s cubic-bezier(.36,.07,.19,.97) both;
         }
         .arrow-container {
             position: absolute;
@@ -171,7 +192,7 @@
         const randomTexts = [
             { 
                 text: '철푸덕', 
-                font: "'Noto Sans KR', sans-serif",
+                font: "'Black Han Sans', sans-serif",  // 강렬하고 두꺼운 한글 폰트
                 audio: audioFiles[0]
             },
             { 
@@ -181,7 +202,7 @@
             },
             { 
                 text: 'ドサッ', 
-                font: "'Noto Sans JP', sans-serif",
+                font: "'Dela Gothic One', cursive",  // 충격적인 느낌의 일본어 폰트
                 audio: audioFiles[2]
             },
             { 
@@ -268,17 +289,10 @@
                         showEffect(character);  // 효과음과 텍스트 표시
 
                         gsap.to(character, {
-                            x: "+=200",
-                            rotation: 360,
+                            x: "-=100",  // 왼쪽으로 밀려남
+                            rotation: -330,  // 왼쪽으로 한바퀴 회전
                             duration: 1,
-                            ease: "power1.inOut",
-                            onComplete: () => {
-                                gsap.to(character, {
-                                    rotation: 90,
-                                    duration: 0.5,
-                                    ease: "bounce.out"
-                                });
-                            }
+                            ease: "power2.out"  // 자연스러운 감속
                         });
                     }
                 }

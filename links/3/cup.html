@@ -6,6 +6,13 @@
     <title>cup</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Racing+Sans+One&display=swap');
+        @font-face {
+    font-family: 'Danjo-bold-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Danjo-bold-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
         body{
             background-color: #F3DE6E;
         }
@@ -36,8 +43,8 @@
 
         .text {
             position: absolute;
-            font-size: 48px;
-            color: red;
+            font-size: 36px;
+            color: rgb(253, 60, 76);
             font-weight: bold;
             z-index: 20;
             opacity: 0;
@@ -91,22 +98,22 @@
         const randomTexts = [
             { 
                 text: 'ガチャン', 
-                font: "'Noto Sans JP', sans-serif",
+                font: "'Dela Gothic One', sans-serif",
                 audio: audioFiles[2]
             },
             { 
                 text: '쨍그랑', 
-                font: "'Noto Sans KR', sans-serif",
+                font: "'Danjo-bold-Regular', sans-serif",
                 audio: audioFiles[0]
             },
             { 
                 text: 'crash', 
-                font: "'Impact', sans-serif",
+                font: "'Racing Sans One', sans-serif",
                 audio: audioFiles[1]
             },
             { 
                 text: 'krach', 
-                font: "'Arial', sans-serif",
+                font: "'Racing Sans One', sans-serif",
                 audio: audioFiles[3]
             }
         ];
@@ -123,7 +130,7 @@
                 charElement.className = 'text';
                 charElement.textContent = char;
                 charElement.style.fontFamily = randomConfig.font;
-                charElement.style.left = (x + (index * 45)) + 'px'; // 각 글자 간격
+                charElement.style.left = (x + (index * 35)) + 'px'; // 각 글자 간격
                 charElement.style.top = y + 'px';
                 
                 document.body.appendChild(charElement);

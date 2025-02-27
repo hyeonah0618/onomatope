@@ -7,6 +7,12 @@
     <style>
         
         @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+        @font-face {
+    font-family: 'LOTTERIADDAG';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/LOTTERIADDAG.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 
 h2 {
     position: absolute;
@@ -84,22 +90,22 @@ h2 {
             const randomTexts = [
                 { 
                     text: 'クルクル', 
-                    font: "'Noto Sans JP', sans-serif",
+                    font: "'Zen Maru Gothic', 900, sans-serif",
                     audio: new Audio(audioFiles[2])
                 },
                 { 
                     text: '돌돌', 
-                    font: "'Noto Sans KR', sans-serif",
+                    font: "'LOTTERIADDAG', sans-serif",
                     audio: new Audio(audioFiles[0])
                 },
                 { 
                     text: 'Roll roll', 
-                    font: "'Impact', sans-serif",
+                    font: "'LOTTERIADDAG', sans-serif",
                     audio: new Audio(audioFiles[1])
                 },
                 { 
                     text: 'Rueda rueda', 
-                    font: "'Noto Sans', sans-serif",
+                    font: "'LOTTERIADDAG', sans-serif",
                     audio: new Audio(audioFiles[3])
                 }
             ];
@@ -114,7 +120,7 @@ h2 {
             let isAnimating = false;  // 애니메이션 상태 추적
 
             // 텍스트 효과를 위한 div 추가 - 스타일 수정
-            $('body').append('<div id="effectText" style="position: absolute; z-index: 1000; pointer-events: none; font-size: 24px; opacity: 0; color: #FF69B4;"></div>');
+            $('body').append('<div id="effectText" style="position: absolute; z-index: 1000; pointer-events: none; font-size: 32px; opacity: 0; color: #FF69B4;"></div>');
             const $effectText = $('#effectText');
 
             function showEffectText(text, font, x, y) {

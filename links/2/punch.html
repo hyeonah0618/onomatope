@@ -9,6 +9,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+        @font-face {
+    font-family: 'ClimateCrisisKR-1979';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/ClimateCrisisKR-1979.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+}
 
 h2 {
     position: absolute;
@@ -61,25 +67,9 @@ h2 {
             font-size: 48px;
             color: red;
             font-weight: bold;
-            z-index: 20;
+            z-index: 5;
             opacity: 0;
             scale: 0;
-        }
-
-        .text.ja {
-            font-family: 'Noto Sans JP', sans-serif;
-        }
-
-        .text.en {
-            font-family: 'Impact', sans-serif;
-        }
-
-        .text.zh {
-            font-family: 'Noto Sans SC', sans-serif;
-        }
-
-        .text.ko {
-            font-family: 'Noto Sans KR', sans-serif;
         }
 
 
@@ -107,22 +97,23 @@ h2 {
             const randomTexts = [
                 { 
                     text: 'ドスッ', 
-                    font: "'Noto Sans JP', sans-serif",
+                    font: "'Zen Maru Gothic', sans-serif",
                     audio: audioFiles[2]
                 },
                 { 
                     text: '퍽', 
-                    font: "'Noto Sans KR', sans-serif",
+                    font: "'ClimateCrisisKR-1979'",
+                    fontWeight: 900,
                     audio: audioFiles[0]
                 },
                 { 
                     text: 'Pow', 
-                    font: "'Impact', sans-serif",
+                    font: "'ClimateCrisisKR-1979', sans-serif",
                     audio: audioFiles[1]
                 },
                 { 
                     text: 'boum', 
-                    font: "'Noto Sans', sans-serif",
+                    font: "'ClimateCrisisKR-1979', sans-serif",
                     audio: audioFiles[3]
                 }
             ];

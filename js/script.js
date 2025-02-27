@@ -12,7 +12,26 @@ ScrollTrigger.scrollerProxy(document.body, {
         return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
     }
 });
-
+document.addEventListener('keydown', function(event) {
+    const scrollAmount = window.innerWidth; // 한 번에 이동할 거리
+    
+    switch(event.key) {
+      case 'ArrowRight':
+        // 오른쪽 방향키: 오른쪽으로 스크롤
+        window.scrollBy({
+          left: scrollAmount,
+          behavior: 'smooth'
+        });
+        break;
+      case 'ArrowLeft':
+        // 왼쪽 방향키: 왼쪽으로 스크롤
+        window.scrollBy({
+          left: -scrollAmount,
+          behavior: 'smooth'
+        });
+        break;
+    }
+  });
 const container = document.getElementsByClassName('container1')[0];
 const wrapper = container.children[0];
 console.clear();

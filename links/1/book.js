@@ -70,10 +70,6 @@ function updateImage(direction) {
         newIndex = currentImageIndex + 1;
         if (newIndex >= pages.length) {
             newIndex = 0; // 마지막 페이지에서 첫 페이지로 돌아가기
-            isDraggingEnabled = false; // 드래그 비활성화
-            setTimeout(() => { 
-                resetToFirstPage();
-            }, 100); // 0.1초 후에 resetToFirstPage 호출
         }
     } else if (direction === 'right') {
         newIndex = currentImageIndex - 1;

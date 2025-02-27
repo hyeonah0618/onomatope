@@ -8,6 +8,18 @@
     <style>
         
 @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
+@font-face {
+    font-family: 'HSBombaram';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/HSBombaram.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Yusei Magic';
+    src: url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Yusei+Magic&display=swap') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
         html, body {
             background-color: #6eb4f5;
         }
@@ -88,9 +100,9 @@
 
             // 효과음 텍스트 배열
             const effectTexts = [
-                { text: '슈욱', font: "'Noto Sans KR', sans-serif" },
-                { text: 'シュッ', font: "'Zen Maru Gothic', sans-serif" },
-                { text: 'Whoosh', font: "'Oswald', sans-serif" },
+                { text: '슈욱', font: "'HSBombaram', sans-serif" },
+                { text: 'シュッ', font: "'Yusei Magic', sans-serif" },
+                { text: 'Whoosh', font: "'HSBombaram', sans-serif" },
                 { text: '嗖嗖', font: "'Noto Sans SC', sans-serif" }
             ];
 
@@ -111,7 +123,7 @@
     const textEffect = document.createElement('div');
     textEffect.style.position = 'fixed';
     textEffect.style.fontFamily = randomItem.font;
-    textEffect.style.color = 'white';
+    textEffect.style.color = '#DFF2F0';
     textEffect.style.fontSize = '48px';
     textEffect.style.pointerEvents = 'none';
     textEffect.style.zIndex = '1000';

@@ -11,6 +11,20 @@
             --peach: #EE786E;
             --off-white: #FFFFF4;
         }
+
+        @font-face {
+            font-family: 'DungGeunMo';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'BestTen-CRT';
+            src: url('../../fonts/BestTen-CRT.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
       
         body {
             background-color: rgb(67, 67, 67);
@@ -93,7 +107,7 @@
         }
 
         .hit {
-            animation: hit 0.05s ease-out;
+            animation: hit 0.2s ease-out;
             color: white !important;
         }
 
@@ -304,9 +318,9 @@
         });
 
         const randomTexts = [
-            { text: '딸깍', font: 'MBC1961GulimM', audio: audioFiles.kr },
-            { text: 'カチッ', font: 'Noto Sans JP', audio: audioFiles.jp },
-            { text: 'click', font: 'GongGothicMedium', audio: audioFiles.en }
+            { text: '딸깍', font: 'DungGeunMo', audio: audioFiles.kr },
+            { text: 'カチッ', font: 'BestTen-CRT', audio: audioFiles.jp },
+            { text: 'click', font: 'DungGeunMo', audio: audioFiles.en }
         ];
 
         let audioQueue = [];
@@ -346,10 +360,12 @@
             textEffect.textContent = randomItem.text;
             textEffect.style.position = 'fixed';
             textEffect.style.fontFamily = randomItem.font;
-            textEffect.style.color = 'white';
-            textEffect.style.fontSize = '20px';
+            textEffect.style.color = '#7FFF00';  // 형광연두색으로 변경
+            textEffect.style.fontSize = '36px';
             textEffect.style.pointerEvents = 'none';
-            textEffect.style.transition = 'all 0.5s';
+            textEffect.style.opacity = '0';
+            textEffect.style.transform = 'translateY(-20px)';
+            textEffect.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
             
             // 랜덤 위치 설정
             const x = Math.random() * (window.innerWidth - 100);
@@ -359,16 +375,22 @@
             
             document.body.appendChild(textEffect);
             
-            // 애니메이션 효과
+            // 등장 애니메이션 (약간의 지연 후 실행)
             setTimeout(() => {
-                textEffect.style.opacity = '0';
-                textEffect.style.transform = 'translateY(-20px)';
+                textEffect.style.opacity = '1';
+                textEffect.style.transform = 'translateY(0)';
             }, 50);
             
-            // 요소 제거
+            // 2초 동안 유지 후 페이드 아웃 및 아래로 이동
+            setTimeout(() => {
+                textEffect.style.opacity = '0';
+                textEffect.style.transform = 'translateY(20px)';
+            }, 2000);
+            
+            // 페이드 아웃 애니메이션이 끝난 후 요소 제거
             setTimeout(() => {
                 document.body.removeChild(textEffect);
-            }, 1000);
+            }, 2300);
         }
 
         document.addEventListener('keydown', function(event) {
@@ -427,10 +449,5 @@
         highlightNextKey();
     });
     </script>
-
-    <button id="back-button">close</button>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="../common.js"></script>
 </body>
 </html>

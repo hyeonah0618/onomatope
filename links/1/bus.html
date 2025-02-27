@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../common.css">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Dela+Gothic+One&family=Rubik+Glitch&display=swap" rel="stylesheet">
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap');
@@ -70,9 +71,15 @@ h2 {
     font-family: 'Oswald', sans-serif;
 }
 .glow {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-                 0 0 20px rgba(255, 255, 255, 0.8),
-                 0 0 30px rgba(255, 255, 255, 0.8);
+    text-shadow: 
+        0 0 7px #fff,
+        0 0 10px #fff,
+        0 0 21px #fff,
+        0 0 42px #FFD700,
+        0 0 82px #FFD700,
+        0 0 92px #FFD700,
+        0 0 102px #FFD700,
+        0 0 151px #FFD700;
 }
 </style>
 <body>
@@ -97,10 +104,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 텍스트 배열 생성
     const randomTexts = [
-        { text: 'BEEEEEEEEP', font: "'Oswald', sans-serif" },
-        { text: 'Bííííííp', font: "'Zen Maru Gothic', sans-serif" },
-        { text: 'ピンポーーーーン', font: "'Zen Maru Gothic', sans-serif" },
-        { text: '삐이이이익', font: "'Zen Maru Gothic', sans-serif" }
+        { text: 'BEEEEEEEEP', font: "'Rubik Glitch', cursive" },
+        { text: 'ピンポーーーーン', font: "'Dela Gothic One', cursive" },
+        { text: '삐이이이익', font: "'Black Han Sans', sans-serif" }
     ];
 
     // 랜덤 인덱스로 오디오 선택
@@ -112,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     let currentAudio = null;
+    
     let currentTextEffect = null;
     let lastTextTime = 0;
 
@@ -128,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const textEffect = document.createElement('div');
         textEffect.style.position = 'fixed';
         textEffect.style.fontFamily = randomItem.font;
-        textEffect.style.color = '#FFFFFF';
+        textEffect.style.color = '#FFD700';
         textEffect.style.fontSize = '48px';
         textEffect.style.pointerEvents = 'none';
         textEffect.style.zIndex = '1000';
@@ -161,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }, 500);
             }
-        }, 100); // 타이핑 속도 조절 (밀리초)
+        }, 100);
     }
 
     const stopText = document.querySelector('.stop-text');

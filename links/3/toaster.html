@@ -84,10 +84,10 @@ h2 {
 }
 
 .text {
-    position: absolute;
+    position: fixed;  /* absolute에서 fixed로 변경 */
     font-size: 24px;
     font-weight: bold;
-    z-index: 5; /* 텍스트는 모든 요소 위에 표시 */
+    z-index: 5;
     opacity: 0;
 }
 
@@ -173,14 +173,14 @@ h2 {
 </head>
 <body>  
   <h2>Toast the bread!</h2>
-<div class="toaster-container">
-    <div class="arrow"></div>  <!-- 화살표 요소 추가 -->
+  <div class="text" id="random-text"></div>  <!-- toaster-container 밖으로 이동 -->
+  <div class="toaster-container">
+    <div class="arrow"></div>
     <img src="img/toaster//bread1.webp" alt="bread" class="bread" id="bread">
-  <img src="img/toaster/toaster.webp" alt="toaster" class="toaster">
-  <img src="img/toaster//handle.webp" alt="handle" class="handle" id="handle">
-  <img src="img/toaster//bread2.webp" alt="toasted bread" class="toasted-bread" id="toasted-bread">
-  <div class="text" id="random-text"></div>
-</div>
+    <img src="img/toaster/toaster.webp" alt="toaster" class="toaster">
+    <img src="img/toaster//handle.webp" alt="handle" class="handle" id="handle">
+    <img src="img/toaster//bread2.webp" alt="toasted bread" class="toasted-bread" id="toasted-bread">
+  </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -209,9 +209,14 @@ $(document).ready(function(){
   
     // 랜덤 위치 계산 함수
     function getRandomPosition() {
-      const top = Math.random() * 80 + 10; // 10% ~ 90%
-      const left = Math.random() * 80 + 10; // 10% ~ 90%
-      return { top: `${top}%`, left: `${left}%` };
+        const windowHeight = $(window).height();
+        const windowWidth = $(window).width();
+        
+        // 여백을 조금 주기 위해 화면 크기의 80%만 사용
+        const top = Math.random() * (windowHeight * 0.8);
+        const left = Math.random() * (windowWidth * 0.8);
+        
+        return { top: Math.max(20, top) + 'px', left: Math.max(20, left) + 'px' };
     }
   
     // 랜덤한 위치에 텍스트 표시 함수
@@ -220,15 +225,26 @@ $(document).ready(function(){
       const randomTextObj = textArray[randomIndex];
       const position = getRandomPosition();
   
-      clickText.text(randomTextObj.text)
-        .attr('class', `text ${randomTextObj.class}`)
-        .css(randomTextObj.class.includes('fixed-center') ? {} : {
-          top: position.top,
-          left: position.left,
-          opacity: 1
-        })
-        .show()
-        .fadeOut(3000);
+      clickText
+          .text(randomTextObj.text)
+          .removeClass()  // 기존 클래스 모두 제거
+          .addClass(`text ${randomTextObj.class}`)
+          .css({
+              top: position.top,
+              left: position.left,
+              opacity: 1
+          })
+          .show()
+          .fadeOut(3000);
+  
+      // fixed-center 클래스가 있는 경우 중앙 위치로 재설정
+      if (randomTextObj.class.includes('fixed-center')) {
+          clickText.css({
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)'
+          });
+      }
     }
   
     // 랜덤으로 음성 파일 재생 함수
@@ -318,6 +334,26 @@ $(document).ready(function(){
     });
   });
 
+function showEffect() {
+    const randomConfig = randomTexts[Math.floor(Math.random() * randomTexts.length)];
+    const text = randomConfig.text;
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 100);
+    
+    // 텍스트를 한 글자씩 분리
+    [...text].forEach((char, index) => {
+        const charElement = document.createElement('div');
+        charElement.className = 'text';
+        charElement.textContent = char;
+        charElement.style.fontFamily = randomConfig.font;
+        charElement.style.left = (x + (index * 15)) + 'px';  // 간격을 45px로 복원
+        charElement.style.top = y + 'px';
+        
+        document.body.appendChild(charElement);
+
+        // ... 나머지 애니메이션 코드는 그대로 유지
+    });
+}
 
 </script>
     <button id="back-button">close</button>
