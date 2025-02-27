@@ -9,15 +9,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Zen+Maru+Gothic&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="scroll-guide">
+        <p>Scroll Down to Move Character</p>
+    </div>
     <div id="counter">
         <span id="current">0</span><span id="total">/30</span>
+        <button id="help-btn">
+            ?
+            <div id="help-popup">
+              1. スクロールして歩く<br>
+              2. 吹き出しをクリックする<br>
+              3. インタラクションする
+            </div>
+        </button>
     </div>
-
+    <!-- counter div 아래에 추가 이동버튼 -->
+    <div id="scene-buttons">
+      <button class="scene-btn" data-scene="1">City</button>
+      <button class="scene-btn" data-scene="3">Outyard</button>
+      <button class="scene-btn" data-scene="6">Gym</button>
+      <button class="scene-btn" data-scene="9">Grandma's House</button>
+      <button class="scene-btn" data-scene="11">School</button>
+    </div>
 
     <div class="scene-slides">
       <div class="slides">
@@ -173,6 +192,9 @@
             <img id="target1" src="png/scene3/3/target.png" />
             <img id="target2" src="png/scene3/3/target.png" />
             <img id="target3" src="png/scene3/3/target.png" />
+            <img id="mt_b1" src="png/scene3/3/mt_b1.webp" />
+            <img id="mt_f1" src="png/scene3/3/mt_f1.webp" />
+            <img id="mt_f2" src="png/scene3/3/mt_f2.webp" />
         </div>
         <!-- 헬스 -->
         <div class="scene scene6" >

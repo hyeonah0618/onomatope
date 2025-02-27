@@ -1,5 +1,6 @@
 // GSAP 초기화
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollToPlugin);
 // ... existing code ...
 function openCenteredWindow(url) {
     const width = 800;
@@ -88,8 +89,6 @@ let mainScroll = gsap.to(".slides", {
     }
 });
 
-
-
 // ScrollTrigger 새로고침 시 업데이트
 ScrollTrigger.refresh();
 
@@ -175,15 +174,112 @@ gsap.to("#cloud3", {
         scrub: 3
     }
 });
-
+gsap.to("#grass2", {
+    x: -110,
+    scrollTrigger: {
+        trigger: "#grass2",
+        start: "left 70%", 
+        end: "+=6500",
+        scrub: 1,               
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
+gsap.to("#grass1", {
+    x: -70,
+    scrollTrigger: {
+        trigger: "#grass1",
+        start: "left 10%", 
+        end: "+=6500",
+        scrub: 1,               
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
+gsap.to("#grass3", {
+    x: -100,
+    scrollTrigger: {
+        trigger: "#grass3",
+        start: "left 70%", 
+        end: "+=7500",
+        scrub: 1,               
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
+gsap.to("#back_build1", {
+    x: -500,
+    scrollTrigger: {
+        trigger: "#back_build1",
+        start: "left 70%", 
+        end: "+=7500",
+        scrub: 1,               
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
+gsap.to("#back_build2", {
+    x: -100,
+    scrollTrigger: {
+        trigger: "#back_build2",
+        start: "left 70%", 
+        end: "+=6500",
+        scrub: 1,               
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
 gsap.to("#bus-container", {
     x: 2200,
     scrollTrigger: {
         trigger: "#bus-container",
-        start: "left 70%", // 씬4의 왼쪽 끝이 뷰포트의 왼쪽에 닿는 순간 시작
+        start: "left 70%", 
         end: "+=3000",
-        scrub: 3,               // scrub 값을 true로 변경
-        // markers: true,
+        scrub: 3,             
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
+gsap.to("#mt1_pink", {
+    x: -100,
+    scrollTrigger: {
+        trigger: "#mt1_pink",
+        start: "left 70%", 
+        end: "+=7500",
+        scrub: 1,               
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
+gsap.to("#mt2_pink", {
+    x: -500,
+    scrollTrigger: {
+        trigger: "#mt2_pink",
+        start: "left 70%", 
+        end: "+=7500",
+        scrub: 1,               
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
+gsap.to("#cloud_y1", {
+    x: -300,
+    scrollTrigger: {
+        trigger: "#cloud_y1",
+        start: "left 70%", 
+        end: "+=7500",
+        scrub: 1,               
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
+gsap.to("#cloud_y2", {
+    x: -500,
+    scrollTrigger: {
+        trigger: "#cloud_y2",
+        start: "left 70%", 
+        end: "+=7500",
+        scrub: 1,               
         containerAnimation: mainScroll,
         horizontal: true
     }
@@ -198,7 +294,6 @@ gsap.fromTo("#sun2", {
         start: " right 5%",
         end: "+=2000",
         scrub: 3,
-        markers: true,
             containerAnimation: mainScroll,
             horizontal: true
     }
@@ -207,10 +302,9 @@ gsap.to("#running-container", {
     x: 1200,
     scrollTrigger: {
         trigger: "#running-container",
-        start: "left 70%", // 씬4의 왼쪽 끝이 뷰포트의 왼쪽에 닿는 순간 시작
+        start: "left 70%", 
         end: "+=3000",
-        scrub: true,               // scrub 값을 true로 변경
-        // markers: true,
+        scrub: true,              
         containerAnimation: mainScroll,
         horizontal: true
     }
@@ -222,7 +316,6 @@ gsap.to("#swimming-container", {
         start: "left center",
         end: "right center",
         scrub: true,
-        // markers: true,
         containerAnimation: mainScroll,
         horizontal: true
     }
@@ -235,7 +328,6 @@ gsap.to("#dog-container", {
         start: "left 90%",
         end: "center center",
         scrub: 3,
-        // markers: true,
         containerAnimation: mainScroll,
         horizontal: true
     }
@@ -281,7 +373,6 @@ gsap.fromTo("#bird", {
         start: " right right",
         end: "+=1000",
         scrub: 3,
-        markers: true,
             containerAnimation: mainScroll,
             horizontal: true
     }
@@ -297,6 +388,40 @@ gsap.to("#arrow-person", {
     repeat: -1, // 무한 반복
     yoyo: true, // 부드럽게 원래 크기로 돌아옴
     ease: "power1.inOut" // 부드러운 움직임
+});
+
+
+gsap.to("#mt_b1", {
+    x: -200,
+    scrollTrigger: {
+        trigger: "#mt_b1",
+        start: "left 90%",
+        end: "+=5800",
+        scrub: 1,              
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});
+gsap.to("#mt_f1", {
+    x: -100,
+    scrollTrigger: {
+        trigger: "#mt_f1",
+        start: "left 10%", 
+        end: "+=5000",
+        scrub: 1,           
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
+});gsap.to("#mt_f2", {
+    x: -90,
+    scrollTrigger: {
+        trigger: "#mt_f2",
+        start: "left 10%", 
+        end: "+=6500",
+        scrub: 1,              
+        containerAnimation: mainScroll,
+        horizontal: true
+    }
 });
 // 짐볼 애니메이션 수정
 gsap.to("#gymball_p", {
@@ -408,7 +533,6 @@ breathingTimeline
             start: "left right",
             end: "+=4000",
             scrub: 3,
-            // markers: true,
             containerAnimation: mainScroll,
             horizontal: true
         }
@@ -422,7 +546,6 @@ breathingTimeline
             start: "right right",
             end: "+=4000",
             scrub: 3,
-            markers: true,
             containerAnimation: mainScroll,
             horizontal: true
         }
@@ -463,6 +586,117 @@ zigzagTimeline
         
     });
 
+    gsap.to("#out_mt_back", {
+        x: -100,
+        scrollTrigger: {
+            trigger: "#out_mt_back",
+            start: "left 70%", 
+            end: "+=6000",
+            scrub: 1,              
+            containerAnimation: mainScroll,
+            horizontal: true
+        }
+    });
+    gsap.to("#out_mt_back2", {
+        x: -120,
+        scrollTrigger: {
+            trigger: "#out_mt_back2",
+            start: "left 70%", 
+            end: "+=6000",
+            scrub: 1,              
+            containerAnimation: mainScroll,
+            horizontal: true
+        }
+    });
+    gsap.to("#out_mt_f2", {
+        x: -80,
+        scrollTrigger: {
+            trigger: "#out_mt_f2",
+            start: "left 70%",
+            end: "+=6000",
+            scrub: 1,           
+            containerAnimation: mainScroll,
+            horizontal: true
+        }
+    });
+    gsap.to("#out_mt_f3", {
+        x: -20,
+        scrollTrigger: {
+            trigger: "#out_mt_f3",
+            start: "left 70%", // 씬4의 왼쪽 끝이 뷰포트의 왼쪽에 닿는 순간 시작
+            end: "+=6200",
+            scrub: 1,             
+            containerAnimation: mainScroll,
+            horizontal: true
+        }
+    });
+    gsap.to("#out_mt_orange", {
+        x: -90,
+        scrollTrigger: {
+            trigger: "#out_mt_orange",
+            start: "left 70%", // 씬4의 왼쪽 끝이 뷰포트의 왼쪽에 닿는 순간 시작
+            end: "+=6200",
+            scrub: 1,               
+            containerAnimation: mainScroll,
+            horizontal: true
+        }
+    });
+    gsap.to("#out_mt_pink", {
+        x: -150,
+        scrollTrigger: {
+            trigger: "#out_mt_pink",
+            start: "left 90%", // 씬4의 왼쪽 끝이 뷰포트의 왼쪽에 닿는 순간 시작
+            end: "+=6000",
+            scrub: 1,               // scrub 값을 true로 변경
+            containerAnimation: mainScroll,
+            horizontal: true
+        }
+    });
+    gsap.to("#out_mt_pink2", {
+        x: -110,
+        scrollTrigger: {
+            trigger: "#out_mt_pink2",
+            start: "left 70%", 
+            end: "+=6500",
+            scrub: 1,               
+            containerAnimation: mainScroll,
+            horizontal: true
+        }
+    });
+
+    gsap.to("#out_cloud1", {
+        x: -180,
+        scrollTrigger: {
+            trigger: "#out_cloud1",
+            start: "left 70%", 
+            end: "+=6200",
+            scrub: 1,              
+            containerAnimation: mainScroll,
+            horizontal: true
+        }
+    });
+    gsap.to("#out_cloud2", {
+        x: -350,
+        scrollTrigger: {
+            trigger: "#out_cloud2",
+            start: "left 70%", 
+            end: "+=6200",
+            scrub: 1,              
+            containerAnimation: mainScroll,
+            horizontal: true
+        }
+    });
+    gsap.to("#out_cloud3", {
+        x: -500,
+        scrollTrigger: {
+            trigger: "#out_cloud3",
+            start: "left 90%", 
+            end: "+=6200",
+            scrub: 1,               
+            containerAnimation: mainScroll,
+            horizontal: true
+        }
+    });
 // 방문한 페이지를 저장할 Set 생성 (중복 방지)
 let visitedPages = new Set();
 
@@ -494,3 +728,74 @@ function trackClick() {
 
 // 페이지 로드 시 초기화 실행
 window.addEventListener('load', initializeCounter);
+
+// 씬 버튼 클릭 이벤트 핸들러 추가
+document.querySelectorAll('.scene-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const sceneNumber = button.getAttribute('data-scene');
+        const targetScene = document.querySelector(`.scene${sceneNumber}`);
+        
+        // 타겟 씬의 위치 계산
+        const sceneOffset = targetScene.offsetLeft;
+        
+        // GSAP를 사용하여 부드럽게 스크롤
+        const scrollAmount = sceneOffset * (document.documentElement.scrollHeight - window.innerHeight) / (totalWidth - window.innerWidth);
+        
+        gsap.to(window, {
+            duration: 1.5,
+            scrollTo: scrollAmount,
+            ease: "power2.inOut"
+        });
+    });
+});
+
+// 스크롤 가이드 페이드아웃
+let scrollTimeout;
+const scrollGuide = document.getElementById('scroll-guide');
+
+window.addEventListener('scroll', () => {
+    // 스크롤이 시작되면
+    if (scrollGuide.style.opacity !== '0') {
+        clearTimeout(scrollTimeout);
+        
+        // 2초 후에 페이드아웃
+        scrollTimeout = setTimeout(() => {
+            scrollGuide.classList.add('fade-out');
+        }, 2000);
+    }
+}, { once: true }); // once: true를 사용하여 이벤트가 한 번만 실행되도록 함
+
+// 스크롤 위치에 따른 버튼 활성화
+function updateActiveButton() {
+    const scrollPosition = window.pageYOffset;
+    const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollProgress = scrollPosition / totalScroll;
+    
+    // 전체 가로 스크롤 진행도에 따라 현재 씬 계산
+    const scenes = document.querySelectorAll('.scene');
+    const sceneButtons = document.querySelectorAll('.scene-btn');
+    
+    // 모든 버튼의 활성화 상태 제거
+    sceneButtons.forEach(btn => btn.classList.remove('active'));
+    
+    // 현재 보이는 씬에 해당하는 버튼 활성화
+    scenes.forEach((scene, index) => {
+        const sceneLeft = scene.offsetLeft;
+        const sceneWidth = scene.offsetWidth;
+        const sceneProgress = sceneLeft / (totalWidth - window.innerWidth);
+        
+        if (Math.abs(scrollProgress - sceneProgress) < 0.1) { // 허용 오차 범위 내에서
+            const sceneNumber = scene.classList[1].replace('scene', '');
+            const activeButton = document.querySelector(`.scene-btn[data-scene="${sceneNumber}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+    });
+}
+
+// 스크롤 이벤트에 연결
+window.addEventListener('scroll', updateActiveButton);
+
+// 페이지 로드 시 초기 실행
+window.addEventListener('load', updateActiveButton);

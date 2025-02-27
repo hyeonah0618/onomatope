@@ -49,6 +49,47 @@ body {
   width: 350px !important;
   height: auto !important;
 }
+
+/* 씬 버튼 컨테이너 스타일 */
+#scene-buttons {
+  position: fixed;
+  top: 20px;
+  right: 20px; /* 오른쪽 상단에 위치 */
+  z-index: 1000;
+  display: flex;
+  gap: 10px; /* 버튼 사이 간격 */
+}
+
+/* 개별 씬 버튼 스타일 */
+.scene-btn {
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 10px 20px;
+  border-radius: 36px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  font-family: "Oswald", sans-serif;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333333; /* 기본 텍스트 색상 */
+}
+
+/* 씬 버튼 호버 효과 */
+.scene-btn:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* 씬 버튼 클릭 효과 */
+.scene-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
 /* Scene 공통 스타일 */
 .scene {
   position: relative;
@@ -259,7 +300,7 @@ body {
 #scene1_bottom3 {
   bottom: 0;
   right: 0;
-  z-index: 2;
+  z-index: 3;
 }
 #cloud3 {
   top: 120px;
@@ -309,12 +350,12 @@ body {
 }
 #grass2 {
   bottom: 120px;
-  left: 6950px;
-  z-index: 10;
+  left: 7150px;
+  z-index: 3;
 }
 #grass3 {
   bottom: 140px;
-  right: 750px;
+  right: 700px;
   z-index: 2;
 }
 #clock-container {
@@ -357,7 +398,7 @@ body {
 #mt1_pink {
   bottom: 120px;
   left: 20px;
-  z-index: 3;
+  z-index: 2;
 }
 #mt2_pink {
   bottom: 120px;
@@ -366,7 +407,7 @@ body {
 }
 #cloud_y1 {
   bottom: 300px;
-  left: 260px;
+  left: 330px;
   z-index: 1;
 }
 #cloud_y2 {
@@ -523,9 +564,23 @@ body {
   position: absolute;
   left: 380px;
   bottom: 300px;
-  z-index: 2;
+  z-index: 6;
 }
-
+#mt_b1 {
+  left: 1000px;
+  bottom: 490px;
+  z-index: 1;
+}
+#mt_f1 {
+  left: 850px;
+  bottom: 490px;
+  z-index: 1;
+}
+#mt_f2 {
+  left: 2400px;
+  bottom: 470px;
+  z-index: 1;
+}
 /* Scene 4 요소들 */
 #gym_wall {
   left: -50px;
@@ -866,6 +921,8 @@ body {
   left: 2500px;
   top: 0;
   z-index: 1;
+  transform-origin: top center;
+  animation: swingBag 4s ease-in-out infinite;
 }
 #kitchen_table {
   left: 2100px;
@@ -1167,24 +1224,29 @@ body {
 /* 카운터 스타일 */
 #counter {
   position: fixed;
-  top: 24px;
-  left: 24px;
-  font-family: "Oswald", "Arial Rounded MT Bold", sans-serif;
-  font-size: 32px;
-  font-weight: bold;
-  z-index: 9999;
-  pointer-events: none; /* 카운터에만 스크롤 이벤트 무시 적용 */
-  user-select: none;
-  background: transparent;
+  top: 20px;
+  left: 20px;
+  transform: none;
+  z-index: 1000;
+  background-color: transparent;
+  padding: 10px 20px;
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #current {
   color: #ff69b4;
   margin-right: 2px;
+  font-size: 24px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 #total {
   color: #000000;
+  font-size: 24px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* 링크 스타일 */
@@ -1425,4 +1487,91 @@ body {
   position: absolute;
   left: 50px;
   bottom: 180px;
+}
+
+#scroll-guide {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Oswald", sans-serif;
+  font-size: 36px;
+  color: #333;
+  text-align: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 1s ease-out;
+}
+
+#scroll-guide.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#help-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #ff69b4;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-left: 8px;
+  font-family: "Oswald", sans-serif;
+  font-size: 16px;
+  text-align: left;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+#help-btn:hover {
+  background-color: #ff1493;
+}
+
+#help-popup {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.8;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 9999;
+  text-align: left;
+  width: max-content;
+  pointer-events: none;
+  color: #333333;
+}
+
+/* 말풍선 꼬리 추가 */
+#help-popup::before {
+  content: "";
+  position: absolute;
+  top: -8px; /* 꼬리 위치 조정 */
+  left: 10px; /* 꼬리 가로 위치 조정 */
+  border-style: solid;
+  border-width: 0 8px 8px 8px;
+  border-color: transparent transparent rgba(255, 255, 255, 0.95) transparent;
+  filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.1));
+}
+
+#help-btn:hover #help-popup {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.scene-btn.active {
+  color: #ff1493; /* 활성화된 버튼의 텍스트 색상 */
 }
