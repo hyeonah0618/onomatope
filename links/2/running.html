@@ -119,8 +119,8 @@
 </head>
 <body>
     <h2>Run forward with arrow key!</h2>
-    <img src="./img/running/run1.webp" alt="running" id="character">
-    <img src="./img/running/rock.webp" alt="rock" id="rock">
+    <img src="./img/running/run1.png" alt="running" id="character">
+    <img src="./img/running/rock.png" alt="rock" id="rock">
 
     <div class="arrow-container">
         <div class="arrow">→</div>
@@ -137,7 +137,7 @@
         function updateAnimation() {
             if (isMoving) {
                 currentFrame = currentFrame % 3 + 1;
-                character.src = `./img/running/run${currentFrame}.webp`;
+                character.src = `./img/running/run${currentFrame}.png`;
             }
         }
 
@@ -176,7 +176,7 @@
 
         document.addEventListener('keyup', () => {
             isMoving = false;
-            character.src = './img/running/run1.webp';
+            character.src = './img/running/run1.png';
         });
 
         // 오디오 파일 배열

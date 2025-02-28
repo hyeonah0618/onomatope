@@ -63,7 +63,7 @@ body {
 </head>
 <body>
     <h2>Press the muscle!</h2>
-    <img src="./img/muki/arm1.webp" alt="arm1" id="armImage">
+    <img src="./img/muki/arm1.png" alt="arm1" id="armImage">
 
     <script>
         const armImage = document.getElementById('armImage');
@@ -156,7 +156,7 @@ body {
             gsap.killTweensOf(armImage);
 
             isArm1 = !isArm1;
-            armImage.src = `./img/muki/${isArm1 ? 'arm1' : 'arm2'}.webp`;
+            armImage.src = `./img/muki/${isArm1 ? 'arm1' : 'arm2'}.png`;
 
             gsap.to(armImage, {
                 scale: 1.3,
@@ -172,7 +172,7 @@ body {
 
             // 파워 이펙트 생성 및 위치 조정
             const power = document.createElement('img');
-            power.src = './img/muki/power.webp';
+            power.src = './img/muki/power.png';
             power.className = 'power-effect';
             document.body.appendChild(power);
 

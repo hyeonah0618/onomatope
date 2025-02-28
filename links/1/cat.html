@@ -108,9 +108,9 @@
     <h2>Click the cat to pet it!</h2>
     <div id="cat-container">
         <div id="cat-text"></div>
-        <img src="./img/cat/body.webp" id="body" class="cat-part">
-        <img src="./img/cat/eye_normal.webp" id="eye" class="cat-part">
-        <img src="./img/cat/tail_normal.webp" id="tail" class="cat-part">
+        <img src="./img/cat/body.png" id="body" class="cat-part">
+        <img src="./img/cat/eye_normal.png" id="eye" class="cat-part">
+        <img src="./img/cat/tail_normal.png" id="tail" class="cat-part">
     </div>
 <script>
     $(document).ready(function() {
@@ -165,8 +165,8 @@
         }
         
         function setHappyState() {
-            catEye.attr('src', './img/cat/eye_happy.webp');
-            catTail.attr('src', './img/cat/tail_happy.webp');
+            catEye.attr('src', './img/cat/eye_happy.png');
+            catTail.attr('src', './img/cat/tail_happy.png');
             catTail.removeClass('angry');
             
             playRandomSound('happy');
@@ -182,8 +182,8 @@
         }
 
         function setNormalState() {
-            catEye.attr('src', './img/cat/eye_normal.webp');
-            catTail.attr('src', './img/cat/tail_normal.webp');
+            catEye.attr('src', './img/cat/eye_normal.png');
+            catTail.attr('src', './img/cat/tail_normal.png');
             catTail.removeClass('angry');
             
             playRandomSound('normal');
@@ -199,8 +199,8 @@
         }
 
         function setAngryState() {
-            catEye.attr('src', './img/cat/eye_angry.webp');
-            catTail.attr('src', './img/cat/tail_angry.webp');
+            catEye.attr('src', './img/cat/eye_angry.png');
+            catTail.attr('src', './img/cat/tail_angry.png');
             catTail.addClass('angry');
             
             playRandomSound('angry');

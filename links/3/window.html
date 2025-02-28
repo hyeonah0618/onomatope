@@ -129,9 +129,9 @@ h2 {
     <h2>Drag to clean the window</h2>
     <div class="arrow-down"></div>
     <div class="scratch-container">
-        <img src="./img/window/frame_1.webp" id="frame">
+        <img src="./img/window/frame_1.png" id="frame">
         <canvas id="scratchCanvas"></canvas>
-        <img src="./img/window/back.webp" id="under">
+        <img src="./img/window/back.png" id="under">
     </div>
 
 <script>
@@ -146,7 +146,7 @@ $(document).ready(function() {
     
     // 스크래치할 이미지 로드
     const frontImage = new Image();
-    frontImage.src = './img/window/window1.webp';
+    frontImage.src = './img/window/window1.png';
     
     frontImage.onload = function() {
         ctx.drawImage(frontImage, 0, 0, canvas.width, canvas.height);

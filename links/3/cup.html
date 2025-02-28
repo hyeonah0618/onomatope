@@ -79,8 +79,8 @@
 <body>
     <h2>Break the cup!</h2>
     <div class="arrow-down"></div>
-    <img src="./img/cup/before.webp" alt="cup" id="cup">
-    <img src="./img/cup/hammer.webp" alt="hammer" id="hammer">
+    <img src="./img/cup/before.png" alt="cup" id="cup">
+    <img src="./img/cup/hammer.png" alt="hammer" id="hammer">
     
     <script>
         const hammer = document.querySelector('#hammer');
@@ -187,10 +187,10 @@
                     ease: "power2.in",
                     onComplete: () => {
                         if (!isBroken) {
-                            cup.src = "./img/cup/after.webp";
+                            cup.src = "./img/cup/after.png";
                             showEffect(); // 컵이 깨질 때만 효과 표시
                         } else {
-                            cup.src = "./img/cup/before.webp";
+                            cup.src = "./img/cup/before.png";
                         }
                         isBroken = !isBroken;
                     }
