@@ -23,7 +23,7 @@ function openCenteredWindow(url) {
          scrollbars=yes`
     );
 }
-const scrollSpeed = 0.3; // 스크롤 속도를 느리게 
+const scrollSpeed = 0.1; // 스크롤 속도를 느리게 
 
 console.clear();
 
@@ -144,13 +144,14 @@ document.querySelectorAll('.bubble').forEach(bubble => {
 
 // 개별 요소 애니메이션
 gsap.to("#cloud1", {
-    x: "-500",
-    ease: "none",
+    x: -500,
     scrollTrigger: {
         trigger: "#cloud1",
-        start: "left 70%",
-        end: "+=6000",
-        scrub: 3
+        start: "left center",
+        end: "+=2000",
+        scrub: 1,
+        containerAnimation: mainScroll,
+        horizontal: true
     }
 });
 
@@ -298,6 +299,7 @@ gsap.fromTo("#sun2", {
             horizontal: true
     }
 });
+
 gsap.to("#running-container", {
     x: 1200,
     scrollTrigger: {
